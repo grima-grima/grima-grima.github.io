@@ -1,0 +1,184 @@
+<html>
+<head>
+	<title>Build a Lena</title>
+	<link rel="stylesheet" href="./_commons/main.css">
+	<script type="text/javascript" src="./_commons/main.js"></script>
+</head>
+
+<script>
+const LAYER_TYPE = "Lena";
+const face = new Layer(1, 18, "face", "webp", LAYER_TYPE);
+const clothes = new Layer(1, 17, "clothes", "png", LAYER_TYPE);
+const piercing = new Layer(1, 3, "piercing", "png", LAYER_TYPE);
+const underware = new Layer(1, 8, "underware", "png", LAYER_TYPE);
+const tattoos = new Layer(1, 4, "tattoos", "png", LAYER_TYPE);
+const neck = new Layer(1, 3, "neck", "png", LAYER_TYPE);
+
+function faceOrnament() {
+	updOrnament("chkFace", "faceOrn");
+}
+
+function bodyOrnament() {
+	updOrnament("chkBody", "bodyOrn");
+}
+
+function eyesOrnament() {
+	updOrnament("chkEyes", "eyesOrn");
+}
+
+function onLoad() {
+	updLayer(face);
+	updLayer(clothes);
+	updLayer(piercing);
+	updLayer(underware);
+	updLayer(tattoos);
+	updLayer(neck);
+}
+</script>
+
+<body bgcolor="BLACK" onload="onLoad()" id="body_id" onkeydown="checkKey(event)">
+<table id="main_table">
+<tbody>
+<tr id="mainTR" style="display:block">
+	<td>
+		<table id="img_table">
+		<tr>
+			<td class="container">
+				<img id="body" height="900" src="./Lena/lenanude.webp" alt=""/>
+				<img class="overlayFace" id="face" height="900" src="" alt=""/>
+				<img class="overlayClothes" id="clothes" height="900" src="" alt=""/>
+				<img class="overlayUnderware" id="underware" height="900" src="" alt=""/>
+				<img class="overlayPiercing" id="piercing" height="900" src="" alt=""/>
+				<img class="overlayTattoos" id="tattoos" height="900" src="" alt=""/>
+				<img class="overlayNeck" id="neck" height="900" src="" alt=""/>
+				<img class="overlayFaceOrn" id="faceOrn" height="900" src="./Lena/ornaments/face.png" alt="" style="display:none"/>
+				<img class="overlayBodyOrn" id="bodyOrn" height="900" src="./Lena/ornaments/body.png" alt="" style="display:none"/>
+				<img class="overlayEyesOrn" id="eyesOrn" height="900" src="./Lena/ornaments/eyes.png" alt="" style="display:none"/>
+			</td>
+		</tr>
+		</table>
+	</td>
+	<td>&nbsp;&nbsp;&nbsp;</td>
+	<td style="vertical-align:top">
+		<table>
+		<tr>
+			<td colspan="3" align="center">
+				<img class="clickable" id="panic" height="100" width="100" src="./_commons/panic.gif" title="Panic!" onclick="panicOn()" onmouseover="shake()" onmouseout="noShake()"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3"><br></td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="background:#4a4a4a"><h3> Face </h3></td>
+		</tr>
+		<tr>
+			<td>
+				<img class="clickable" width="100" id="left" src="./_commons/left.png" title="Previous" onclick="previous(face)"/>
+			</td>
+			<td>&nbsp;</td>
+			<td>
+				<img class="clickable" width="100" id="right" src="./_commons/left.png" title="Next" onclick="next(face)" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3"><br></td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="background:#4a4a4a"><h3> Neck </h3></td>
+		</tr>
+		<tr>
+			<td>
+				<img class="clickable" width="100" id="left" src="./_commons/left.png" title="Previous" onclick="previous(neck)"/>
+			</td>
+			<td>&nbsp;</td>
+			<td>
+				<img class="clickable" width="100" id="right" src="./_commons/left.png" title="Next" onclick="next(neck)" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3"><br></td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="background:#4a4a4a"><h3> Clothes </h3></td>
+		</tr>
+		<tr>
+			<td>
+				<img class="clickable" width="100" id="left" src="./_commons/left.png" title="Previous" onclick="previous(clothes)"/>
+			</td>
+			<td>&nbsp;</td>
+			<td>
+				<img class="clickable" width="100" id="right" src="./_commons/left.png" title="Next" onclick="next(clothes)" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3"><br></td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="background:#4a4a4a"><h3> Piercing </h3></td>
+		</tr>
+		<tr>
+			<td>
+				<img class="clickable" width="100" id="left" src="./_commons/left.png" title="Previous" onclick="previous(piercing)"/>
+			</td>
+			<td>&nbsp;</td>
+			<td>
+				<img class="clickable" width="100" id="right" src="./_commons/left.png" title="Next" onclick="next(piercing)" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3"><br></td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="background:#4a4a4a"><h3> Underware </h3></td>
+		</tr>
+		<tr>
+			<td>
+				<img class="clickable" width="100" id="left" src="./_commons/left.png" title="Previous" onclick="previous(underware)"/>
+			</td>
+			<td>&nbsp;</td>
+			<td>
+				<img class="clickable" width="100" id="right" src="./_commons/left.png" title="Next" onclick="next(underware)" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3"><br></td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="background:#4a4a4a"><h3> Tattoo </h3></td>
+		</tr>
+		<tr>
+			<td>
+				<img class="clickable" width="100" id="left" src="./_commons/left.png" title="Previous" onclick="previous(tattoos)" style="display:block"/>
+			</td>
+			<td>&nbsp;</td>
+			<td>
+				<img class="clickable" width="100" id="right" src="./_commons/left.png" title="Next" onclick="next(tattoos)" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3"><br></td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="background:#4a4a4a"><h3> Ornaments </h3></td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<p><input id="chkFace" type="checkbox" onclick="faceOrnament()"/>Face</p>
+				<p><input id="chkBody" type="checkbox" onclick="bodyOrnament()"/>Body</p>
+				<p><input id="chkEyes" type="checkbox" onclick="eyesOrnament()"/>Eyes</p>
+			</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td colspan="7">
+		<img class="clickable" id="excel" src="./_commons/excel.jpg" title="Excel" onclick="panicOff()" style="display:none"/>
+	</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>
