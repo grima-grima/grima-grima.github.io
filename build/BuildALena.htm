@@ -102,7 +102,7 @@ table, th, td {
 
 h3 {
   background: #4a4a4a;
-  padding: 5px;
+  padding: -4px;
   font-family: Tahoma, sans-serif;
   color: black;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
@@ -111,7 +111,7 @@ h3 {
 p {
   background: #333333;
   color: #ffffff;
-  margin: 5px;
+  margin: 1px;
   font-family: Tahoma, sans-serif;
 }
 
@@ -216,11 +216,11 @@ function onLoad() {
 }
 </script>
 
-<body bgcolor="BLACK" onload="onLoad()" id="body_id" onkeydown="checkKey(event)">
+<body bgcolor="BLACK" onload="onLoad()" id="body_id">
 <table id="main_table">
 <tbody>
 <tr id="mainTR" style="display:block">
-	<td>
+	<td style="vertical-align:top">
 		<table id="img_table">
 		<tr>
 			<td class="container">
@@ -238,16 +238,12 @@ function onLoad() {
 		</tr>
 		</table>
 	</td>
-	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td style="vertical-align:top">
-		<table>
+		<table  style="vertical-align:top">
 		<tr>
 			<td colspan="3" align="center">
 				<img class="clickable" id="panic" height="100" width="100" src="./panic.gif" title="Panic!" onclick="panicOn()" onmouseover="shake()" onmouseout="noShake()"/>
 			</td>
-		</tr>
-		<tr>
-			<td colspan="3"><br></td>
 		</tr>
 		<tr>
 			<td colspan="3" align="center" style="background:#4a4a4a"><h3> Face </h3></td>
@@ -262,9 +258,6 @@ function onLoad() {
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3"><br></td>
-		</tr>
-		<tr>
 			<td colspan="3" align="center" style="background:#4a4a4a"><h3> Neck </h3></td>
 		</tr>
 		<tr>
@@ -275,9 +268,6 @@ function onLoad() {
 			<td>
 				<img class="clickable" width="100" id="right" src="./left.png" title="Next" onclick="next(neck)" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"/>
 			</td>
-		</tr>
-		<tr>
-			<td colspan="3"><br></td>
 		</tr>
 		<tr>
 			<td colspan="3" align="center" style="background:#4a4a4a"><h3> Clothes </h3></td>
@@ -292,9 +282,6 @@ function onLoad() {
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3"><br></td>
-		</tr>
-		<tr>
 			<td colspan="3" align="center" style="background:#4a4a4a"><h3> Piercing </h3></td>
 		</tr>
 		<tr>
@@ -305,9 +292,6 @@ function onLoad() {
 			<td>
 				<img class="clickable" width="100" id="right" src="./left.png" title="Next" onclick="next(piercing)" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"/>
 			</td>
-		</tr>
-		<tr>
-			<td colspan="3"><br></td>
 		</tr>
 		<tr>
 			<td colspan="3" align="center" style="background:#4a4a4a"><h3> Underware </h3></td>
@@ -322,9 +306,6 @@ function onLoad() {
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3"><br></td>
-		</tr>
-		<tr>
 			<td colspan="3" align="center" style="background:#4a4a4a"><h3> Tattoo </h3></td>
 		</tr>
 		<tr>
@@ -335,9 +316,6 @@ function onLoad() {
 			<td>
 				<img class="clickable" width="100" id="right" src="./left.png" title="Next" onclick="next(tattoos)" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"/>
 			</td>
-		</tr>
-		<tr>
-			<td colspan="3"><br></td>
 		</tr>
 		<tr>
 			<td colspan="3" align="center" style="background:#4a4a4a"><h3> Ornaments </h3></td>
