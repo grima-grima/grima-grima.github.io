@@ -101,7 +101,11 @@ function Layer(_index, _last, _folder, _extension, _type) {
 // #######################################################
 function updLayer(layer) {
 //alert("./" + layer.type + "/" + layer.folder + "/" + layer.index + "." + layer.extension);
-	document.getElementById(layer.folder).src = "./" + layer.type + "/" + layer.folder + "/" + layer.index + "." + layer.extension;
+	if ("BG" == layer.type) {
+		document.getElementById(layer.folder).src = "./" + layer.folder + "/" + layer.index + "." + layer.extension;
+	} else {
+		document.getElementById(layer.folder).src = "./" + layer.type + "/" + layer.folder + "/" + layer.index + "." + layer.extension;
+	}
 }
 
 function next(layer) {
@@ -152,8 +156,9 @@ function updOrnament(chkId, imgId) {
 	}
 }
 
+const bg = new Layer(1, 61, "bg", "webp", "BG");
+
 const LAYER_TYPE = "Cindy";
-const bg = new Layer(1, 5, "bg", "webp", LAYER_TYPE);
 const _body = new Layer(1, 15, "body", "png", LAYER_TYPE);
 const face = new Layer(1, 9, "face", "webp", LAYER_TYPE);
 
@@ -184,7 +189,7 @@ function onLoad() {
 		<table id="img_table">
 		<tr>
 			<td class="container">
-				<img id="bg" height="900" src="./Cindy/bg/1.webp" alt=""/>
+				<img id="bg" height="900" src="./bg/1.webp" alt=""/>
 				<img class="overlayBody" id="body" height="900" src="" alt=""/>
 				<img class="overlayFace" id="face" height="900" src="" alt=""/>
 				<img class="overlayFaceOrn" id="faceOrn" height="900" src="./Cindy/ornaments/face.png" alt="" style="display:none"/>
