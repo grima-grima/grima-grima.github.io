@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Build Your Scene</title>
+
+<style>
+.container {
+  position: relative;   
+}
+
+.overlayOrnament {
+  position: absolute;   
+  left:0;
+  top: 0;
+  z-index: 110;
+}
+
+.overlayface {
+  position: absolute;   
+  left:0;
+  top: 0;
+  z-index: 100;
+}
+
+.overlaybody {
+  position: absolute;   
+  left:0;
+  top: 0;
+  z-index: 90;
+}
+
+img.disabled {
+  opacity: 0.5;
+}
+
+img.clickable {
+  cursor: pointer;
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -1px) rotate(0deg); }
+  20% { transform: translate(1px, 1px) rotate(0deg); }
+  30% { transform: translate(-1px, -1px) rotate(0deg); }
+  40% { transform: translate(1px, 1px) rotate(0deg); }
+  50% { transform: translate(-1px, -1px) rotate(0deg); }
+  60% { transform: translate(1px, 1px) rotate(0deg); }
+  70% { transform: translate(-1px, -1px) rotate(0deg); }
+  80% { transform: translate(1px, 1px) rotate(0deg); }
+  90% { transform: translate(-1px, -1px) rotate(0deg); }
+  100% { transform: translate(1px, 1px) rotate(0deg); }
+}
+
+table, th, td {
+  border: 0px solid black;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+}
+
+p {
+  background: #333333;
+  color: #ffffff;
+  margin: 1px;
+  font-family: Tahoma, sans-serif;
+}
+
+/* #################################################### */
+/* ###################### Modal ####################### */
+/* #################################################### */
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 999999; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.65); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<script>
+const REGULAR_TITLE = document.title;
+const PANIC_TITLE = "Excel";
+var IS_PANIC_ON = false;
+var PREVIOUS_SELECTED_CHAR = null;
+var SELECTED_CHAR = null;
+
+function Layer(_name, _index, _last, _folder, _extension, _type) {
+	this.name = _name;
+	this.index = _index;
+	this.last = _last;
+	this.folder = _folder;
+	this.extension = _extension;
+	this.type = _type;
+}
+
+function Ornament(_name, _id, _folder, _extension, _type, _isChecked) {
+	this.name = _name;
+	this.id = _id;
+	this.folder = _folder;
+	this.extension = _extension;
+	this.type = _type;
+	this.isChecked = _isChecked;
+}
+
+function Character(_name, _xPos, _layers, _ornaments, _isFlipped) {
+	this.name = _name;
+	this.xPos = _xPos;
+	this.layers = _layers;
+	this.ornaments = _ornaments;
+	this.isFlipped = _isFlipped;
+}
+
+function Scene(_chars, _speaker, _text) {
+	this.chars = _chars;
+	this.speaker = _speaker;
+	this.text = _text;
+}
+
+// ###############################################################
+// ############################################## CHARACTERS SETUP
+// ###############################################################
+const bgLayer = new Layer("BG", 1, 61, "bg", "webp", "BG");
+const bgLayers = [bgLayer];
+const BG = new Character("BG", 0, bgLayers, null, false);
+// ################### Cindy setup
+let LAYER_TYPE = "Cindy";
+const cindyFace = new Layer("Face", 1, 9, "face", "webp", LAYER_TYPE);
+const cindyBody = new Layer("Body", 1, 15, "body", "png", LAYER_TYPE);
+const cindyLayers = [cindyFace, cindyBody];
+
+const cindyOrnament1 = new Ornament("Face", 1, "ornaments", "png", LAYER_TYPE, false);
+const cindyOrnament2 = new Ornament("Body", 2, "ornaments", "png", LAYER_TYPE, false);
+const cindyOrnaments = [cindyOrnament1, cindyOrnament2];
+
+const Cindy = new Character(LAYER_TYPE, 0, cindyLayers, cindyOrnaments, false);
+
+// ################### Alisson setup
+LAYER_TYPE = "Alisson";
+const alissonFace = new Layer("Face", 1, 9, "face", "webp", LAYER_TYPE);
+const alissonBody = new Layer("Body", 1, 10, "body", "png", LAYER_TYPE);
+const alissonLayers = [alissonFace, alissonBody];
+
+const alissonOrnament1 = new Ornament("Face", 1, "ornaments", "png", LAYER_TYPE, false);
+const alissonOrnament2 = new Ornament("Tits", 2, "ornaments", "png", LAYER_TYPE, false);
+const alissonOrnament3 = new Ornament("Pussy", 3, "ornaments", "png", LAYER_TYPE, false);
+const alissonOrnaments = [alissonOrnament1, alissonOrnament2, alissonOrnament3];
+
+const Alisson = new Character(LAYER_TYPE, 800, alissonLayers, alissonOrnaments, false);
+// ###############################################################
+// ###############################################################
+// ###############################################################
+
+// ###############################################################
+// ################################################### SCENE SETUP
+// ###############################################################
+const chars = [Cindy, Alisson];
+const scene = new Scene(chars, "", "");
+
+function getCharByName(_name) {
+	var _char = null;
+	switch (_name) {
+		case "Cindy": _char =  Cindy; break;
+		case "Alisson": _char =  Alisson; break;
+		default: alert("Character \"" + _name + "\" not found!");
+	}
+	return _char;
+}
+
+// #######################################################
+// general functions
+// #######################################################
+function removePreviousSelectedCharTRs(_tr) {
+	while (typeof(document.getElementById(_tr)) != 'undefined' && document.getElementById(_tr) != null) {
+		document.getElementById(_tr).parentNode.removeChild(document.getElementById(_tr));
+	}
+}
+
+function addTRsLayers(charName, layerName, idx) {
+	var trId = charName + "_tr";
+	var tmpTr = document.createElement("tr");
+	tmpTr.id = trId;
+	tmpTr.innerHTML = "<td colspan=\"3\" align=\"center\" style=\"background:#4a4a4a\"><p>" + layerName + "</p></td>";
+	var _tbl = document.getElementById("charActionsTable");
+	_tbl.appendChild(tmpTr);
+
+	var tmpTr2 = document.createElement("tr");
+	tmpTr2.id = trId;
+	tmpTr2.innerHTML = "<td><img class=\"clickable\" width=\"100\" id=\"left\" src=\"./left.png\" title=\"Previous\" onclick=\"previous(" + charName + ", " + idx + ")\"/></td>" +
+						"<td>&nbsp;</td>" +
+						"<td><img class=\"clickable\" width=\"100\" id=\"right\" src=\"./left.png\" title=\"Next\" onclick=\"next(" + charName + ", " + idx + ")\" " +
+							"style=\"transform: scaleX(-1); -webkit-transform: scaleX(-1);\"/></td>";
+	_tbl = document.getElementById("charActionsTable");
+	_tbl.appendChild(tmpTr2);
+}
+
+function addTRsOrns(_char, ornName, idx) {
+	var checkedStr = "";
+	if (_char.ornaments[idx].checked) {
+		checkedStr = "checked";
+	}
+	var tmpId = "chk_" + _char.name.toLowerCase() + "_" + idx + "_orn";
+	var tmpP = document.createElement("p");
+	tmpP.innerHTML = "<input id=\"" + tmpId + "\" type=\"checkbox\" " + checkedStr + " onclick=\"updOrnament(" + _char.name + ", " + idx + ", '" + tmpId + "', '" + _char.name + ornName + "_orn_img')\"/>" + ornName;
+	var _td = document.getElementById("ornamentsTD");
+	_td.appendChild(tmpP);
+}
+
+function addTRsOrnHeader(charName) {
+	var trId = charName + "_tr";
+	var tmpTr = document.createElement("tr");
+	tmpTr.id = trId;
+	tmpTr.innerHTML = "<td colspan=\"3\" align=\"center\" style=\"background:#4a4a4a\"><p>Ornaments</p></td>";
+	var _tbl = document.getElementById("charActionsTable");
+	_tbl.appendChild(tmpTr);
+
+	var tmpTr2 = document.createElement("tr");
+	tmpTr2.id = trId;
+	tmpTr2.innerHTML = "<td id=\"ornamentsTD\" colspan=\"3\"></td>";
+	_tbl = document.getElementById("charActionsTable");
+	_tbl.appendChild(tmpTr2);
+}
+
+function udpateSelectedChar() {
+	var selChars = document.getElementById("selCharacters");
+	SELECTED_CHAR = getCharByName(selChars.options[selChars.selectedIndex].value);
+	removePreviousSelectedCharTRs(PREVIOUS_SELECTED_CHAR.name + "_tr");
+	PREVIOUS_SELECTED_CHAR = SELECTED_CHAR;
+	for (var i = 0; i < SELECTED_CHAR.layers.length; i++) {
+		addTRsLayers(SELECTED_CHAR.name, SELECTED_CHAR.layers[i].name, i);
+	}
+	if (SELECTED_CHAR.ornaments != null && SELECTED_CHAR.ornaments.length > 0) {
+		addTRsOrnHeader(SELECTED_CHAR.name);
+		for (var i = 0; i < SELECTED_CHAR.ornaments.length; i++) {
+			addTRsOrns(SELECTED_CHAR, SELECTED_CHAR.ornaments[i].name, i);
+		}
+	}
+}
+
+function updLayer(layer) {
+	if ("BG" == layer.type) {
+		document.getElementById(layer.folder).src = "./" + layer.folder + "/" + layer.index + "." + layer.extension;
+	} else {
+		document.getElementById(layer.type + layer.name + "_layer_img").src = "./" + layer.type + "/" + layer.folder + "/" + layer.index + "." + layer.extension;
+	}
+}
+
+function updScene(_scene) {
+	if (_scene.chars != null && _scene.chars.length > 0) {
+		for (var i = 0; i < _scene.chars.length; i++) {
+			var _char = _scene.chars[i];
+			var _layers = _char.layers;
+			for (var j = 0; j < _layers.length; j++) {
+				var imgName = _char.name + _layers[j].name + "_layer_img";
+				var imgLayer = document.getElementById(imgName);
+				if(typeof(imgLayer) == 'undefined' || imgLayer == null){
+					var tmpImg = document.createElement("img");
+					tmpImg.src = "./" + _layers[j].type + "/" + _layers[j].folder + "/" + _layers[j].index + "." + _layers[j].extension;
+					tmpImg.height = "900";
+					tmpImg.classList.add("overlay" + _layers[j].folder);
+					tmpImg.id = imgName;
+					tmpImg.style.left = _char.xPos + "px";
+					var _div = document.getElementById("container");
+					_div.appendChild(tmpImg);
+				}
+
+				if (SELECTED_CHAR.name == _char.name) {
+					addTRsLayers(SELECTED_CHAR.name, _layers[j].name, j);
+				}
+			}
+			var _orns = _char.ornaments;
+			if (_orns != null && _orns.length > 0) {
+				if (SELECTED_CHAR.name == _char.name) {
+					addTRsOrnHeader(_char.name);
+				}
+				for (var k = 0; k < _orns.length; k++) {
+					var imgName = _char.name + _orns[k].name + "_orn_img";
+					var imgOrn = document.getElementById(imgName);
+					if(typeof(imgOrn) == 'undefined' || imgOrn == null){
+						var tmpImg = document.createElement("img");
+						tmpImg.src = "./" + _orns[k].type + "/" + _orns[k].folder + "/" + _orns[k].id + "." + _orns[k].extension;
+						tmpImg.height = "900";
+						tmpImg.classList.add("overlayOrnament");
+						tmpImg.id = imgName;
+						tmpImg.style.left = _char.xPos + "px";
+						tmpImg.style.display = "none";
+						var _div = document.getElementById("container");
+						_div.appendChild(tmpImg);
+					}
+					if (SELECTED_CHAR.name == _char.name) {
+						addTRsOrns(_char, _orns[k].name, k);
+					}
+				}
+			}
+		}
+	}
+}
+
+function showChar(_char) {
+	if (_char.isFlipped) {
+		for (var i = 0; i < _char.layers.length; i++) {
+			document.getElementById(_char.name + _char.layers[i].name + "_layer_img").style.transform = "scaleX(-1)";
+		}
+		for (var i = 0; i < _char.ornaments.length; i++) {
+			document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img").style.transform = "scaleX(-1)";
+		}
+	} else {
+		for (var i = 0; i < _char.layers.length; i++) {
+			document.getElementById(_char.name + _char.layers[i].name + "_layer_img").style.transform = "scaleX(1)";
+		}
+		for (var i = 0; i < _char.ornaments.length; i++) {
+			document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img").style.transform = "scaleX(1)";
+		}
+	}
+}
+
+function flip(_char) {
+	_char.isFlipped = !_char.isFlipped;
+	showChar(_char);
+}
+
+function moveChar(_char) {
+	for (var i = 0; i < _char.layers.length; i++) {
+		document.getElementById(_char.name + _char.layers[i].name + "_layer_img").style.left = _char.xPos + "px";
+	}
+	for (var i = 0; i < _char.ornaments.length; i++) {
+		document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img").style.left = _char.xPos + "px";
+	}
+}
+
+function moveLeft(_char) {
+	if ((_char.xPos - 100) < 0) {
+		_char.xPos = 0;
+	} else {
+		_char.xPos -= 100;
+	}
+	moveChar(_char);
+}
+
+function moveRight(_char) {
+	if ((_char.xPos + 100) > 1000) {
+		_char.xPos = 1000;
+	} else {
+		_char.xPos += 100;
+	}
+	moveChar(_char);
+}
+
+function next(_char, layerIdx) {
+	if ((_char.layers[layerIdx].index + 1) > _char.layers[layerIdx].last) {
+		_char.layers[layerIdx].index = 1;
+	} else {
+		_char.layers[layerIdx].index = _char.layers[layerIdx].index + 1;
+	}
+	updLayer(_char.layers[layerIdx]);
+}
+
+function previous(_char, layerIdx) {
+	if ((_char.layers[layerIdx].index - 1) < 1) {
+		_char.layers[layerIdx].index = _char.layers[layerIdx].last;
+	} else {
+		_char.layers[layerIdx].index = _char.layers[layerIdx].index - 1;
+	}
+	updLayer(_char.layers[layerIdx]);
+}
+
+function panicOn() {
+	IS_PANIC_ON = true;
+	document.getElementById("mainTR").style.display = "none";
+	document.getElementById("excel").style.display = "block";
+	document.title = PANIC_TITLE;
+}
+
+function panicOff() {
+	IS_PANIC_ON = false;
+	document.getElementById("mainTR").style.display = "block";
+	document.getElementById("excel").style.display = "none";
+	document.title = REGULAR_TITLE;
+}
+
+function shake() {
+	document.getElementById("panic").style = "animation: shake 0.5s; animation-iteration-count: infinite;";
+}
+
+function noShake() {
+	document.getElementById("panic").style = "";
+}
+
+function updOrnament(_char, _ornIdx, chkId, imgId) {
+	_char.ornaments[_ornIdx].checked = document.getElementById(chkId).checked;
+	if (document.getElementById(chkId).checked) {
+		document.getElementById(imgId).style.display = "block";
+	} else {
+		document.getElementById(imgId).style.display = "none";
+	}
+}
+
+function onLoad() {
+	updLayer(BG.layers[0]);
+	var selChars = document.getElementById("selCharacters");
+	SELECTED_CHAR = getCharByName(selChars.options[selChars.selectedIndex].value);
+	PREVIOUS_SELECTED_CHAR = SELECTED_CHAR;
+	updScene(scene);
+}
+</script>
+
+<body bgcolor="BLACK" onload="onLoad()" id="body_id">
+<table id="main_table">
+<tbody>
+<tr id="mainTR" style="display:block">
+	<td style="vertical-align:top">
+		<table id="img_table">
+		<tr>
+			<td id="container" class="container">
+				<img id="bg" height="900" src="" alt=""/>
+			</td>
+		</tr>
+		</table>
+	</td>
+	<td style="vertical-align:top">
+		<table id="charActionsTable" style="vertical-align:top">
+		<tr>
+			<td colspan="3" align="center">
+				<img class="clickable" id="panic" height="100" width="100" src="./panic.gif" title="Panic!" onclick="panicOn()" onmouseover="shake()" onmouseout="noShake()"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="background:#4a4a4a"><p> Background </p></td>
+		</tr>
+		<tr>
+			<td>
+				<img class="clickable" width="100" id="left" src="./left.png" title="Previous" onclick="previous(BG, 0)"/>
+			</td>
+			<td>&nbsp;</td>
+			<td>
+				<img class="clickable" width="100" id="right" src="./left.png" title="Next" onclick="next(BG, 0)" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="background:#4a4a4a"><p> Characters </p></td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="vertical-align:middle">
+				<div style="width:200px;" style="vertical-align:middle">
+					<select name="selCharacters" id="selCharacters" onchange="udpateSelectedChar()">
+						<option value="">-</option>
+						<option value="Alisson">Alisson</option>
+						<option value="Cindy" selected>Cindy</option>
+					</select>
+					<img class="clickable" width="19" height="19" id="openModalBtn" src="./gear.png" title="Add/Remove Chars"/>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="background:#4a4a4a"><p> Flip Character </p></td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center">
+				<img class="clickable" width="100" height="40" id="flip" src="./flip.webp" title="Flip" onclick="flip(SELECTED_CHAR)"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="background:#4a4a4a"><p> Move Character </p></td>
+		</tr>
+		<tr>
+			<td>
+				<img class="clickable" width="100" id="left" src="./left.png" title="Previous" onclick="moveLeft(SELECTED_CHAR)"/>
+			</td>
+			<td>&nbsp;</td>
+			<td>
+				<img class="clickable" width="100" id="right" src="./left.png" title="Next" onclick="moveRight(SELECTED_CHAR)" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"/>
+			</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td colspan="7">
+		<img class="clickable" id="excel" src="./excel.jpg" title="Excel" onclick="panicOff()" style="display:none"/>
+<img src="https://counter4.stat.ovh/private/freecounterstat.php?c=9frbg52w5cm7rlx4qmwf4x1931szrykh" border="0" title="website counter" alt="website counter">
+	</td>
+</tr>
+</tbody>
+</table>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+	<br>
+    <p>Select up to 5 characters for the scene and click "Confirm":</p>
+	<br>
+	<p><input id="chk_alisson" type="checkbox"/>Alisson</p>
+	<p><input id="chk_axel" type="checkbox"/>Axel</p>
+	<p><input id="chk_cherry" type="checkbox"/>Cherry</p>
+	<p><input id="chk_cindy" type="checkbox"/>Cindy</p>
+	<p><input id="chk_emma" type="checkbox"/>Emma</p>
+	<p><input id="chk_holly" type="checkbox"/>Holly</p>
+	<p><input id="chk_ian" type="checkbox"/>Ian</p>
+	<p><input id="chk_ivy" type="checkbox"/>Ivy</p>
+	<p><input id="chk_jeremy" type="checkbox"/>Jeremy</p>
+	<p><input id="chk_lena" type="checkbox"/>Lena</p>
+	<p><input id="chk_louise" type="checkbox"/>Louise</p>
+	<p><input id="chk_mike" type="checkbox"/>Mike</p>
+	<p><input id="chk_minerva" type="checkbox"/>Minerva</p>
+	<p><input id="chk_robert" type="checkbox"/>Robert</p>
+	<p><input id="chk_seymour" type="checkbox"/>Seymour</p>
+	<p><input id="chk_stan" type="checkbox"/>Stan</p>
+	<br>
+	<input id="cancelModalBtn" type="button" value="Cancel"/> &nbsp; <input type="button" value="Confirm"/>
+  </div>
+
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("openModalBtn");
+var btnCancel = document.getElementById("cancelModalBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+btnCancel.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+
+</body>
+</html>
