@@ -96,6 +96,14 @@ function Layer(_index, _last, _folder, _extension, _type) {
 	this.type = _type;
 }
 
+function Character(_name, _xPos, _faceLayer, _bodyLayer, _isFlipped) {
+	this.name = _name;
+	this.xPos = _xPos;
+	this.faceLayer = _faceLayer;
+	this.bodyLayer = _bodyLayer;
+	this.isFlipped = _isFlipped;
+}
+
 // #######################################################
 // general functions
 // #######################################################
@@ -106,6 +114,46 @@ function updLayer(layer) {
 	} else {
 		document.getElementById(layer.folder).src = "./" + layer.type + "/" + layer.folder + "/" + layer.index + "." + layer.extension;
 	}
+}
+
+function flip(_char) {
+	if (_char.isFlipped) {
+		document.getElementById("body").style.transform = "scaleX(1)";
+		document.getElementById("face").style.transform = "scaleX(1)";
+		document.getElementById("faceOrn").style.transform = "scaleX(1)";
+		document.getElementById("bodyOrn").style.transform = "scaleX(1)";
+	} else {
+		document.getElementById("body").style.transform = "scaleX(-1)";
+		document.getElementById("face").style.transform = "scaleX(-1)";
+		document.getElementById("faceOrn").style.transform = "scaleX(-1)";
+		document.getElementById("bodyOrn").style.transform = "scaleX(-1)";
+	}
+	_char.isFlipped = !_char.isFlipped;
+}
+
+function moveChar(leftPos) {
+	document.getElementById("body").style.left = leftPos + "px";
+	document.getElementById("face").style.left = leftPos + "px";
+	document.getElementById("faceOrn").style.left = leftPos + "px";
+	document.getElementById("bodyOrn").style.left = leftPos + "px";
+}
+
+function moveLeft(_char) {
+	if ((_char.xPos - 100) < 0) {
+		_char.xPos = 0;
+	} else {
+		_char.xPos -= 100;
+	}
+	moveChar(_char.xPos);
+}
+
+function moveRight(_char) {
+	if ((_char.xPos + 100) > 1000) {
+		_char.xPos = 1000;
+	} else {
+		_char.xPos += 100;
+	}
+	moveChar(_char.xPos);
 }
 
 function next(layer) {
@@ -162,6 +210,8 @@ const LAYER_TYPE = "Cindy";
 const _body = new Layer(1, 15, "body", "png", LAYER_TYPE);
 const face = new Layer(1, 9, "face", "webp", LAYER_TYPE);
 
+const Cindy = new Character("Cindy", 0, face, _body, false);
+
 function faceOrnament() {
 	updOrnament("chkFace", "faceOrn");
 }
@@ -203,6 +253,26 @@ function onLoad() {
 		<tr>
 			<td colspan="3" align="center">
 				<img class="clickable" id="panic" height="100" width="100" src="./panic.gif" title="Panic!" onclick="panicOn()" onmouseover="shake()" onmouseout="noShake()"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="background:#4a4a4a"><h3> Flip Character </h3></td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center">
+				<img class="clickable" width="100" height="40" id="flip" src="./flip.webp" title="Flip" onclick="flip(Cindy)"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="background:#4a4a4a"><h3> Move Character </h3></td>
+		</tr>
+		<tr>
+			<td>
+				<img class="clickable" width="100" id="left" src="./left.png" title="Previous" onclick="moveLeft(Cindy)"/>
+			</td>
+			<td>&nbsp;</td>
+			<td>
+				<img class="clickable" width="100" id="right" src="./left.png" title="Next" onclick="moveRight(Cindy)" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"/>
 			</td>
 		</tr>
 		<tr>
