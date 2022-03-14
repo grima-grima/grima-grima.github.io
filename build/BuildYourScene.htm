@@ -4,6 +4,16 @@
 	<title>Build Your Scene</title>
 
 <style>
+.version {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: black;
+  font-family: Tahoma, sans-serif;
+  z-index: 900000;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+
 .container {
   position: relative;   
 }
@@ -629,6 +639,9 @@ function onLoad() {
 </script>
 
 <body bgcolor="BLACK" onload="onLoad()" id="body_id">
+
+<div class="version">V0.3</div>
+
 <table id="main_table">
 <tbody>
 <tr id="mainTR" style="display:block">
