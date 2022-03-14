@@ -189,30 +189,190 @@ const bgLayer = new Layer("BG", 1, 61, "bg", "webp", "BG");
 const bgLayers = [bgLayer];
 const BG = new Character("BG", 0, bgLayers, null, false);
 let BG_WIDTH = 0;
-// ################### Cindy setup
-let LAYER_TYPE = "Cindy";
-const cindyFace = new Layer("Face", 1, 9, "face", "webp", LAYER_TYPE);
-const cindyBody = new Layer("Body", 1, 15, "body", "png", LAYER_TYPE);
-const cindyLayers = [cindyFace, cindyBody];
-
-const cindyOrnament1 = new Ornament("Face", 1, "ornaments", "png", LAYER_TYPE, false);
-const cindyOrnament2 = new Ornament("Body", 2, "ornaments", "png", LAYER_TYPE, false);
-const cindyOrnaments = [cindyOrnament1, cindyOrnament2];
-
-const Cindy = new Character(LAYER_TYPE, 0, cindyLayers, cindyOrnaments, false);
-
 // ################### Alison setup
-LAYER_TYPE = "Alison";
-const alisonFace = new Layer("Face", 1, 9, "face", "webp", LAYER_TYPE);
-const alisonBody = new Layer("Body", 1, 10, "body", "png", LAYER_TYPE);
-const alisonLayers = [alisonFace, alisonBody];
+let LAYER_TYPE = "Alison";
+let _face = new Layer("Face", 1, 9, "face", "webp", LAYER_TYPE);
+let _body = new Layer("Body", 1, 10, "body", "png", LAYER_TYPE);
+let _layers = [_face, _body];
 
-const alisonOrnament1 = new Ornament("Face", 1, "ornaments", "png", LAYER_TYPE, false);
-const alisonOrnament2 = new Ornament("Tits", 2, "ornaments", "png", LAYER_TYPE, false);
-const alisonOrnament3 = new Ornament("Pussy", 3, "ornaments", "png", LAYER_TYPE, false);
-const alisonOrnaments = [alisonOrnament1, alisonOrnament2, alisonOrnament3];
+let _ornament1 = new Ornament("Face", 1, "ornaments", "png", LAYER_TYPE, false);
+let _ornament2 = new Ornament("Tits", 2, "ornaments", "png", LAYER_TYPE, false);
+let _ornament3 = new Ornament("Pussy", 3, "ornaments", "png", LAYER_TYPE, false);
+let _ornament4 = null;
+let _ornament5 = null;
+let _ornament6 = null;
+let _ornaments = [_ornament1, _ornament2, _ornament3];
 
-const Alison = new Character(LAYER_TYPE, 800, alisonLayers, alisonOrnaments, false);
+const Alison = new Character(LAYER_TYPE, 800, _layers, _ornaments, false);
+// ################### Axel setup
+LAYER_TYPE = "Axel";
+_face = new Layer("Face", 1, 6, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 5, "body", "png", LAYER_TYPE);
+_layers = [_face, _body];
+
+const Axel = new Character(LAYER_TYPE, 0, _layers, [], false);
+// ################### Bouncer setup
+LAYER_TYPE = "Bouncer";
+_face = new Layer("Face", 1, 2, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 1, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+const Bouncer = new Character(LAYER_TYPE, 0, _layers, [], false);
+// ################### Cherry setup
+LAYER_TYPE = "Cherry";
+_face = new Layer("Face", 1, 8, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 5, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+_ornament1 = new Ornament("Mouth", 1, "ornaments", "webp", LAYER_TYPE, false);
+_ornament2 = new Ornament("Body", 2, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1, _ornament2];
+
+const Cherry = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
+// ################### Cindy setup
+LAYER_TYPE = "Cindy";
+_face = new Layer("Face", 1, 9, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 15, "body", "png", LAYER_TYPE);
+_layers = [_face, _body];
+
+_ornament1 = new Ornament("Face", 1, "ornaments", "png", LAYER_TYPE, false);
+_ornament2 = new Ornament("Body", 2, "ornaments", "png", LAYER_TYPE, false);
+_ornaments = [_ornament1, _ornament2];
+
+const Cindy = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
+// ################### Ed setup
+LAYER_TYPE = "Ed";
+_face = new Layer("Face", 1, 6, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 2, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+const Ed = new Character(LAYER_TYPE, 0, _layers, [], false);
+// ################### Emma setup
+LAYER_TYPE = "Emma";
+_face = new Layer("Face", 1, 7, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 4, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+_ornament1 = new Ornament("Tattoo", 1, "ornaments", "webp", LAYER_TYPE, false);
+_ornament2 = new Ornament("Mouth", 2, "ornaments", "webp", LAYER_TYPE, false);
+_ornament3 = new Ornament("Legs", 3, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1, _ornament2, _ornament3];
+
+const Emma = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
+// ################### Holly setup
+LAYER_TYPE = "Holly";
+_face = new Layer("Face", 1, 14, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 27, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+_ornament1 = new Ornament("Glasses 1", 1, "ornaments", "webp", LAYER_TYPE, false);
+_ornament2 = new Ornament("Glasses 2", 2, "ornaments", "webp", LAYER_TYPE, false);
+_ornament3 = new Ornament("Panties", 3, "ornaments", "webp", LAYER_TYPE, false);
+_ornament4 = new Ornament("Towel", 4, "ornaments", "webp", LAYER_TYPE, false);
+_ornament5 = new Ornament("Mouth", 5, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1, _ornament2, _ornament3, _ornament4, _ornament5];
+
+const Holly = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
+// ################### Ivy setup
+LAYER_TYPE = "Ivy";
+_face = new Layer("Face", 1, 9, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 18, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+_ornament1 = new Ornament("Bag", 1, "ornaments", "webp", LAYER_TYPE, false);
+_ornament2 = new Ornament("Makeup", 2, "ornaments", "webp", LAYER_TYPE, false);
+_ornament3 = new Ornament("Piercing", 3, "ornaments", "webp", LAYER_TYPE, false);
+_ornament4 = new Ornament("Pants", 4, "ornaments", "webp", LAYER_TYPE, false);
+_ornament5 = new Ornament("Mouth", 5, "ornaments", "png", LAYER_TYPE, false);
+_ornament6 = new Ornament("Body", 6, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1, _ornament2, _ornament3, _ornament4, _ornament5, _ornament6];
+
+const Ivy = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
+// ################### Jeremy setup
+LAYER_TYPE = "Jeremy";
+_face = new Layer("Face", 1, 9, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 6, "body", "png", LAYER_TYPE);
+_layers = [_face, _body];
+
+const Jeremy = new Character(LAYER_TYPE, 0, _layers, [], false);
+// ################### Louise setup
+LAYER_TYPE = "Louise";
+_face = new Layer("Face", 1, 11, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 10, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+_ornament1 = new Ornament("Collar", 1, "ornaments", "webp", LAYER_TYPE, false);
+_ornament2 = new Ornament("Smear", 2, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1, _ornament2];
+
+const Louise = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
+// ################### Mike setup
+LAYER_TYPE = "Mike";
+_face = new Layer("Face", 1, 9, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 4, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+const Mike = new Character(LAYER_TYPE, 0, _layers, [], false);
+// ################### Minerva setup
+LAYER_TYPE = "Minerva";
+_face = new Layer("Face", 1, 7, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 6, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+_ornament1 = new Ornament("Legs", 1, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1];
+
+const Minerva = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
+// ################### Perry setup
+LAYER_TYPE = "Perry";
+_face = new Layer("Face", 1, 9, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 4, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+_ornament1 = new Ornament("Glasses", 1, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1];
+
+const Perry = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
+// ################### Robert setup
+LAYER_TYPE = "Robert";
+_face = new Layer("Face", 1, 7, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 5, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+_ornament1 = new Ornament("Hurt 1", 1, "ornaments", "webp", LAYER_TYPE, false);
+_ornament2 = new Ornament("Hurt 2", 2, "ornaments", "webp", LAYER_TYPE, false);
+_ornament3 = new Ornament("Hurt 3", 3, "ornaments", "webp", LAYER_TYPE, false);
+_ornament4 = new Ornament("Hurt 4", 4, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1, _ornament2, _ornament3, _ornament4];
+
+const Robert = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
+// ################### Seymour setup
+LAYER_TYPE = "Seymour";
+_face = new Layer("Face", 1, 7, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 6, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+const Seymour = new Character(LAYER_TYPE, 0, _layers, [], false);
+// ################### Stan setup
+LAYER_TYPE = "Stan";
+_face = new Layer("Face", 1, 11, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 9, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+_ornament1 = new Ornament("Camera", 1, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1];
+
+const Stan = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
+// ################### Wade setup
+LAYER_TYPE = "Wade";
+_face = new Layer("Face", 1, 7, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 9, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+_ornament1 = new Ornament("Smoke", 1, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1];
+
+const Wade = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
 // ###############################################################
 // ###############################################################
 // ###############################################################
@@ -220,14 +380,29 @@ const Alison = new Character(LAYER_TYPE, 800, alisonLayers, alisonOrnaments, fal
 // ###############################################################
 // ################################################### SCENE SETUP
 // ###############################################################
-const ALL_CHARS = [Cindy, Alison];
 const SCENE = new Scene([], "", "");
 
 function getCharByName(_name) {
 	var _char = null;
 	switch (_name) {
-		case "Cindy": _char =  Cindy; break;
 		case "Alison": _char =  Alison; break;
+		case "Axel": _char =  Axel; break;
+		case "Bouncer": _char =  Bouncer; break;
+		case "Cherry": _char =  Cherry; break;
+		case "Cindy": _char =  Cindy; break;
+		case "Ed": _char =  Ed; break;
+		case "Emma": _char =  Emma; break;
+		case "Holly": _char =  Holly; break;
+		case "Ivy": _char =  Ivy; break;
+		case "Jeremy": _char =  Jeremy; break;
+		case "Louise": _char =  Louise; break;
+		case "Mike": _char =  Mike; break;
+		case "Minerva": _char =  Minerva; break;
+		case "Perry": _char =  Perry; break;
+		case "Robert": _char =  Robert; break;
+		case "Seymour": _char =  Seymour; break;
+		case "Stan": _char =  Stan; break;
+		case "Wade": _char =  Wade; break;
 		default: alert("Character \"" + _name + "\" not found!");
 	}
 	return _char;
@@ -640,7 +815,7 @@ function onLoad() {
 
 <body bgcolor="BLACK" onload="onLoad()" id="body_id">
 
-<div class="version">V0.3</div>
+<div class="version">V0.5</div>
 
 <table id="main_table">
 <tbody>
@@ -745,10 +920,10 @@ function onLoad() {
 	<p><input class="chkCharSelection" type="checkbox" value="Ed" id="chk_ed"/>Ed</p>
 	<p><input class="chkCharSelection" type="checkbox" value="Emma" id="chk_emma"/>Emma</p>
 	<p><input class="chkCharSelection" type="checkbox" value="Holly" id="chk_holly"/>Holly</p>
-	<p><input class="chkCharSelection" type="checkbox" value="Ian" id="chk_ian"/>Ian</p>
+	<p><input class="chkCharSelection" disabled type="checkbox" value="Ian" id="chk_ian"/>Ian</p>
 	<p><input class="chkCharSelection" type="checkbox" value="Ivy" id="chk_ivy"/>Ivy</p>
 	<p><input class="chkCharSelection" type="checkbox" value="Jeremy" id="chk_jeremy"/>Jeremy</p>
-	<p><input class="chkCharSelection" type="checkbox" value="Lena" id="chk_lena"/>Lena</p>
+	<p><input class="chkCharSelection" disabled type="checkbox" value="Lena" id="chk_lena"/>Lena</p>
 	<p><input class="chkCharSelection" type="checkbox" value="Louise" id="chk_louise"/>Louise</p>
 	<p><input class="chkCharSelection" type="checkbox" value="Mike" id="chk_mike"/>Mike</p>
 	<p><input class="chkCharSelection" type="checkbox" value="Minerva" id="chk_minerva"/>Minerva</p>
