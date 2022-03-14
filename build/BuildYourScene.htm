@@ -8,6 +8,22 @@
   position: relative;   
 }
 
+.textBoxDiv {
+  position: absolute;
+  bottom: 90px;
+  left: 240px;
+  color: #ffffff;
+  font-family: Arial, Tahoma, sans-serif;
+}
+
+.nameBoxDiv {
+  position: absolute;
+  bottom: 130px;
+  left: 223px;
+  color: darkblue;
+  font-family: Arial, Tahoma, sans-serif;
+}
+
 .overlayOrnament {
   position: absolute;   
   left:0;
@@ -93,18 +109,26 @@ p {
 }
 
 /* The Close Button */
-.close {
+.close, .closeDialog {
   color: #aaaaaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.close:hover, .close:focus, .closeDialog:hover, .closeDialog.focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+input[type=text] {
+  border: none;
+  border-bottom: 2px solid black;
+}
+
+input[type=text]:focus {
+  background-color: lightgray;
 }
 </style>
 </head>
@@ -154,6 +178,7 @@ function Scene(_chars, _speaker, _text) {
 const bgLayer = new Layer("BG", 1, 61, "bg", "webp", "BG");
 const bgLayers = [bgLayer];
 const BG = new Character("BG", 0, bgLayers, null, false);
+let BG_WIDTH = 0;
 // ################### Cindy setup
 let LAYER_TYPE = "Cindy";
 const cindyFace = new Layer("Face", 1, 9, "face", "webp", LAYER_TYPE);
@@ -166,18 +191,18 @@ const cindyOrnaments = [cindyOrnament1, cindyOrnament2];
 
 const Cindy = new Character(LAYER_TYPE, 0, cindyLayers, cindyOrnaments, false);
 
-// ################### Alisson setup
-LAYER_TYPE = "Alisson";
-const alissonFace = new Layer("Face", 1, 9, "face", "webp", LAYER_TYPE);
-const alissonBody = new Layer("Body", 1, 10, "body", "png", LAYER_TYPE);
-const alissonLayers = [alissonFace, alissonBody];
+// ################### Alison setup
+LAYER_TYPE = "Alison";
+const alisonFace = new Layer("Face", 1, 9, "face", "webp", LAYER_TYPE);
+const alisonBody = new Layer("Body", 1, 10, "body", "png", LAYER_TYPE);
+const alisonLayers = [alisonFace, alisonBody];
 
-const alissonOrnament1 = new Ornament("Face", 1, "ornaments", "png", LAYER_TYPE, false);
-const alissonOrnament2 = new Ornament("Tits", 2, "ornaments", "png", LAYER_TYPE, false);
-const alissonOrnament3 = new Ornament("Pussy", 3, "ornaments", "png", LAYER_TYPE, false);
-const alissonOrnaments = [alissonOrnament1, alissonOrnament2, alissonOrnament3];
+const alisonOrnament1 = new Ornament("Face", 1, "ornaments", "png", LAYER_TYPE, false);
+const alisonOrnament2 = new Ornament("Tits", 2, "ornaments", "png", LAYER_TYPE, false);
+const alisonOrnament3 = new Ornament("Pussy", 3, "ornaments", "png", LAYER_TYPE, false);
+const alisonOrnaments = [alisonOrnament1, alisonOrnament2, alisonOrnament3];
 
-const Alisson = new Character(LAYER_TYPE, 800, alissonLayers, alissonOrnaments, false);
+const Alison = new Character(LAYER_TYPE, 800, alisonLayers, alisonOrnaments, false);
 // ###############################################################
 // ###############################################################
 // ###############################################################
@@ -185,14 +210,14 @@ const Alisson = new Character(LAYER_TYPE, 800, alissonLayers, alissonOrnaments, 
 // ###############################################################
 // ################################################### SCENE SETUP
 // ###############################################################
-const chars = [Cindy, Alisson];
-const scene = new Scene(chars, "", "");
+const ALL_CHARS = [Cindy, Alison];
+const SCENE = new Scene([], "", "");
 
 function getCharByName(_name) {
 	var _char = null;
 	switch (_name) {
 		case "Cindy": _char =  Cindy; break;
-		case "Alisson": _char =  Alisson; break;
+		case "Alison": _char =  Alison; break;
 		default: alert("Character \"" + _name + "\" not found!");
 	}
 	return _char;
@@ -211,12 +236,14 @@ function addTRsLayers(charName, layerName, idx) {
 	var trId = charName + "_tr";
 	var tmpTr = document.createElement("tr");
 	tmpTr.id = trId;
+	tmpTr.classList.add("charImg");
 	tmpTr.innerHTML = "<td colspan=\"3\" align=\"center\" style=\"background:#4a4a4a\"><p>" + layerName + "</p></td>";
 	var _tbl = document.getElementById("charActionsTable");
 	_tbl.appendChild(tmpTr);
 
 	var tmpTr2 = document.createElement("tr");
 	tmpTr2.id = trId;
+	tmpTr2.classList.add("charImg");
 	tmpTr2.innerHTML = "<td><img class=\"clickable\" width=\"100\" id=\"left\" src=\"./left.png\" title=\"Previous\" onclick=\"previous(" + charName + ", " + idx + ")\"/></td>" +
 						"<td>&nbsp;</td>" +
 						"<td><img class=\"clickable\" width=\"100\" id=\"right\" src=\"./left.png\" title=\"Next\" onclick=\"next(" + charName + ", " + idx + ")\" " +
@@ -227,7 +254,7 @@ function addTRsLayers(charName, layerName, idx) {
 
 function addTRsOrns(_char, ornName, idx) {
 	var checkedStr = "";
-	if (_char.ornaments[idx].checked) {
+	if (_char.ornaments[idx].isChecked) {
 		checkedStr = "checked";
 	}
 	var tmpId = "chk_" + _char.name.toLowerCase() + "_" + idx + "_orn";
@@ -241,12 +268,14 @@ function addTRsOrnHeader(charName) {
 	var trId = charName + "_tr";
 	var tmpTr = document.createElement("tr");
 	tmpTr.id = trId;
+	tmpTr.classList.add("charImg");
 	tmpTr.innerHTML = "<td colspan=\"3\" align=\"center\" style=\"background:#4a4a4a\"><p>Ornaments</p></td>";
 	var _tbl = document.getElementById("charActionsTable");
 	_tbl.appendChild(tmpTr);
 
 	var tmpTr2 = document.createElement("tr");
 	tmpTr2.id = trId;
+	tmpTr2.classList.add("charImg");
 	tmpTr2.innerHTML = "<td id=\"ornamentsTD\" colspan=\"3\"></td>";
 	_tbl = document.getElementById("charActionsTable");
 	_tbl.appendChild(tmpTr2);
@@ -255,7 +284,9 @@ function addTRsOrnHeader(charName) {
 function udpateSelectedChar() {
 	var selChars = document.getElementById("selCharacters");
 	SELECTED_CHAR = getCharByName(selChars.options[selChars.selectedIndex].value);
-	removePreviousSelectedCharTRs(PREVIOUS_SELECTED_CHAR.name + "_tr");
+	if (PREVIOUS_SELECTED_CHAR != null) {
+		removePreviousSelectedCharTRs(PREVIOUS_SELECTED_CHAR.name + "_tr");
+	}
 	PREVIOUS_SELECTED_CHAR = SELECTED_CHAR;
 	for (var i = 0; i < SELECTED_CHAR.layers.length; i++) {
 		addTRsLayers(SELECTED_CHAR.name, SELECTED_CHAR.layers[i].name, i);
@@ -271,6 +302,9 @@ function udpateSelectedChar() {
 function updLayer(layer) {
 	if ("BG" == layer.type) {
 		document.getElementById(layer.folder).src = "./" + layer.folder + "/" + layer.index + "." + layer.extension;
+		document.getElementById(layer.folder).onload = function() {
+			BG_WIDTH = this.clientWidth;
+		}
 	} else {
 		document.getElementById(layer.type + layer.name + "_layer_img").src = "./" + layer.type + "/" + layer.folder + "/" + layer.index + "." + layer.extension;
 	}
@@ -289,19 +323,20 @@ function updScene(_scene) {
 					tmpImg.src = "./" + _layers[j].type + "/" + _layers[j].folder + "/" + _layers[j].index + "." + _layers[j].extension;
 					tmpImg.height = "900";
 					tmpImg.classList.add("overlay" + _layers[j].folder);
+					tmpImg.classList.add("charImg");
 					tmpImg.id = imgName;
 					tmpImg.style.left = _char.xPos + "px";
 					var _div = document.getElementById("container");
 					_div.appendChild(tmpImg);
 				}
 
-				if (SELECTED_CHAR.name == _char.name) {
+				if (SELECTED_CHAR != null && SELECTED_CHAR.name == _char.name) {
 					addTRsLayers(SELECTED_CHAR.name, _layers[j].name, j);
 				}
 			}
 			var _orns = _char.ornaments;
 			if (_orns != null && _orns.length > 0) {
-				if (SELECTED_CHAR.name == _char.name) {
+				if (SELECTED_CHAR != null && SELECTED_CHAR.name == _char.name) {
 					addTRsOrnHeader(_char.name);
 				}
 				for (var k = 0; k < _orns.length; k++) {
@@ -312,17 +347,23 @@ function updScene(_scene) {
 						tmpImg.src = "./" + _orns[k].type + "/" + _orns[k].folder + "/" + _orns[k].id + "." + _orns[k].extension;
 						tmpImg.height = "900";
 						tmpImg.classList.add("overlayOrnament");
+						tmpImg.classList.add("charImg");
 						tmpImg.id = imgName;
 						tmpImg.style.left = _char.xPos + "px";
-						tmpImg.style.display = "none";
+						if (_orns[k].isChecked) {
+							tmpImg.style.display = "block";
+						} else {
+							tmpImg.style.display = "none";
+						}
 						var _div = document.getElementById("container");
 						_div.appendChild(tmpImg);
 					}
-					if (SELECTED_CHAR.name == _char.name) {
+					if (SELECTED_CHAR != null && SELECTED_CHAR.name == _char.name) {
 						addTRsOrns(_char, _orns[k].name, k);
 					}
 				}
 			}
+			showChar(_char);
 		}
 	}
 }
@@ -346,8 +387,10 @@ function showChar(_char) {
 }
 
 function flip(_char) {
-	_char.isFlipped = !_char.isFlipped;
-	showChar(_char);
+	if (_char != null) {
+		_char.isFlipped = !_char.isFlipped;
+		showChar(_char);
+	}
 }
 
 function moveChar(_char) {
@@ -360,21 +403,25 @@ function moveChar(_char) {
 }
 
 function moveLeft(_char) {
-	if ((_char.xPos - 100) < 0) {
-		_char.xPos = 0;
-	} else {
-		_char.xPos -= 100;
+	if (_char != null) {
+		if ((_char.xPos - 100) < 0) {
+			_char.xPos = 0;
+		} else {
+			_char.xPos -= 100;
+		}
+		moveChar(_char);
 	}
-	moveChar(_char);
 }
 
 function moveRight(_char) {
-	if ((_char.xPos + 100) > 1000) {
-		_char.xPos = 1000;
-	} else {
-		_char.xPos += 100;
+	if (_char != null) {
+		if ((_char.xPos + 100) > 1000) {
+			_char.xPos = 1000;
+		} else {
+			_char.xPos += 100;
+		}
+		moveChar(_char);
 	}
-	moveChar(_char);
 }
 
 function next(_char, layerIdx) {
@@ -418,7 +465,7 @@ function noShake() {
 }
 
 function updOrnament(_char, _ornIdx, chkId, imgId) {
-	_char.ornaments[_ornIdx].checked = document.getElementById(chkId).checked;
+	_char.ornaments[_ornIdx].isChecked = document.getElementById(chkId).checked;
 	if (document.getElementById(chkId).checked) {
 		document.getElementById(imgId).style.display = "block";
 	} else {
@@ -426,12 +473,158 @@ function updOrnament(_char, _ornIdx, chkId, imgId) {
 	}
 }
 
+function countSelectedCharsModal() {
+	var chkCharSels = document.getElementsByClassName("chkCharSelection");
+	var _count = 0;
+	for (var i = 0; i < chkCharSels.length; i++) {
+		if (chkCharSels[i].checked) {
+			_count++;
+		}
+	}
+	return _count;
+}
+
+function addOptionToCombo(_name) {
+	var _combo = document.getElementById("selCharacters");
+	var option = document.createElement("OPTION");
+	option.value = _name;
+	option.innerHTML = _name;
+	option.classList.add("charImg"); //kkk
+	if (SELECTED_CHAR != null && SELECTED_CHAR.name == _name) {
+		option.selected = true;
+	}
+	_combo.options.add(option);
+}
+
+function addSelectedCharsToScene() {
+	var chkCharSels = document.getElementsByClassName("chkCharSelection");
+	var _match = false;
+	for (var i = 0; i < chkCharSels.length; i++) {
+		if (chkCharSels[i].checked) {
+			var tmpChar = getCharByName(chkCharSels[i].value);
+			if (tmpChar != null) {
+				SCENE.chars.push(tmpChar);
+				addOptionToCombo(tmpChar.name);
+				if (SELECTED_CHAR != null && SELECTED_CHAR.name == tmpChar.name) {
+					_match = true;
+				}
+			}
+		}
+	}
+	if (!_match) {
+		var _combo = document.getElementById("selCharacters");
+		if (_combo.options.length > 0) {
+			_combo.selectedIndex = 0;
+		}
+	}
+}
+
+function removeAllCharsImgs() {
+	while (document.getElementsByClassName("charImg").length > 0) {
+		document.getElementsByClassName("charImg")[0].parentNode.removeChild(document.getElementsByClassName("charImg")[0]);
+	}
+}
+
+function btnConfirmModal() {
+	var tmpCount = countSelectedCharsModal();
+	if (tmpCount > 5) {
+		alert("Cannot select more than 5 characters.");
+	} else {
+		SCENE.chars = [];
+		removeAllCharsImgs();
+		addSelectedCharsToScene();
+		document.getElementById("myModal").style.display = "none";
+		updScene(SCENE);
+		if (tmpCount > 0) {
+			udpateSelectedChar();
+		}
+	}
+}
+
+function btnClearDialog() {
+	document.getElementById("txtSpeaker").value = "";
+	document.getElementById("txtDialog").value = "";
+}
+
+function removeElement(_id) {
+	var _element = document.getElementById(_id);
+	if (typeof(_element) != 'undefined' && _element != null) {
+		_element.parentNode.removeChild(_element);
+	}
+}
+
+function removeDialog() {
+	removeElement("txtBoxImg");
+	removeElement("textBoxDiv");
+	removeElement("nameTagImg");
+	removeElement("nameBoxDiv");
+}
+
+function showDialog() {
+	var _zIndex = 200;
+	var txtBoxImg = document.createElement("img");
+	txtBoxImg.src = "./textbox.png";
+	txtBoxImg.id = "txtBoxImg";
+	txtBoxImg.width = BG_WIDTH;
+	txtBoxImg.style.left = "0px";
+	txtBoxImg.style.zIndex = _zIndex;
+	txtBoxImg.style.position = "absolute";
+	txtBoxImg.onload = function() {
+		this.style.top = (900 - this.clientHeight + 1) + "px";
+	}
+	var _div = document.getElementById("container");
+	_div.appendChild(txtBoxImg);
+
+	if (SCENE.text != "") {
+		var divTxt = document.createElement("div");
+		divTxt.id = "textBoxDiv";
+		divTxt.classList.add("textBoxDiv");
+		divTxt.style.zIndex = _zIndex + 1;
+		if (SCENE.speaker != "") {
+			divTxt.innerHTML = "<i>" + SCENE.text + "</i>";
+		} else {
+			divTxt.innerHTML = SCENE.text;
+		}
+		_div.appendChild(divTxt);
+	}
+
+	if (SCENE.speaker != "") {
+		var nameTag = document.createElement("img");
+		nameTag.src = "./namebox.png";
+		nameTag.id = "nameTagImg";
+		nameTag.height = 30;
+		nameTag.style.top = "750px";
+		nameTag.style.left = "220px";
+		nameTag.style.zIndex = _zIndex + 1;
+		nameTag.style.position = "absolute";
+		_div.appendChild(nameTag);
+
+		var divName = document.createElement("div");
+		divName.id = "nameBoxDiv";
+		divName.classList.add("nameBoxDiv");
+		divName.style.zIndex = _zIndex + 2;
+		divName.innerHTML = SCENE.speaker;
+		_div.appendChild(divName);
+	}
+}
+
+function btnConfirmDialogModal() {
+	removeDialog();
+	SCENE.speaker = document.getElementById("txtSpeaker").value;
+	SCENE.text = document.getElementById("txtDialog").value;
+	if (document.getElementById("chkShowDialog").checked) {
+		showDialog();
+	}
+	document.getElementById("myDialogModal").style.display = "none";
+}
+
 function onLoad() {
 	updLayer(BG.layers[0]);
-	var selChars = document.getElementById("selCharacters");
-	SELECTED_CHAR = getCharByName(selChars.options[selChars.selectedIndex].value);
-	PREVIOUS_SELECTED_CHAR = SELECTED_CHAR;
-	updScene(scene);
+	//var selChars = document.getElementById("selCharacters");
+	//SELECTED_CHAR = getCharByName(selChars.options[selChars.selectedIndex].value);
+	//PREVIOUS_SELECTED_CHAR = SELECTED_CHAR;
+	//updScene(SCENE);
+	document.getElementById("myModal").style.display = "block";
 }
 </script>
 
@@ -468,15 +661,23 @@ function onLoad() {
 			</td>
 		</tr>
 		<tr>
+			<td colspan="3" align="center" style="background:#4a4a4a"><p> Dialog </p></td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center">
+				<img class="clickable" height="40" id="openDialogModalBtn" src="./dialog.png" title="Dialog"/>
+			</td>
+		</tr>
+		<tr>
 			<td colspan="3" align="center" style="background:#4a4a4a"><p> Characters </p></td>
 		</tr>
 		<tr>
 			<td colspan="3" align="center" style="vertical-align:middle">
 				<div style="width:200px;" style="vertical-align:middle">
 					<select name="selCharacters" id="selCharacters" onchange="udpateSelectedChar()">
-						<option value="">-</option>
-						<option value="Alisson">Alisson</option>
-						<option value="Cindy" selected>Cindy</option>
+						<!--option value="">-</option-->
+						<!--option value="Alison">Alison</option>
+						<option value="Cindy" selected>Cindy</option-->
 					</select>
 					<img class="clickable" width="19" height="19" id="openModalBtn" src="./gear.png" title="Add/Remove Chars"/>
 				</div>
@@ -523,46 +724,111 @@ function onLoad() {
 	<br>
     <p>Select up to 5 characters for the scene and click "Confirm":</p>
 	<br>
-	<p><input id="chk_alisson" type="checkbox"/>Alisson</p>
-	<p><input id="chk_axel" type="checkbox"/>Axel</p>
-	<p><input id="chk_cherry" type="checkbox"/>Cherry</p>
-	<p><input id="chk_cindy" type="checkbox"/>Cindy</p>
-	<p><input id="chk_emma" type="checkbox"/>Emma</p>
-	<p><input id="chk_holly" type="checkbox"/>Holly</p>
-	<p><input id="chk_ian" type="checkbox"/>Ian</p>
-	<p><input id="chk_ivy" type="checkbox"/>Ivy</p>
-	<p><input id="chk_jeremy" type="checkbox"/>Jeremy</p>
-	<p><input id="chk_lena" type="checkbox"/>Lena</p>
-	<p><input id="chk_louise" type="checkbox"/>Louise</p>
-	<p><input id="chk_mike" type="checkbox"/>Mike</p>
-	<p><input id="chk_minerva" type="checkbox"/>Minerva</p>
-	<p><input id="chk_robert" type="checkbox"/>Robert</p>
-	<p><input id="chk_seymour" type="checkbox"/>Seymour</p>
-	<p><input id="chk_stan" type="checkbox"/>Stan</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Alison" id="chk_alison"/>Alison</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Axel" id="chk_axel"/>Axel</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Bouncer" id="chk_bouncer"/>Bouncer</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Cherry" id="chk_cherry"/>Cherry</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Cindy" id="chk_cindy"/>Cindy</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Ed" id="chk_ed"/>Ed</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Emma" id="chk_emma"/>Emma</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Holly" id="chk_holly"/>Holly</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Ian" id="chk_ian"/>Ian</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Ivy" id="chk_ivy"/>Ivy</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Jeremy" id="chk_jeremy"/>Jeremy</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Lena" id="chk_lena"/>Lena</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Louise" id="chk_louise"/>Louise</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Mike" id="chk_mike"/>Mike</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Minerva" id="chk_minerva"/>Minerva</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Perry" id="chk_perry"/>Perry</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Robert" id="chk_robert"/>Robert</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Seymour" id="chk_seymour"/>Seymour</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Stan" id="chk_stan"/>Stan</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Wade" id="chk_wade"/>Wade</p>
 	<br>
-	<input id="cancelModalBtn" type="button" value="Cancel"/> &nbsp; <input type="button" value="Confirm"/>
+	<input id="cancelModalBtn" type="button" value="Cancel"/>
+	&nbsp;
+	<input type="button" value="Confirm" onclick="btnConfirmModal()"/>
+  </div>
+
+</div>
+
+<!-- The Dialog Modal -->
+<div id="myDialogModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="closeDialog">&times;</span>
+	<br>
+    <p>Dialog:</p>
+	<br>
+	<p>Speaker</p>
+	<input class="txtSpeaker" type="text" value="" id="txtSpeaker" size="8" maxlength="8" placeholder="Speaker"/>
+	<br><br>
+	<p>Text</p>
+	<input class="txtDialog" type="text" value="" id="txtDialog" size="40" maxlength="100" placeholder="Dialog"/>
+	<br><br>
+	<p><input class="chkShowDialog" type="checkbox" checked value="chkShowDialog" id="chkShowDialog"/>Show Dialog?</p>
+	<br>
+	<input id="cancelDialogModalBtn" type="button" value="Cancel"/>
+	&nbsp;
+	<input type="button" value="Confirm" onclick="btnConfirmDialogModal()"/>
+	&nbsp;
+	<input type="button" value="Clear" onclick="btnClearDialog()"/>
   </div>
 
 </div>
 
 <script>
+function clearCharSelectionCheckboxes() {
+	var chkCharSels = document.getElementsByClassName("chkCharSelection");
+	for (var i = 0; i < chkCharSels.length; i++) {
+		chkCharSels[i].checked = false;
+	}
+}
+
+function checkCharsInScene() {
+	var _chars = SCENE.chars;
+	if (_chars != null && _chars.length > 0) {
+		for (var i = 0; i < _chars.length; i++) {
+			document.getElementById("chk_" + _chars[i].name.toLowerCase()).checked = true;
+		}
+	}
+}
+
 // Get the modal
 var modal = document.getElementById("myModal");
+var dialogModal = document.getElementById("myDialogModal");
 
 // Get the button that opens the modal
-var btn = document.getElementById("openModalBtn");
+var btnOpenModal = document.getElementById("openModalBtn");
+var btnOpenDialogModal = document.getElementById("openDialogModalBtn");
 var btnCancel = document.getElementById("cancelModalBtn");
+var btnCancelDialog = document.getElementById("cancelDialogModalBtn");
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
+var closeDialog = document.getElementsByClassName("closeDialog")[0];
 
 // When the user clicks the button, open the modal 
-btn.onclick = function() {
-  modal.style.display = "block";
+btnOpenModal.onclick = function() {
+	clearCharSelectionCheckboxes();
+	checkCharsInScene();
+	modal.style.display = "block";
+}
+
+btnOpenDialogModal.onclick = function() {
+	if (document.getElementById("txtSpeaker").value == "" && SELECTED_CHAR != null) {
+		document.getElementById("txtSpeaker").value = SELECTED_CHAR.name;
+	}
+	dialogModal.style.display = "block";
 }
 
 btnCancel.onclick = function() {
   modal.style.display = "none";
+}
+
+btnCancelDialog.onclick = function() {
+  dialogModal.style.display = "none";
 }
 
 // When the user clicks on <span> (x), close the modal
@@ -570,10 +836,17 @@ span.onclick = function() {
   modal.style.display = "none";
 }
 
+closeDialog.onclick = function() {
+  dialogModal.style.display = "none";
+}
+
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
+  }
+  if (event.target == dialogModal) {
+    dialogModal.style.display = "none";
   }
 }
 </script>
