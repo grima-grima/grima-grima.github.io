@@ -589,10 +589,10 @@ function moveChar(_char) {
 
 function moveLeft(_char) {
 	if (_char != null) {
-		if ((_char.xPos - 100) < 0) {
-			_char.xPos = 0;
+		if ((_char.xPos - 50) < -100) {
+			_char.xPos = -100;
 		} else {
-			_char.xPos -= 100;
+			_char.xPos -= 50;
 		}
 		moveChar(_char);
 	}
@@ -600,10 +600,10 @@ function moveLeft(_char) {
 
 function moveRight(_char) {
 	if (_char != null) {
-		if ((_char.xPos + 100) > 1000) {
-			_char.xPos = 1000;
+		if ((_char.xPos + 50) > 1050) {
+			_char.xPos = 1050;
 		} else {
-			_char.xPos += 100;
+			_char.xPos += 50;
 		}
 		moveChar(_char);
 	}
@@ -815,7 +815,7 @@ function onLoad() {
 
 <body bgcolor="BLACK" onload="onLoad()" id="body_id">
 
-<div class="version">V0.5</div>
+<div class="version">V0.6</div>
 
 <table id="main_table">
 <tbody>
