@@ -816,7 +816,6 @@ function updOrnament(_char, _ornIdx, chkId, imgId) {
 				document.getElementById(imgId).style.left = 0;
 				ERROR_IMG_ID = imgId;
 				document.getElementById(imgId).style.display = "block";
-				document.getElementById(imgId).style.transform = "scaleX(1)";
 				window.setTimeout(removeErrorImg, 2500);
 			}
 			_char.ornaments[_ornIdx].isChecked = false;
