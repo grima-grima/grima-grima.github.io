@@ -18,9 +18,20 @@
   position: relative;   
 }
 
+.textDontDiv {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: black;
+  font-family: Arial, Tahoma, sans-serif;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+  z-index: 1001;
+}
+
 .textBoxDiv {
   position: absolute;
-  bottom: 90px;
+  bottom: 124px;
   left: 240px;
   color: #ffffff;
   font-family: Arial, Tahoma, sans-serif;
@@ -28,10 +39,17 @@
 
 .nameBoxDiv {
   position: absolute;
-  bottom: 130px;
+  bottom: 152px;
   left: 223px;
   color: darkblue;
   font-family: Arial, Tahoma, sans-serif;
+}
+
+.overlayAbove {
+  position: absolute;   
+  left:0;
+  top: 0;
+  z-index: 1000;
 }
 
 .overlayOrnament {
@@ -48,7 +66,21 @@
   z-index: 100;
 }
 
+.overlaywardrobe {
+  position: absolute;   
+  left:0;
+  top: 0;
+  z-index: 95;
+}
+
 .overlaybody {
+  position: absolute;   
+  left:0;
+  top: 0;
+  z-index: 90;
+}
+
+.overlaytattoo {
   position: absolute;   
   left:0;
   top: 0;
@@ -149,6 +181,9 @@ const PANIC_TITLE = "Excel";
 var IS_PANIC_ON = false;
 var PREVIOUS_SELECTED_CHAR = null;
 var SELECTED_CHAR = null;
+var ALREADY_DISPLAYED_ALISSON_EX = false;
+var ERROR_IMG_ID = "";
+var BOUNCER_DANCING = false;
 
 function Layer(_name, _index, _last, _folder, _extension, _type) {
 	this.name = _name;
@@ -193,17 +228,23 @@ let BG_WIDTH = 0;
 let LAYER_TYPE = "Alison";
 let _face = new Layer("Face", 1, 9, "face", "webp", LAYER_TYPE);
 let _body = new Layer("Body", 1, 10, "body", "png", LAYER_TYPE);
+let _tattoo = null;
+let _wardrobe = null;
 let _layers = [_face, _body];
 
 let _ornament1 = new Ornament("Face", 1, "ornaments", "png", LAYER_TYPE, false);
 let _ornament2 = new Ornament("Tits", 2, "ornaments", "png", LAYER_TYPE, false);
 let _ornament3 = new Ornament("Pussy", 3, "ornaments", "png", LAYER_TYPE, false);
-let _ornament4 = null;
+let _ornament4 = new Ornament("Piercing", 4, "ornaments", "webp", LAYER_TYPE, false);
 let _ornament5 = null;
 let _ornament6 = null;
-let _ornaments = [_ornament1, _ornament2, _ornament3];
+let _ornament7 = null;
+let _ornament8 = null;
+let _ornament9 = null;
+let _ornament10 = null;
+let _ornaments = [_ornament1, _ornament2, _ornament3, _ornament4];
 
-const Alison = new Character(LAYER_TYPE, 800, _layers, _ornaments, false);
+const Alison = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
 // ################### Axel setup
 LAYER_TYPE = "Axel";
 _face = new Layer("Face", 1, 6, "face", "webp", LAYER_TYPE);
@@ -217,7 +258,10 @@ _face = new Layer("Face", 1, 2, "face", "webp", LAYER_TYPE);
 _body = new Layer("Body", 1, 1, "body", "webp", LAYER_TYPE);
 _layers = [_face, _body];
 
-const Bouncer = new Character(LAYER_TYPE, 0, _layers, [], false);
+_ornament1 = new Ornament("Dance", 1, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1];
+
+const Bouncer = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
 // ################### Cherry setup
 LAYER_TYPE = "Cherry";
 _face = new Layer("Face", 1, 8, "face", "webp", LAYER_TYPE);
@@ -240,6 +284,13 @@ _ornament2 = new Ornament("Body", 2, "ornaments", "png", LAYER_TYPE, false);
 _ornaments = [_ornament1, _ornament2];
 
 const Cindy = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
+// ################### Danny setup
+LAYER_TYPE = "Danny";
+_face = new Layer("Face", 1, 5, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 2, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+const Danny = new Character(LAYER_TYPE, 0, _layers, [], false);
 // ################### Ed setup
 LAYER_TYPE = "Ed";
 _face = new Layer("Face", 1, 6, "face", "webp", LAYER_TYPE);
@@ -273,6 +324,21 @@ _ornament5 = new Ornament("Mouth", 5, "ornaments", "webp", LAYER_TYPE, false);
 _ornaments = [_ornament1, _ornament2, _ornament3, _ornament4, _ornament5];
 
 const Holly = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
+// ################### Ian setup
+LAYER_TYPE = "Ian";
+_face = new Layer("Face", 1, 17, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 1, "body", "webp", LAYER_TYPE);
+_wardrobe = new Layer("Wardrobe", 1, 18, "wardrobe", "webp", LAYER_TYPE);
+_layers = [_face, _body, _wardrobe];
+
+_ornament1 = new Ornament("Hurt 1", 1, "ornaments", "webp", LAYER_TYPE, false);
+_ornament2 = new Ornament("Hurt 2", 2, "ornaments", "webp", LAYER_TYPE, false);
+_ornament3 = new Ornament("Hurt 3", 3, "ornaments", "webp", LAYER_TYPE, false);
+_ornament4 = new Ornament("Headgear", 4, "ornaments", "webp", LAYER_TYPE, false);
+_ornament5 = new Ornament("Drugs", 5, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1, _ornament2, _ornament3, _ornament4, _ornament5];
+
+const Ian = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
 // ################### Ivy setup
 LAYER_TYPE = "Ivy";
 _face = new Layer("Face", 1, 9, "face", "webp", LAYER_TYPE);
@@ -295,6 +361,40 @@ _body = new Layer("Body", 1, 6, "body", "png", LAYER_TYPE);
 _layers = [_face, _body];
 
 const Jeremy = new Character(LAYER_TYPE, 0, _layers, [], false);
+// ################### Jess setup
+LAYER_TYPE = "Jess";
+_face = new Layer("Face", 1, 9, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 2, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+const Jess = new Character(LAYER_TYPE, 0, _layers, [], false);
+// ################### Lena setup
+LAYER_TYPE = "Lena";
+_face = new Layer("Face", 1, 18, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 2, "body", "webp", LAYER_TYPE);
+_tattoo = new Layer("Tattoo", 1, 8, "tattoo", "png", LAYER_TYPE);
+_wardrobe = new Layer("Wardrobe", 1, 32, "wardrobe", "webp", LAYER_TYPE);
+_layers = [_face, _body, _tattoo, _wardrobe];
+
+_ornament1 = new Ornament("Eyes", 1, "ornaments", "png", LAYER_TYPE, false);
+_ornament2 = new Ornament("Earrings", 2, "ornaments", "webp", LAYER_TYPE, false);
+_ornament3 = new Ornament("Mouth", 3, "ornaments", "webp", LAYER_TYPE, false);
+_ornament4 = new Ornament("Body", 4, "ornaments", "webp", LAYER_TYPE, false);
+_ornament5 = new Ornament("Hand Collar", 5, "ornaments", "webp", LAYER_TYPE, false);
+_ornament6 = new Ornament("Hand Collar 2", 6, "ornaments", "webp", LAYER_TYPE, false);
+_ornament7 = new Ornament("Choker", 7, "ornaments", "webp", LAYER_TYPE, false);
+_ornament8 = new Ornament("Collar", 8, "ornaments", "webp", LAYER_TYPE, false);
+_ornament9 = new Ornament("Piercing 1", 9, "ornaments", "webp", LAYER_TYPE, false);
+_ornament10 = new Ornament("Piercing 2", 10, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1, _ornament2, _ornament3, _ornament4, _ornament5, _ornament6, _ornament7, _ornament8, _ornament9, _ornament10];
+
+const Lena = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
+// ################### Lola setup
+LAYER_TYPE = "Lola";
+_body = new Layer("Body", 1, 7, "body", "webp", LAYER_TYPE);
+_layers = [_body];
+
+const Lola = new Character(LAYER_TYPE, 0, _layers, [], false);
 // ################### Louise setup
 LAYER_TYPE = "Louise";
 _face = new Layer("Face", 1, 11, "face", "webp", LAYER_TYPE);
@@ -391,10 +491,15 @@ function getCharByName(_name) {
 		case "Cherry": _char =  Cherry; break;
 		case "Cindy": _char =  Cindy; break;
 		case "Ed": _char =  Ed; break;
+		case "Danny": _char =  Danny; break;
 		case "Emma": _char =  Emma; break;
 		case "Holly": _char =  Holly; break;
+		case "Ian": _char =  Ian; break;
 		case "Ivy": _char =  Ivy; break;
 		case "Jeremy": _char =  Jeremy; break;
+		case "Jess": _char =  Jess; break;
+		case "Lena": _char =  Lena; break;
+		case "Lola": _char =  Lola; break;
 		case "Louise": _char =  Louise; break;
 		case "Mike": _char =  Mike; break;
 		case "Minerva": _char =  Minerva; break;
@@ -439,6 +544,10 @@ function addTRsLayers(charName, layerName, idx) {
 
 function addTRsOrns(_char, ornName, idx) {
 	var checkedStr = "";
+	if (_char.name == "Bouncer") {
+		_char.ornaments[idx].isChecked = BOUNCER_DANCING;
+	}
+
 	if (_char.ornaments[idx].isChecked) {
 		checkedStr = "checked";
 	}
@@ -524,27 +633,29 @@ function updScene(_scene) {
 				if (SELECTED_CHAR != null && SELECTED_CHAR.name == _char.name) {
 					addTRsOrnHeader(_char.name);
 				}
-				for (var k = 0; k < _orns.length; k++) {
-					var imgName = _char.name + _orns[k].name + "_orn_img";
-					var imgOrn = document.getElementById(imgName);
-					if(typeof(imgOrn) == 'undefined' || imgOrn == null){
-						var tmpImg = document.createElement("img");
-						tmpImg.src = "./" + _orns[k].type + "/" + _orns[k].folder + "/" + _orns[k].id + "." + _orns[k].extension;
-						tmpImg.height = "900";
-						tmpImg.classList.add("overlayOrnament");
-						tmpImg.classList.add("charImg");
-						tmpImg.id = imgName;
-						tmpImg.style.left = _char.xPos + "px";
-						if (_orns[k].isChecked) {
-							tmpImg.style.display = "block";
-						} else {
-							tmpImg.style.display = "none";
+				if (_char.name != "Bouncer") {
+					for (var k = 0; k < _orns.length; k++) {
+						var imgName = _char.name + _orns[k].name + "_orn_img";
+						var imgOrn = document.getElementById(imgName);
+						if (typeof(imgOrn) == 'undefined' || imgOrn == null) {
+							var tmpImg = document.createElement("img");
+							tmpImg.src = "./" + _orns[k].type + "/" + _orns[k].folder + "/" + _orns[k].id + "." + _orns[k].extension;
+							tmpImg.height = "900";
+							tmpImg.classList.add("overlayOrnament");
+							tmpImg.classList.add("charImg");
+							tmpImg.id = imgName;
+							tmpImg.style.left = _char.xPos + "px";
+							if (_orns[k].isChecked) {
+								tmpImg.style.display = "block";
+							} else {
+								tmpImg.style.display = "none";
+							}
+							var _div = document.getElementById("container");
+							_div.appendChild(tmpImg);
 						}
-						var _div = document.getElementById("container");
-						_div.appendChild(tmpImg);
-					}
-					if (SELECTED_CHAR != null && SELECTED_CHAR.name == _char.name) {
-						addTRsOrns(_char, _orns[k].name, k);
+						if (SELECTED_CHAR != null && SELECTED_CHAR.name == _char.name) {
+							addTRsOrns(_char, _orns[k].name, k);
+						}
 					}
 				}
 			}
@@ -556,17 +667,25 @@ function updScene(_scene) {
 function showChar(_char) {
 	if (_char.isFlipped) {
 		for (var i = 0; i < _char.layers.length; i++) {
-			document.getElementById(_char.name + _char.layers[i].name + "_layer_img").style.transform = "scaleX(-1)";
+			if (typeof(document.getElementById(_char.name + _char.layers[i].name + "_layer_img")) != 'undefined' && document.getElementById(_char.name + _char.layers[i].name + "_layer_img") != null) {
+				document.getElementById(_char.name + _char.layers[i].name + "_layer_img").style.transform = "scaleX(-1)";
+			}
 		}
 		for (var i = 0; i < _char.ornaments.length; i++) {
-			document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img").style.transform = "scaleX(-1)";
+			if (typeof(document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img")) != 'undefined' && document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img") != null) {
+				document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img").style.transform = "scaleX(-1)";
+			}
 		}
 	} else {
 		for (var i = 0; i < _char.layers.length; i++) {
-			document.getElementById(_char.name + _char.layers[i].name + "_layer_img").style.transform = "scaleX(1)";
+			if (typeof(document.getElementById(_char.name + _char.layers[i].name + "_layer_img")) != 'undefined' && document.getElementById(_char.name + _char.layers[i].name + "_layer_img") != null) {
+				document.getElementById(_char.name + _char.layers[i].name + "_layer_img").style.transform = "scaleX(1)";
+			}
 		}
 		for (var i = 0; i < _char.ornaments.length; i++) {
-			document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img").style.transform = "scaleX(1)";
+			if (typeof(document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img")) != 'undefined' && document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img") != null) {
+				document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img").style.transform = "scaleX(1)";
+			}
 		}
 	}
 }
@@ -583,7 +702,9 @@ function moveChar(_char) {
 		document.getElementById(_char.name + _char.layers[i].name + "_layer_img").style.left = _char.xPos + "px";
 	}
 	for (var i = 0; i < _char.ornaments.length; i++) {
-		document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img").style.left = _char.xPos + "px";
+		if (typeof(document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img")) != 'undefined' && document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img") != null) {
+			document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img").style.left = _char.xPos + "px";
+		}
 	}
 }
 
@@ -649,12 +770,72 @@ function noShake() {
 	document.getElementById("panic").style = "";
 }
 
+function about() {
+	alert("This is a fan-made site using the images created by Eva Kiss for the game 'Our Red String'.");
+}
+
+function removeDont() {
+	removeElement("DontImg");
+	removeElement("textDontDiv");
+}
+
+function removeErrorImg() {
+	var tmpImg = document.createElement("img");
+	tmpImg.src = "./Ian/ornaments/dont.webp";
+	tmpImg.height = "900";
+	tmpImg.classList.add("overlayAbove");
+	tmpImg.id = "DontImg";
+	var _div = document.getElementById("container");
+	_div.appendChild(tmpImg);
+	document.getElementById(ERROR_IMG_ID).style.display = "none";
+
+	var divTxt = document.createElement("div");
+	divTxt.id = "textDontDiv";
+	divTxt.classList.add("textDontDiv");
+	divTxt.innerHTML = "<center><h1>No drugs for you!<br><br>Drugs are bad!<br><br>Don't do drugs!</h1></center>";
+	_div.appendChild(divTxt);
+
+	window.setTimeout(removeDont, 4000);
+}
+
+function danceBouncer() {
+	if (BOUNCER_DANCING) {
+		flip(Bouncer);
+		window.setTimeout(danceBouncer, 300);
+	}
+}
+
 function updOrnament(_char, _ornIdx, chkId, imgId) {
 	_char.ornaments[_ornIdx].isChecked = document.getElementById(chkId).checked;
 	if (document.getElementById(chkId).checked) {
-		document.getElementById(imgId).style.display = "block";
+		if (_char.name == "Bouncer") {
+			BOUNCER_DANCING = true;
+			window.setTimeout(danceBouncer, 300);
+		} else if (_char.name == "Ian" && _ornIdx == 4) {
+			if (ERROR_IMG_ID == "") {
+				document.getElementById(imgId).style.left = 0;
+				ERROR_IMG_ID = imgId;
+				document.getElementById(imgId).style.display = "block";
+				window.setTimeout(removeErrorImg, 2500);
+			}
+			_char.ornaments[_ornIdx].isChecked = false;
+			document.getElementById(chkId).checked = false;
+		} else {
+			document.getElementById(imgId).style.display = "block";
+		}
 	} else {
-		document.getElementById(imgId).style.display = "none";
+		if (_char.name == "Bouncer") {
+			BOUNCER_DANCING = false;
+		} else {
+			document.getElementById(imgId).style.display = "none";
+		}
+	}
+	if (_char.name == "Stan" && SCENE.chars.length == 2 && (SCENE.chars[0].name == "Lena" || SCENE.chars[1].name == "Lena")) {
+		if (document.getElementById("hiddenDanny").style.display != "block") {
+			document.getElementById("hiddenDanny").style.display = "block";
+			document.getElementById("bg").style = "animation: shake 0.5s; animation-iteration-count: 1;";
+			window.setTimeout(removeBgStyleDanny, 500);
+		}
 	}
 }
 
@@ -674,7 +855,7 @@ function addOptionToCombo(_name) {
 	var option = document.createElement("OPTION");
 	option.value = _name;
 	option.innerHTML = _name;
-	option.classList.add("charImg"); //kkk
+	option.classList.add("charImg");
 	if (SELECTED_CHAR != null && SELECTED_CHAR.name == _name) {
 		option.selected = true;
 	}
@@ -710,11 +891,30 @@ function removeAllCharsImgs() {
 	}
 }
 
+function removeAlissonEx() {
+	removeElement("AlissonExImg");
+	document.getElementById("bg").style = "";
+}
+
+function displayAlissonEx() {
+	var tmpImg = document.createElement("img");
+	tmpImg.src = "./Alison/alison_ex.png";
+	tmpImg.height = "900";
+	tmpImg.classList.add("overlayOrnament");
+	tmpImg.id = "AlissonExImg";
+	tmpImg.style.left = "1197px";
+	var _div = document.getElementById("container");
+	_div.appendChild(tmpImg);
+	document.getElementById("bg").style = "animation: shake 0.5s; animation-iteration-count: 1;";
+	window.setTimeout(removeAlissonEx, 2500);
+}
+
 function btnConfirmModal() {
 	var tmpCount = countSelectedCharsModal();
 	if (tmpCount > 5) {
 		alert("Cannot select more than 5 characters.");
 	} else {
+		BOUNCER_DANCING = false;
 		SCENE.chars = [];
 		removeAllCharsImgs();
 		addSelectedCharsToScene();
@@ -722,6 +922,17 @@ function btnConfirmModal() {
 		updScene(SCENE);
 		if (tmpCount > 0) {
 			udpateSelectedChar();
+		}
+		if (!ALREADY_DISPLAYED_ALISSON_EX && SCENE.chars.length == 3) {
+			var _char1 = SCENE.chars[0].name;
+			var _char2 = SCENE.chars[1].name;
+			var _char3 = SCENE.chars[2].name;
+			if ((_char1 == "Ian" || _char1 == "Jeremy" || _char1 == "Alison") &&
+				(_char2 == "Ian" || _char2 == "Jeremy" || _char2 == "Alison") &&
+				(_char3 == "Ian" || _char3 == "Jeremy" || _char3 == "Alison")) {
+				ALREADY_DISPLAYED_ALISSON_EX = true;
+				displayAlissonEx();
+			}
 		}
 	}
 }
@@ -793,6 +1004,23 @@ function showDialog() {
 	}
 }
 
+function removeBgStyle(_name) {
+	document.getElementById("bg").style = "";
+	alert("New character unlocked: " + _name);
+}
+
+function removeBgStyleLola() {
+	removeBgStyle("Lola");
+}
+
+function removeBgStyleJess() {
+	removeBgStyle("Jess");
+}
+
+function removeBgStyleDanny() {
+	removeBgStyle("Danny");
+}
+
 function btnConfirmDialogModal() {
 	removeDialog();
 	SCENE.speaker = document.getElementById("txtSpeaker").value;
@@ -801,6 +1029,20 @@ function btnConfirmDialogModal() {
 		showDialog();
 	}
 	document.getElementById("myDialogModal").style.display = "none";
+	if (SCENE.speaker == "Lola" || SCENE.speaker.toLowerCase() == "cat") {
+		if (document.getElementById("hiddenLola").style.display != "block") {
+			document.getElementById("hiddenLola").style.display = "block";
+			document.getElementById("bg").style = "animation: shake 0.5s; animation-iteration-count: 1;";
+			window.setTimeout(removeBgStyleLola, 500);
+		}
+	}
+	if (SCENE.speaker == "Jess" || SCENE.speaker.toLowerCase() == "gggb") {
+		if (document.getElementById("hiddenJess").style.display != "block") {
+			document.getElementById("hiddenJess").style.display = "block";
+			document.getElementById("bg").style = "animation: shake 0.5s; animation-iteration-count: 1;";
+			window.setTimeout(removeBgStyleJess, 500);
+		}
+	}
 }
 
 function onLoad() {
@@ -815,7 +1057,7 @@ function onLoad() {
 
 <body bgcolor="BLACK" onload="onLoad()" id="body_id">
 
-<div class="version">V0.6</div>
+<div class="version">V0.7</div>
 
 <table id="main_table">
 <tbody>
@@ -825,6 +1067,8 @@ function onLoad() {
 		<tr>
 			<td id="container" class="container">
 				<img id="bg" height="900" src="" alt=""/>
+				<br>
+				<img src="https://counter4.stat.ovh/private/freecounterstat.php?c=9frbg52w5cm7rlx4qmwf4x1931szrykh" border="0" title="website counter" alt="website counter">
 			</td>
 		</tr>
 		</table>
@@ -832,7 +1076,9 @@ function onLoad() {
 	<td style="vertical-align:top">
 		<table id="charActionsTable" style="vertical-align:top">
 		<tr>
-			<td colspan="3" align="center">
+			<td colspan="3" align="left">
+				<img class="clickable" id="about" height="40" width="40" src="./about.png" title="About" onclick="about()" style="vertical-align:top"/>
+				&nbsp;
 				<img class="clickable" id="panic" height="100" width="100" src="./panic.gif" title="Panic!" onclick="panicOn()" onmouseover="shake()" onmouseout="noShake()"/>
 			</td>
 		</tr>
@@ -897,7 +1143,6 @@ function onLoad() {
 <tr>
 	<td colspan="7">
 		<img class="clickable" id="excel" src="./excel.jpg" title="Excel" onclick="panicOff()" style="display:none"/>
-<img src="https://counter4.stat.ovh/private/freecounterstat.php?c=9frbg52w5cm7rlx4qmwf4x1931szrykh" border="0" title="website counter" alt="website counter">
 	</td>
 </tr>
 </tbody>
@@ -917,13 +1162,16 @@ function onLoad() {
 	<p><input class="chkCharSelection" type="checkbox" value="Bouncer" id="chk_bouncer"/>Bouncer</p>
 	<p><input class="chkCharSelection" type="checkbox" value="Cherry" id="chk_cherry"/>Cherry</p>
 	<p><input class="chkCharSelection" type="checkbox" value="Cindy" id="chk_cindy"/>Cindy</p>
+	<p id="hiddenDanny" style="display:none"><input class="chkCharSelection" type="checkbox" value="Danny" id="chk_danny"/>Danny</p>
 	<p><input class="chkCharSelection" type="checkbox" value="Ed" id="chk_ed"/>Ed</p>
 	<p><input class="chkCharSelection" type="checkbox" value="Emma" id="chk_emma"/>Emma</p>
 	<p><input class="chkCharSelection" type="checkbox" value="Holly" id="chk_holly"/>Holly</p>
-	<p><input class="chkCharSelection" disabled type="checkbox" value="Ian" id="chk_ian"/>Ian</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Ian" id="chk_ian"/>Ian</p>
 	<p><input class="chkCharSelection" type="checkbox" value="Ivy" id="chk_ivy"/>Ivy</p>
 	<p><input class="chkCharSelection" type="checkbox" value="Jeremy" id="chk_jeremy"/>Jeremy</p>
-	<p><input class="chkCharSelection" disabled type="checkbox" value="Lena" id="chk_lena"/>Lena</p>
+	<p id="hiddenJess" style="display:none"><input class="chkCharSelection" type="checkbox" value="Jess" id="chk_jess"/>Jess</p>
+	<p><input class="chkCharSelection" type="checkbox" value="Lena" id="chk_lena"/>Lena</p>
+	<p id="hiddenLola" style="display:none"><input class="chkCharSelection" type="checkbox" value="Lola" id="chk_lola"/>Lola</p>
 	<p><input class="chkCharSelection" type="checkbox" value="Louise" id="chk_louise"/>Louise</p>
 	<p><input class="chkCharSelection" type="checkbox" value="Mike" id="chk_mike"/>Mike</p>
 	<p><input class="chkCharSelection" type="checkbox" value="Minerva" id="chk_minerva"/>Minerva</p>
