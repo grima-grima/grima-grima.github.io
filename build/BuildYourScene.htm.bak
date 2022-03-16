@@ -22,10 +22,10 @@ a {
 }
 
 .a {
-  background: black;
+  background: lightgray;
   padding: 1px;
   font-family: Tahoma, sans-serif;
-  color: white;
+  color: black;
 }
 
 .container {
