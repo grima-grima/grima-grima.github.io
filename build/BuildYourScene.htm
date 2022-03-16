@@ -14,6 +14,20 @@
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
+a {
+  background: lightblue;
+  padding: 1px;
+  font-family: Tahoma, sans-serif;
+  color: black;
+}
+
+.a {
+  background: lightgray;
+  padding: 1px;
+  font-family: Tahoma, sans-serif;
+  color: black;
+}
+
 .container {
   position: relative;   
 }
@@ -371,7 +385,7 @@ const Jess = new Character(LAYER_TYPE, 0, _layers, [], false);
 // ################### Lena setup
 LAYER_TYPE = "Lena";
 _face = new Layer("Face", 1, 18, "face", "webp", LAYER_TYPE);
-_body = new Layer("Body", 1, 2, "body", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 5, "body", "webp", LAYER_TYPE);
 _tattoo = new Layer("Tattoo", 1, 8, "tattoo", "png", LAYER_TYPE);
 _wardrobe = new Layer("Wardrobe", 1, 32, "wardrobe", "webp", LAYER_TYPE);
 _layers = [_face, _body, _tattoo, _wardrobe];
@@ -1068,6 +1082,9 @@ function onLoad() {
 		<tr>
 			<td id="container" class="container">
 				<img id="bg" height="900" src="" alt=""/>
+				<br>
+				<span class="a">If you enjoyed this mini game, feel free to support my work :) --></span>
+				&nbsp; <a href="https://www.buymeacoffee.com/grimagrima" target="_blank">https://www.buymeacoffee.com/grimagrima</a>
 				<br>
 				<img src="https://counter4.stat.ovh/private/freecounterstat.php?c=9frbg52w5cm7rlx4qmwf4x1931szrykh" border="0" title="website counter" alt="website counter">
 			</td>
