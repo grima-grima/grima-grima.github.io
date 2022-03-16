@@ -1237,29 +1237,29 @@ function onLoad() {
 	<br>
     <p>Select up to 5 characters for the scene and click "Confirm":</p>
 	<br>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Alison" id="chk_alison"/>Alison</p>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Axel" id="chk_axel"/>Axel</p>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Bouncer" id="chk_bouncer"/>Bouncer</p>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Cherry" id="chk_cherry"/>Cherry</p>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Cindy" id="chk_cindy"/>Cindy</p>
-	<p onclick="checkChild(this)" id="hiddenDanny" style="display:none"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Danny" id="chk_danny"/>Danny <font color="yellow">(unlocked)</font></p>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Ed" id="chk_ed"/>Ed</p>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Emma" id="chk_emma"/>Emma</p>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Holly" id="chk_holly"/>Holly</p>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Ian" id="chk_ian"/>Ian</p>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Ivy" id="chk_ivy"/>Ivy</p>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Jeremy" id="chk_jeremy"/>Jeremy</p>
-	<p onclick="checkChild(this)" id="hiddenJess" style="display:none"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Jess" id="chk_jess"/>Jess <font color="yellow">(unlocked)</font></p>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Lena" id="chk_lena"/>Lena</p>
-	<p onclick="checkChild(this)" id="hiddenLola" style="display:none"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Lola" id="chk_lola"/>Lola <font color="yellow">(unlocked)</font></p>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Louise" id="chk_louise"/>Louise</p>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Mike" id="chk_mike"/>Mike</p>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Minerva" id="chk_minerva"/>Minerva</p>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Perry" id="chk_perry"/>Perry</p>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Robert" id="chk_robert"/>Robert</p>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Seymour" id="chk_seymour"/>Seymour</p>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Stan" id="chk_stan"/>Stan</p>
-	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Wade" id="chk_wade"/>Wade</p>
+	<p onclick="checkChild(this)"><input onclick="this.checked = !this.checked" class="chkCharSelection" type="checkbox" value="Alison" id="chk_alison"/>Alison</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" value="Axel" id="chk_axel"/>Axel</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" value="Bouncer" id="chk_bouncer"/>Bouncer</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" value="Cherry" id="chk_cherry"/>Cherry</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" value="Cindy" id="chk_cindy"/>Cindy</p>
+	<p onclick="checkChild(this)" id="hiddenDanny" style="display:none"><input class="chkCharSelection" type="checkbox" value="Danny" id="chk_danny"/>Danny <font color="yellow">(unlocked)</font></p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" value="Ed" id="chk_ed"/>Ed</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" value="Emma" id="chk_emma"/>Emma</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" value="Holly" id="chk_holly"/>Holly</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" value="Ian" id="chk_ian"/>Ian</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" value="Ivy" id="chk_ivy"/>Ivy</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" value="Jeremy" id="chk_jeremy"/>Jeremy</p>
+	<p onclick="checkChild(this)" id="hiddenJess" style="display:none"><input class="chkCharSelection" type="checkbox" value="Jess" id="chk_jess"/>Jess <font color="yellow">(unlocked)</font></p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" value="Lena" id="chk_lena"/>Lena</p>
+	<p onclick="checkChild(this)" id="hiddenLola" style="display:none"><input class="chkCharSelection" type="checkbox" value="Lola" id="chk_lola"/>Lola <font color="yellow">(unlocked)</font></p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" value="Louise" id="chk_louise"/>Louise</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" value="Mike" id="chk_mike"/>Mike</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" value="Minerva" id="chk_minerva"/>Minerva</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" value="Perry" id="chk_perry"/>Perry</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" value="Robert" id="chk_robert"/>Robert</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" value="Seymour" id="chk_seymour"/>Seymour</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" value="Stan" id="chk_stan"/>Stan</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" value="Wade" id="chk_wade"/>Wade</p>
 	<br>
 	<input id="cancelModalBtn" type="button" value="Cancel"/>
 	&nbsp;
