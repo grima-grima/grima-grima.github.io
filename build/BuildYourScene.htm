@@ -269,7 +269,14 @@ _face = new Layer("Face", 1, 6, "face", "webp", LAYER_TYPE);
 _body = new Layer("Body", 1, 5, "body", "png", LAYER_TYPE);
 _layers = [_face, _body];
 
-const Axel = new Character(LAYER_TYPE, 0, _layers, [], false);
+_ornament1 = new Ornament("Hurt 1", 1, "ornaments", "webp", LAYER_TYPE, false);
+_ornament2 = new Ornament("Hurt 2", 2, "ornaments", "webp", LAYER_TYPE, false);
+_ornament3 = new Ornament("Hurt 3", 3, "ornaments", "webp", LAYER_TYPE, false);
+_ornament4 = new Ornament("Hurt 4", 4, "ornaments", "webp", LAYER_TYPE, false);
+_ornament5 = new Ornament("Hurt 5", 5, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1, _ornament2, _ornament3, _ornament4, _ornament5];
+
+const Axel = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
 // ################### Bouncer setup
 LAYER_TYPE = "Bouncer";
 _face = new Layer("Face", 1, 2, "face", "webp", LAYER_TYPE);
@@ -378,7 +385,12 @@ _face = new Layer("Face", 1, 9, "face", "webp", LAYER_TYPE);
 _body = new Layer("Body", 1, 6, "body", "png", LAYER_TYPE);
 _layers = [_face, _body];
 
-const Jeremy = new Character(LAYER_TYPE, 0, _layers, [], false);
+_ornament1 = new Ornament("Hurt 1", 1, "ornaments", "webp", LAYER_TYPE, false);
+_ornament2 = new Ornament("Hurt 2", 2, "ornaments", "webp", LAYER_TYPE, false);
+_ornament3 = new Ornament("Hurt 3", 3, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1, _ornament2, _ornament3];
+
+const Jeremy = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
 // ################### Jess setup
 LAYER_TYPE = "Jess";
 _face = new Layer("Face", 1, 9, "face", "webp", LAYER_TYPE);
@@ -472,7 +484,12 @@ _face = new Layer("Face", 1, 7, "face", "webp", LAYER_TYPE);
 _body = new Layer("Body", 1, 6, "body", "webp", LAYER_TYPE);
 _layers = [_face, _body];
 
-const Seymour = new Character(LAYER_TYPE, 0, _layers, [], false);
+_ornament1 = new Ornament("Hurt 1", 1, "ornaments", "webp", LAYER_TYPE, false);
+_ornament2 = new Ornament("Hurt 2", 2, "ornaments", "webp", LAYER_TYPE, false);
+_ornament3 = new Ornament("Hurt 3", 3, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1, _ornament2, _ornament3];
+
+const Seymour = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
 // ################### Stan setup
 LAYER_TYPE = "Stan";
 _face = new Layer("Face", 1, 11, "face", "webp", LAYER_TYPE);
@@ -1137,7 +1154,7 @@ function onLoad() {
 
 <body bgcolor="BLACK" onload="onLoad()" id="body_id">
 
-<div class="version">V0.7</div>
+<div class="version">V0.71</div>
 
 <table id="main_table">
 <tbody>
