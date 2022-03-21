@@ -1,13 +1,14 @@
 TO DO LIST
-1) Add "damage" efect to other characters - WIP
+1) Properly use z-Index for each character, preventing that one char's face is rendered on top of another char's body
+2) Add "damage" efect to other characters - WIP
 	- Jeremy - ok
 	- Axel - ok
 	- Seymour - ok
 	- Ian - ok
 	- Robert - ok
-2) Split Lena's outfits into upper and lower parts
-3) Install firefox to see if I get errors
-4) Export scene as one image
-5) For charachters with multiple hair collors, add a separate session for hair collor
+3) Split Lena's outfits into upper and lower parts
+4) Install firefox to see if I get errors
+5) Export scene as one image
+6) For charachters with multiple hair colors, add a separate session for hair collor
 	- Cindy
 	- Lena
