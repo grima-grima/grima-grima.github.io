@@ -151,6 +151,13 @@ p {
   font-family: Tahoma, sans-serif;
 }
 
+.p1 {
+  background: #4f4f4f;
+  color: #ffffff;
+  margin: 0px;
+  font-family: Tahoma, sans-serif;
+}
+
 /* #################################################### */
 /* ###################### Modal ####################### */
 /* #################################################### */
@@ -419,7 +426,7 @@ LAYER_TYPE = "Lena";
 _face = new Layer("Face", 1, 18, "face", "webp", LAYER_TYPE);
 _body = new Layer("Body", 1, 1, "body", "webp", LAYER_TYPE);
 _LenaUnlockedBody = new Layer("Body", 1, 5, "body", "webp", LAYER_TYPE);
-_tattoo = new Layer("Tattoo", 1, 8, "tattoo", "png", LAYER_TYPE);
+_tattoo = new Layer("Tattoo", 1, 12, "tattoo", "png", LAYER_TYPE);
 _upper = new Layer("Upper", 1, 22, "upper", "webp", LAYER_TYPE);
 _lower = new Layer("Lower", 1, 19, "lower", "webp", LAYER_TYPE);
 //_wardrobe = new Layer("Wardrobe", 1, 32, "wardrobe", "webp", LAYER_TYPE);
@@ -584,16 +591,16 @@ function addTRsLayers(charName, layerName, idx) {
 	var tmpTr = document.createElement("tr");
 	tmpTr.id = trId;
 	tmpTr.classList.add("charImg");
-	tmpTr.innerHTML = "<td colspan=\"3\" align=\"center\" style=\"background:#4a4a4a\"><p>" + layerName + "</p></td>";
+	tmpTr.innerHTML = "<td colspan=\"3\" align=\"center\" style=\"background:#4a4a4a\"><p class=\"p1\">" + layerName + "</p></td>";
 	var _tbl = document.getElementById("charActionsTable");
 	_tbl.appendChild(tmpTr);
 
 	var tmpTr2 = document.createElement("tr");
 	tmpTr2.id = trId;
 	tmpTr2.classList.add("charImg");
-	tmpTr2.innerHTML = "<td><img class=\"clickable\" width=\"100\" id=\"left\" src=\"./left.png\" title=\"Previous\" onclick=\"previous(" + charName + ", " + idx + ")\"/></td>" +
+	tmpTr2.innerHTML = "<td align=\"right\"><img class=\"clickable\" width=\"95\" height=\"24\" id=\"left\" src=\"./left.png\" title=\"Previous\" onclick=\"previous(" + charName + ", " + idx + ")\"/></td>" +
 						"<td>&nbsp;</td>" +
-						"<td><img class=\"clickable\" width=\"100\" id=\"right\" src=\"./left.png\" title=\"Next\" onclick=\"next(" + charName + ", " + idx + ")\" " +
+						"<td><img class=\"clickable\" width=\"95\" height=\"24\" id=\"right\" src=\"./left.png\" title=\"Next\" onclick=\"next(" + charName + ", " + idx + ")\" " +
 							"style=\"transform: scaleX(-1); -webkit-transform: scaleX(-1);\"/></td>";
 	_tbl = document.getElementById("charActionsTable");
 	_tbl.appendChild(tmpTr2);
@@ -620,7 +627,7 @@ function addTRsOrnHeader(charName) {
 	var tmpTr = document.createElement("tr");
 	tmpTr.id = trId;
 	tmpTr.classList.add("charImg");
-	tmpTr.innerHTML = "<td colspan=\"3\" align=\"center\" style=\"background:#4a4a4a\"><p>Ornaments</p></td>";
+	tmpTr.innerHTML = "<td colspan=\"3\" align=\"center\" style=\"background:#4a4a4a\"><p class=\"p1\">Ornaments</p></td>";
 	var _tbl = document.getElementById("charActionsTable");
 	_tbl.appendChild(tmpTr);
 
@@ -1174,7 +1181,7 @@ function onLoad() {
 
 <body bgcolor="BLACK" onload="onLoad()" id="body_id">
 
-<div class="version">V0.72</div>
+<div class="version">V0.73</div>
 
 <table id="main_table">
 <tbody>
@@ -1199,31 +1206,31 @@ function onLoad() {
 			<td colspan="3" align="left">
 				<img class="clickable" id="about" height="40" width="40" src="./about.png" title="About" onclick="about()" style="vertical-align:top"/>
 				&nbsp;
-				<img class="clickable" id="panic" height="100" width="100" src="./panic.gif" title="Panic!" onclick="panicOn()" onmouseover="shake()" onmouseout="noShake()"/>
+				<img class="clickable" id="panic" height="60" src="./panic2.png" title="Panic!" onclick="panicOn()" onmouseover="shake()" onmouseout="noShake()"/>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3" align="center" style="background:#4a4a4a"><p> Background </p></td>
+			<td colspan="3" align="center" style="background:#4a4a4a"><p class="p1"> Background </p></td>
 		</tr>
 		<tr>
-			<td>
-				<img class="clickable" width="100" id="left" src="./left.png" title="Previous" onclick="previous(BG, 0)"/>
+			<td align="right">
+				<img class="clickable" width="95" height="24" id="left" src="./left.png" title="Previous" onclick="previous(BG, 0)"/>
 			</td>
 			<td>&nbsp;</td>
 			<td>
-				<img class="clickable" width="100" id="right" src="./left.png" title="Next" onclick="next(BG, 0)" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"/>
+				<img class="clickable" width="95" height="24" id="right" src="./left.png" title="Next" onclick="next(BG, 0)" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"/>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3" align="center" style="background:#4a4a4a"><p> Dialog </p></td>
+			<td colspan="3" align="center" style="background:#4a4a4a"><p class="p1"> Dialog </p></td>
 		</tr>
 		<tr>
 			<td colspan="3" align="center">
-				<img class="clickable" height="40" id="openDialogModalBtn" src="./dialog.png" title="Dialog"/>
+				<img class="clickable" height="35" id="openDialogModalBtn" src="./dialog.png" title="Dialog"/>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3" align="center" style="background:#4a4a4a"><p> Characters </p></td>
+			<td colspan="3" align="center" style="background:#4a4a4a"><p class="p1"> Characters </p></td>
 		</tr>
 		<tr>
 			<td colspan="3" align="center" style="vertical-align:middle">
@@ -1235,30 +1242,30 @@ function onLoad() {
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3" align="center" style="background:#4a4a4a"><p> Flip Character </p></td>
+			<td colspan="3" align="center" style="background:#4a4a4a"><p class="p1"> Flip Character </p></td>
 		</tr>
 		<tr>
 			<td colspan="3" align="center">
-				<img class="clickable" width="100" height="40" id="flip" src="./flip.webp" title="Flip" onclick="flip(SELECTED_CHAR)"/>
+				<img class="clickable" width="100" height="30" id="flip" src="./flip.webp" title="Flip" onclick="flip(SELECTED_CHAR)"/>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3" align="center" style="background:#4a4a4a"><p> Move Character </p></td>
+			<td colspan="3" align="center" style="background:#4a4a4a"><p class="p1"> Move Character </p></td>
 		</tr>
 		<tr>
-			<td>
-				<img class="clickable" width="100" id="left" src="./left.png" title="Previous" onclick="moveLeft(SELECTED_CHAR)"/>
+			<td align="right">
+				<img class="clickable" width="95" height="24" id="left" src="./left.png" title="Previous" onclick="moveLeft(SELECTED_CHAR)"/>
 			</td>
 			<td>&nbsp;</td>
 			<td>
-				<img class="clickable" width="100" id="right" src="./left.png" title="Next" onclick="moveRight(SELECTED_CHAR)" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"/>
+				<img class="clickable" width="95" height="24" id="right" src="./left.png" title="Next" onclick="moveRight(SELECTED_CHAR)" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"/>
 			</td>
 		</tr>
 		</table>
 	</td>
 </tr>
 <tr>
-	<td colspan="7">
+	<td colspan="2">
 		<img class="clickable" id="excel" src="./excel.jpg" title="Excel" onclick="panicOff()" style="display:none"/>
 	</td>
 </tr>
