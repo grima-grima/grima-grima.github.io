@@ -257,7 +257,7 @@ function Scene(_chars, _speaker, _text) {
 // ###############################################################
 // ############################################## CHARACTERS SETUP
 // ###############################################################
-const bgLayer = new Layer("BG", 1, 61, "bg", "webp", "BG");
+const bgLayer = new Layer("BG", 1, 63, "bg", "webp", "BG");
 const bgLayers = [bgLayer];
 const BG = new Character("BG", 0, bgLayers, null, false);
 let BG_WIDTH = 0;
@@ -358,6 +358,13 @@ _ornament3 = new Ornament("Legs", 3, "ornaments", "webp", LAYER_TYPE, false);
 _ornaments = [_ornament1, _ornament2, _ornament3];
 
 const Emma = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
+// ################### Gillian setup
+LAYER_TYPE = "Gillian";
+_face = new Layer("Face", 1, 3, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 2, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+const Gillian = new Character(LAYER_TYPE, 0, _layers, [], false);
 // ################### Holly setup
 LAYER_TYPE = "Holly";
 _face = new Layer("Face", 1, 14, "face", "webp", LAYER_TYPE);
@@ -520,7 +527,7 @@ const Seymour = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
 // ################### Stan setup
 LAYER_TYPE = "Stan";
 _face = new Layer("Face", 1, 11, "face", "webp", LAYER_TYPE);
-_body = new Layer("Body", 1, 9, "body", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 17, "body", "webp", LAYER_TYPE);
 _layers = [_face, _body];
 
 _ornament1 = new Ornament("Camera", 1, "ornaments", "webp", LAYER_TYPE, false);
@@ -557,6 +564,7 @@ function getCharByName(_name) {
 		case "Ed": _char =  Ed; break;
 		case "Danny": _char =  Danny; break;
 		case "Emma": _char =  Emma; break;
+		case "Gillian": _char =  Gillian; break;
 		case "Holly": _char =  Holly; break;
 		case "Ian": _char =  Ian; break;
 		case "Ivy": _char =  Ivy; break;
@@ -1181,7 +1189,7 @@ function onLoad() {
 
 <body bgcolor="BLACK" onload="onLoad()" id="body_id">
 
-<div class="version">V0.73</div>
+<div class="version">V0.80</div>
 
 <table id="main_table">
 <tbody>
@@ -1289,6 +1297,7 @@ function onLoad() {
 	<p onclick="checkChild(this)" id="hiddenDanny" style="display:none"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Danny" id="chk_danny"/>Danny <font color="yellow">(unlocked)</font></p>
 	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Ed" id="chk_ed"/>Ed</p>
 	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Emma" id="chk_emma"/>Emma</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Gillian" id="chk_gillian"/>Gillian</p>
 	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Holly" id="chk_holly"/>Holly</p>
 	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Ian" id="chk_ian"/>Ian</p>
 	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Ivy" id="chk_ivy"/>Ivy</p>
