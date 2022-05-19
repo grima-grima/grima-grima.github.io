@@ -300,6 +300,26 @@ _ornament5 = new Ornament("Hurt 5", 5, "ornaments", "webp", LAYER_TYPE, false);
 _ornaments = [_ornament1, _ornament2, _ornament3, _ornament4, _ornament5];
 
 const Axel = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
+// ################### Billy setup
+LAYER_TYPE = "Billy";
+_face = new Layer("Face", 1, 4, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 2, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+_ornament1 = new Ornament("Glasses", 1, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1];
+
+const Billy = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
+// ################### Billy2 setup
+LAYER_TYPE = "Billy2";
+_face = new Layer("Face", 1, 6, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 1, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+_ornament1 = new Ornament("Glasses", 1, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1];
+
+const Billy2 = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
 // ################### Bouncer setup
 LAYER_TYPE = "Bouncer";
 _face = new Layer("Face", 1, 2, "face", "webp", LAYER_TYPE);
@@ -558,6 +578,8 @@ function getCharByName(_name) {
 	switch (_name) {
 		case "Alison": _char =  Alison; break;
 		case "Axel": _char =  Axel; break;
+		case "Billy": _char =  Billy; break;
+		case "Billy2": _char =  Billy2; break;
 		case "Bouncer": _char =  Bouncer; break;
 		case "Cherry": _char =  Cherry; break;
 		case "Cindy": _char =  Cindy; break;
@@ -1189,7 +1211,7 @@ function onLoad() {
 
 <body bgcolor="BLACK" onload="onLoad()" id="body_id">
 
-<div class="version">V0.80</div>
+<div class="version">V0.81</div>
 
 <table id="main_table">
 <tbody>
@@ -1291,6 +1313,8 @@ function onLoad() {
 	<br>
 	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Alison" id="chk_alison"/>Alison</p>
 	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Axel" id="chk_axel"/>Axel</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Billy" id="chk_billy"/>Billy</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Billy2" id="chk_billy2"/>Billy 2</p>
 	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Bouncer" id="chk_bouncer"/>Bouncer</p>
 	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Cherry" id="chk_cherry"/>Cherry</p>
 	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Cindy" id="chk_cindy"/>Cindy</p>
@@ -1334,7 +1358,7 @@ function onLoad() {
 	<input class="txtSpeaker" type="text" value="" id="txtSpeaker" size="8" maxlength="8" placeholder="Speaker"/>
 	<br><br>
 	<p>Text</p>
-	<input class="txtDialog" type="text" value="" id="txtDialog" size="40" maxlength="100" placeholder="Dialog"/>
+	<input class="txtDialog" type="text" value="" id="txtDialog" size="40" maxlength="200" placeholder="Dialog"/>
 	<br><br>
 	<p><input class="chkShowDialog" type="checkbox" checked value="chkShowDialog" id="chkShowDialog"/>Show Dialog?</p>
 	<br>
