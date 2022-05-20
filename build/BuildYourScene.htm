@@ -166,7 +166,7 @@ p {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 999999; /* Sit on top */
-  padding-top: 30px; /* Location of the box */
+  padding-top: 1px; /* Location of the box */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -343,7 +343,7 @@ _ornaments = [_ornament1, _ornament2];
 const Cherry = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
 // ################### Cindy setup
 LAYER_TYPE = "Cindy";
-_face = new Layer("Face", 1, 9, "face", "webp", LAYER_TYPE);
+_face = new Layer("Face", 1, 10, "face", "webp", LAYER_TYPE);
 _body = new Layer("Body", 1, 18, "body", "png", LAYER_TYPE);
 _layers = [_face, _body];
 
@@ -544,6 +544,18 @@ _ornament3 = new Ornament("Hurt 3", 3, "ornaments", "webp", LAYER_TYPE, false);
 _ornaments = [_ornament1, _ornament2, _ornament3];
 
 const Seymour = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
+// ################### Silhouette Female setup
+LAYER_TYPE = "SilhouetteF";
+_body = new Layer("Body", 1, 16, "body", "png", LAYER_TYPE);
+_layers = [_body];
+
+const SilhouetteF = new Character(LAYER_TYPE, 0, _layers, [], false);
+// ################### Silhouette Male setup
+LAYER_TYPE = "SilhouetteM";
+_body = new Layer("Body", 1, 15, "body", "png", LAYER_TYPE);
+_layers = [_body];
+
+const SilhouetteM = new Character(LAYER_TYPE, 0, _layers, [], false);
 // ################### Stan setup
 LAYER_TYPE = "Stan";
 _face = new Layer("Face", 1, 11, "face", "webp", LAYER_TYPE);
@@ -600,6 +612,8 @@ function getCharByName(_name) {
 		case "Perry": _char =  Perry; break;
 		case "Robert": _char =  Robert; break;
 		case "Seymour": _char =  Seymour; break;
+		case "SilhouetteF": _char =  SilhouetteF; break;
+		case "SilhouetteM": _char =  SilhouetteM; break;
 		case "Stan": _char =  Stan; break;
 		case "Wade": _char =  Wade; break;
 		default: alert("Character \"" + _name + "\" not found!");
@@ -1211,7 +1225,7 @@ function onLoad() {
 
 <body bgcolor="BLACK" onload="onLoad()" id="body_id">
 
-<div class="version">V0.81</div>
+<div class="version">V0.82</div>
 
 <table id="main_table">
 <tbody>
@@ -1335,6 +1349,8 @@ function onLoad() {
 	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Perry" id="chk_perry"/>Perry</p>
 	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Robert" id="chk_robert"/>Robert</p>
 	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Seymour" id="chk_seymour"/>Seymour</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="SilhouetteF" id="chk_silhouettef"/>Silhouette (Female)</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="SilhouetteM" id="chk_silhouettem"/>Silhouette (Male)</p>
 	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Stan" id="chk_stan"/>Stan</p>
 	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Wade" id="chk_wade"/>Wade</p>
 	<br>
