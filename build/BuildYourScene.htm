@@ -388,7 +388,7 @@ const Gillian = new Character(LAYER_TYPE, 0, _layers, [], false);
 // ################### Holly setup
 LAYER_TYPE = "Holly";
 _face = new Layer("Face", 1, 14, "face", "webp", LAYER_TYPE);
-_body = new Layer("Body", 1, 27, "body", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 29, "body", "webp", LAYER_TYPE);
 _layers = [_face, _body];
 
 _ornament1 = new Ornament("Glasses 1", 1, "ornaments", "webp", LAYER_TYPE, false);
@@ -396,7 +396,10 @@ _ornament2 = new Ornament("Glasses 2", 2, "ornaments", "webp", LAYER_TYPE, false
 _ornament3 = new Ornament("Panties", 3, "ornaments", "webp", LAYER_TYPE, false);
 _ornament4 = new Ornament("Towel", 4, "ornaments", "webp", LAYER_TYPE, false);
 _ornament5 = new Ornament("Mouth", 5, "ornaments", "webp", LAYER_TYPE, false);
-_ornaments = [_ornament1, _ornament2, _ornament3, _ornament4, _ornament5];
+_ornament6 = new Ornament("Leg Tattoo", 6, "ornaments", "webp", LAYER_TYPE, false);
+_ornament7 = new Ornament("Arm Tattoo", 7, "ornaments", "webp", LAYER_TYPE, false);
+_ornament8 = new Ornament("Piercing", 8, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1, _ornament2, _ornament3, _ornament4, _ornament5, _ornament6, _ornament7, _ornament8];
 
 const Holly = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
 // ################### Ian setup
@@ -1225,7 +1228,7 @@ function onLoad() {
 
 <body bgcolor="BLACK" onload="onLoad()" id="body_id">
 
-<div class="version">V0.82</div>
+<div class="version">V0.83</div>
 
 <table id="main_table">
 <tbody>
