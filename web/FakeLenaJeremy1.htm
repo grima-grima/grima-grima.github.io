@@ -1,0 +1,150 @@
+<html>
+<head>
+	<title>Fake Lena and Jeremy (1)</title>
+	<link rel="stylesheet" href="./main.css">
+	<script type="text/javascript" src="./main.js"></script>
+</head>
+
+<script>
+	//page setup
+	setFolderName("FakeLenaJeremy1");
+	setLastImg(32);
+	setPOIs([3, 16, 24, 26, 30]);
+	setImagesToShake([24, 26, 27]);
+
+//setup cross ref
+addCrossRef(1, [1]);
+addCrossRef(2, [2]);
+addCrossRef(3, [3]);
+addCrossRef(4, [4]);
+addCrossRef(5, [5]);
+addCrossRef(6, [6]);
+addCrossRef(7, [7]);
+addCrossRef(8, [8]);
+addCrossRef(9, [9]);
+addCrossRef(10, [10]);
+addCrossRef(11, [11]);
+addCrossRef(12, [12]);
+addCrossRef(13, [13]);
+addCrossRef(14, [14]);
+addCrossRef(15, [15]);
+addCrossRef(16, [16]);
+addCrossRef(17, [17, 18]);
+addCrossRef(18, [19, 21, 23, 25]);
+addCrossRef(19, [20, 22]);
+addCrossRef(20, [24]);
+addCrossRef(21, [26]);
+addCrossRef(22, [27]);
+addCrossRef(23, [28]);
+addCrossRef(24, [29]);
+addCrossRef(25, [30]);
+addCrossRef(26, [31]);
+</script>
+
+<body bgcolor="BLACK" onload="onLoad()" id="body_id" onkeydown="checkKey(event)">
+<table id="main_table">
+<tbody>
+<tr>
+	<td>
+		<table id="img_table">
+		<tr>
+			<td align="center">
+				<img class="clickable" id="img_top" src="" alt="" onclick="next()"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<img class="clickable" id="img_text" src="" alt="" onclick="next()"/>
+			</td>
+		</tr>
+		</table>
+	</td>
+	<td rowspan="2">&nbsp;&nbsp;&nbsp;</td>
+	<td rowspan="2" style="vertical-align:top">
+		<table>
+		<tr>
+			<td align="center">
+				<img class="clickable" id="panic" src="./panic.gif" title="Panic!" onclick="panicOn()" onmouseover="shake()" onmouseout="noShake()"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<br>
+			</td>
+		</tr>
+		<tr>
+			<td align="center">
+				<img id="scroll" src="./scroll.png" title="Use your scroll to navigate"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<br>
+			</td>
+		</tr>
+		<tr>
+			<td id="poi_td" style="background:#4a4a4a">
+				<h3 onclick="showAllPOIs()"> Points of Interest </h3>
+				<ul>
+					<li style="display:none" id="poi_3" onclick="updImg(3, 0)">Lena naked</li>
+					<li style="display:none" id="poi_16" onclick="updImg(16, 0)">Jeremy introduces</li>
+					<li style="display:none" id="poi_24" onclick="updImg(24, 0)">Lena cums</li>
+					<li style="display:none" id="poi_26" onclick="updImg(26, 0)">Jeremy cums</li>
+					<li style="display:none" id="poi_30" onclick="updImg(30, 0)">Lena creampie</li>
+				</ul>
+			</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td align="center">
+		<table>
+		<tr>
+			<td>
+				<img class="clickable" id="homeBtn" src="./homeBtn.png" title="Home" onclick="home()" style="display:block"/>
+			</td>
+			<td>
+				&nbsp;&nbsp;
+			</td>
+			<td>
+				<img class="clickable" id="left" src="./left.png" title="Previous" onclick="previous()" style="display:block"/>
+			</td>
+			<td>
+				&nbsp;&nbsp;
+			</td>
+			<td>
+				<img class="clickable" id="right" src="./right.png" title="Next" onclick="next()" style="display:block"/>
+			</td>
+			<td>
+				&nbsp;&nbsp;
+			</td>
+			<td>
+				<img class="clickable" id="endBtn" src="./endBtn.png" title="End" onclick="end()" style="display:block"/>
+			</td>
+			<td>
+				&nbsp;&nbsp;
+			</td>
+			<td>
+				<img class="clickable" id="bookmarkSet" src="./bookmark_set.png" title="Set Bookmark" onclick="setBookmark()" style="display:block"/>
+			</td>
+			<td>
+				&nbsp;&nbsp;
+			</td>
+			<td>
+				<img class="disabled" id="bookmarkGo" src="./bookmark_go.png" title="Go to Bookmark" onclick="goToBookmark()" style="display:block"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="7">
+				<img class="clickable" id="excel" src="./excel.jpg" title="Excel" onclick="panicOff()" style="display:none"/>
+			</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>
