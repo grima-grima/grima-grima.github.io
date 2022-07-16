@@ -562,13 +562,23 @@ const SilhouetteM = new Character(LAYER_TYPE, 0, _layers, [], false);
 // ################### Stan setup
 LAYER_TYPE = "Stan";
 _face = new Layer("Face", 1, 11, "face", "webp", LAYER_TYPE);
-_body = new Layer("Body", 1, 17, "body", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 9, "body", "webp", LAYER_TYPE);
 _layers = [_face, _body];
 
 _ornament1 = new Ornament("Camera", 1, "ornaments", "webp", LAYER_TYPE, false);
 _ornaments = [_ornament1];
 
 const Stan = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
+// ################### Stan2 setup
+LAYER_TYPE = "Stan2";
+_face = new Layer("Face", 1, 12, "face", "webp", LAYER_TYPE);
+_body = new Layer("Body", 1, 8, "body", "webp", LAYER_TYPE);
+_layers = [_face, _body];
+
+_ornament1 = new Ornament("Camera", 1, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1];
+
+const Stan2 = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
 // ################### Wade setup
 LAYER_TYPE = "Wade";
 _face = new Layer("Face", 1, 7, "face", "webp", LAYER_TYPE);
@@ -618,6 +628,7 @@ function getCharByName(_name) {
 		case "SilhouetteF": _char =  SilhouetteF; break;
 		case "SilhouetteM": _char =  SilhouetteM; break;
 		case "Stan": _char =  Stan; break;
+		case "Stan2": _char =  Stan2; break;
 		case "Wade": _char =  Wade; break;
 		default: alert("Character \"" + _name + "\" not found!");
 	}
@@ -1247,7 +1258,7 @@ function onLoad() {
 
 <body bgcolor="BLACK" onload="onLoad()" id="body_id">
 
-<div class="version">V0.84</div>
+<div class="version">V0.85</div>
 
 <table id="main_table">
 <tbody>
@@ -1374,6 +1385,7 @@ function onLoad() {
 	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="SilhouetteF" id="chk_silhouettef"/>Silhouette (Female)</p>
 	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="SilhouetteM" id="chk_silhouettem"/>Silhouette (Male)</p>
 	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Stan" id="chk_stan"/>Stan</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Stan2" id="chk_stan2"/>Stan (New)</p>
 	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Wade" id="chk_wade"/>Wade</p>
 	<br>
 	<input id="cancelModalBtn" type="button" value="Cancel"/>
