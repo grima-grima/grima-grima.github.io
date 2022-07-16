@@ -1115,6 +1115,7 @@ function showDialog() {
 		_div.appendChild(divName);
 	}
 }
+
 var specialUnlockText = "CONGRATULATIONS!<br><br>" +
 		  "You have unlocked all the secret characters and this is your reward:<br>" +
 		  "** 4 new bodies for Lena**<br>" +
@@ -1220,15 +1221,33 @@ function checkChild(_obj) {
 	_obj.children[0].checked = !_obj.children[0].checked;
 }
 
+function checkChecked(chkBoxId, divId) {
+	if (document.getElementById(chkBoxId).checked) {
+		document.getElementById(divId).style.display = "block";
+	}
+}
+
+function checkUnlockLena() {
+	if (document.getElementById("chk_danny").checked &&
+		document.getElementById("chk_jess").checked &&
+		document.getElementById("chk_lola").checked) {
+		unlockLena();
+	}
+}
+
 function onLoad() {
 	updLayer(BG.layers[0]);
+	checkChecked("chk_danny", "hiddenDanny");
+	checkChecked("chk_jess", "hiddenJess");
+	checkChecked("chk_lola", "hiddenLola");
+	checkUnlockLena();
 	document.getElementById("myModal").style.display = "block";
 }
 </script>
 
 <body bgcolor="BLACK" onload="onLoad()" id="body_id">
 
-<div class="version">V0.83</div>
+<div class="version">V0.84</div>
 
 <table id="main_table">
 <tbody>
