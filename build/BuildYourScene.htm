@@ -953,7 +953,7 @@ function updOrnament(_char, _ornIdx, chkId, imgId) {
 			document.getElementById(imgId).style.display = "none";
 		}
 	}
-	if (_char.name == "Stan" && SCENE.chars.length == 2 && (SCENE.chars[0].name == "Lena" || SCENE.chars[1].name == "Lena")) {
+	if ((_char.name == "Stan" || _char.name == "Stan2") && SCENE.chars.length == 2 && (SCENE.chars[0].name == "Lena" || SCENE.chars[1].name == "Lena")) {
 		if (document.getElementById("hiddenDanny").style.display != "block") {
 			document.getElementById("hiddenDanny").style.display = "block";
 			document.getElementById("bg").style = "animation: shake 0.5s; animation-iteration-count: 1;";
