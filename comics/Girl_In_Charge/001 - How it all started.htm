@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Girl In Charge - 001 How it all started</title>
+	<link rel="stylesheet" href="./main.css">
+	<script type="text/javascript" src="./main.js"></script>
+</head>
+
+<script>
+	//page setup
+	setFolderName("001");
+	//setPOIs([9, 12, 29, 35, 39, 55, 66, 85, 96, 104]);
+	setImagesToShake(["004000-01", "016000-01"]);
+
+// #############################################################################
+// #############################################################################
+// Scenes setup - begin
+// #############################################################################
+// #############################################################################
+var txts = [];
+
+// home = SCENES[0]
+txts.push(new Text("", SPEAK, 1));
+SCENES.set("0", new Scene("0", txts));
+
+txts = [];
+txts.push(new Text("Vanessa", SPEAK, 1));
+txts.push(new Text("Victoria", SPEAK, 1));
+txts.push(new Text("Vanessa", SPEAK, 2));
+txts.push(new Text("Victoria", SPEAK, 2));
+SCENES.set("1", new Scene("1", txts));
+
+txts = [];
+txts.push(new Text("Benjamin", SPEAK, 1));
+txts.push(new Text("Vanessa", SPEAK, 2));
+SCENES.set("2", new Scene("2", txts));
+
+txts = [];
+txts.push(new Text("Vanessa", THINK, 1));
+txts.push(new Text("Vanessa", THINK, 1));
+SCENES.set("3", new Scene("3", txts));
+
+txts = [];
+txts.push(new Text("Vanessa", SPEAK, 1));
+txts.push(new Text("Noah", SPEAK, 2));
+txts.push(new Text("Vanessa", SPEAK, 2));
+txts.push(new Text("Vanessa", SPEAK, 2));
+txts.push(new Text("Noah", SPEAK, 3));
+txts.push(new Text("Vanessa", SPEAK, 3));
+txts.push(new Text("July", SPEAK, 3));
+txts.push(new Text("", SPEAK, 4));
+SCENES.set("4", new Scene("4", txts));
+
+txts = [];
+txts.push(new Text("Vanessa", THINK, 1));
+txts.push(new Text("Vanessa", THINK, 1));
+SCENES.set("5", new Scene("5", txts));
+
+txts = [];
+txts.push(new Text("Victoria", SPEAK, 1));
+txts.push(new Text("Vanessa", SPEAK, 1));
+SCENES.set("6", new Scene("6", txts));
+
+txts = [];
+txts.push(new Text("Vanessa", SPEAK, 1));
+txts.push(new Text("Benjamin", SPEAK, 1));
+SCENES.set("7", new Scene("7", txts));
+
+txts = [];
+txts.push(new Text("Vanessa", SPEAK, 1));
+txts.push(new Text("Benjamin", SPEAK, 1));
+txts.push(new Text("Vanessa", SPEAK, 2));
+txts.push(new Text("Benjamin", SPEAK, 2));
+SCENES.set("8", new Scene("8", txts));
+
+txts = [];
+txts.push(new Text("", SPEAK, 1));
+txts.push(new Text("", SPEAK, 2));
+SCENES.set("9", new Scene("9", txts));
+
+txts = [];
+txts.push(new Text("Vanessa", SPEAK, 1));
+SCENES.set("10", new Scene("10", txts));
+
+txts = [];
+txts.push(new Text("Vanessa", THINK, 1));
+txts.push(new Text("", SPEAK, 2));
+SCENES.set("11", new Scene("11", txts));
+
+txts = [];
+txts.push(new Text("Benjamin", SPEAK, 1));
+txts.push(new Text("Benjamin", SPEAK, 2));
+txts.push(new Text("Benjamin", SPEAK, 3));
+txts.push(new Text("Vanessa", THINK, 3));
+SCENES.set("12", new Scene("12", txts));
+
+txts = [];
+txts.push(new Text("Benjamin", SPEAK, 1));
+txts.push(new Text("Vanessa", SPEAK, 2));
+SCENES.set("13", new Scene("13", txts));
+
+txts = [];
+txts.push(new Text("Vanessa", SPEAK, 1));
+txts.push(new Text("Vanessa", SPEAK, 2));
+txts.push(new Text("", SPEAK, 3));
+SCENES.set("14", new Scene("14", txts));
+
+txts = [];
+txts.push(new Text("Vanessa", THINK, 1));
+txts.push(new Text("Vanessa", THINK, 2));
+txts.push(new Text("Benjamin", SPEAK, 3));
+SCENES.set("15", new Scene("15", txts));
+
+txts = [];
+txts.push(new Text("Benjamin", SPEAK, 1));
+txts.push(new Text("Vanessa", THINK, 2));
+SCENES.set("16", new Scene("16", txts));
+
+txts = [];
+txts.push(new Text("", SPEAK, 1));
+txts.push(new Text("Vanessa", SPEAK, 2));
+SCENES.set("17", new Scene("17", txts));
+
+txts = [];
+txts.push(new Text("Benjamin", SPEAK, 1));
+txts.push(new Text("Vanessa", SPEAK, 1));
+txts.push(new Text("Vanessa", SPEAK, 2));
+txts.push(new Text("Benjamin", SPEAK, 2));
+SCENES.set("18", new Scene("18", txts));
+
+txts = [];
+txts.push(new Text("Vanessa", THINK, 1));
+txts.push(new Text("Vanessa", THINK, 1));
+txts.push(new Text("Vanessa", THINK, 1));
+SCENES.set("19", new Scene("19", txts));
+
+// the last scene needs to be the "The End" scene
+txts = [];
+txts.push(new Text("", SPEAK, 1));
+SCENES.set("20", new Scene("20", txts));
+// #############################################################################
+// #############################################################################
+// Scenes setup - end
+// #############################################################################
+// #############################################################################
+// speeches (json)
+var SPEECHES = {
+	scene_0: {
+		text_1: {
+			en: "Girl In Charge - 001: How it all started <br> by <b>Grima Grima</b>",
+			pt: "Girl In Charge - 001: Como tudo come&ccedil;ou <br> by <b>Grima Grima</b>"
+		}
+	},
+	scene_1: {
+		text_1: {
+			en: "Thanks Vicky for covering the rest of my shift today. I want to prepare a surprise for Noah for our 5th anniversary today!",
+			pt: "Valeu Vicky por cobrir o resto do meu turno hoje. Eu quero preparar uma surpresa para o Noah para o nosso anivers&aacute;rio de 5 anos de namoro hoje!"
+		},
+		text_2: {
+			en: "No problem Ness, I need the extra cash anyway. Enjoy the rest of the night, dear.",
+			pt: "Sem problema Ness, eu preciso de uma grana extra mesmo. Aproveite o resto da noite, querida."
+		},
+		text_3: {
+			en: "I will. Bye Vicky, I'll tell you everything tomorrow.",
+			pt: "Eu vou. Tchau Vicky, amanh&atilde; eu te conto tudinho."
+		},
+		text_4: {
+			en: "Bye Ness, I can't wait to hear it.",
+			pt: "Tchau Ness, eu n&atilde;o vejo a hora de ouvir."
+		}
+	},
+	scene_2: {
+		text_1: {
+			en: "Hey princess, are you going home now, so early? When are you going to give me a chance? You know I'm crazy for you...",
+			pt: "Oi princesa, voc&ecirc; está indo para casa agora, t&atilde;o cedo? Quando voc&ecirc; vai me dar uma chance? Voc&ecirc; sabe que eu sou louco por voc&ecirc;..."
+		},
+		text_2: {
+			en: "Hi Benjamin, I need to go home to prepare a surprise for my boyfriend. Vicky can take care of you for the rest of the night. I have to go, bye.",
+			pt: "Oi Benjamin, eu preciso ir para casa preparar uma surpresa para o meu namorado. Vicky pode tomar conta de voc&ecirc; pelo resto da noite. Preciso ir, tchau."
+		}
+	},
+	scene_3: {
+		text_1: {
+			en: "Benjamin never gives up... he knows I have a boyfriend but is always hitting on me.",
+			pt: "O Benjamin nunca desiste... ele sabe que eu tenho um namorado mas est&aacute; sempre dando em cima de mim."
+		},
+		text_2: {
+			en: "Anyway, tonight, everything needs to be perfect, so Noah and I can celebrate our 5th anniversary...",
+			pt: "De qualquer forma, hoje a noite, tudo precisa ser perfeito para que Noah e eu possamos celebrar nosso 5º anivers&aacute;rio de namoro..."
+		}
+	},
+	scene_4: {
+		text_1: {
+			en: "Noah! What are you doing?",
+			pt: "Noah! O qu&ecirc; voc&ecirc; est&aacute; fazendo?"
+		},
+		text_2: {
+			en: "Ness? What are you doing home so early?",
+			pt: "Ness? O qu&ecirc; voc&ecirc; est&aacute; fazendo aqui em casa t&atilde;o cedo?"
+		},
+		text_3: {
+			en: "I came home early to prepare a surprise for you for our 5th anniversary... and you are here fucking July?",
+			pt: "Eu vim mais cedo preparar uma surpresa para o nosso anivers&aacute;rio de 5 anos... e voc&ecirc; est&aacute; aqui fudendo com a July?"
+		},
+		text_4: {
+			en: "It's all over between us. I don't want to see your face ever again!",
+			pt: "Est&aacute; tudo acabado entre n&oacute;s. Eu n&atilde;o quero ver a sua cara nunca mais!"
+		},
+		text_5: {
+			en: "No, Ness, let me explain, I'm just fucking July because you never let me fuck you in the ass... I don't have feelings for her...",
+			pt: "N&atilde;o, Ness, me deixa explicar, eu s&oacute; estou fudendo a July pois voc&ecirc; nunca me deixa comer o teu cu... Eu n&atilde;o sinto nada por ela..."
+		},
+		text_6: {
+			en: "I don't care why, I am out of here. And you July, I thought you were my friend...",
+			pt: "Eu n&atilde;o quero saber, vou dar o fora daqui. E voc&ecirc; July, eu pensava que voc&ecirc; fosse minha amiga..."
+		},
+		text_7: {
+			en: "Sorry Ness, it was just casual sex, he was begging to fuck my ass for months, so I just let him do it...",
+			pt: "Desculpe Ness, isso &eacute; s&oacute; sexo casual, ele estava implorando para comer minha bunda por meses, ent&atilde;o eu deixei ele..."
+		},
+		text_8: {
+			en: "",
+			pt: ""
+		}
+	},
+	scene_5: {
+		text_1: {
+			en: "So he cheated on me with my friend because I was afraid to let him fuck my ass?",
+			pt: "Ent&atilde;o ele me traiu com minha amiga porqu&ecirc; eu tinha medo de deixa ele comer o meu cu?"
+		},
+		text_2: {
+			en: "I know exactly how to pay him back...",
+			pt: "Eu sei exatamente como dar o troco para ele..."
+		}
+	},
+	scene_6: {
+		text_1: {
+			en: "What happened, Ness, why are you crying?",
+			pt: "O qu&ecirc; aconteceu, Ness, porqu&ecirc; voc&ecirc; est&aacute; chorando?"
+		},
+		text_2: {
+			en: "I just cought Noah and July fucking on Noah's appartment... But now I'm going to repay the favor... Do you know where Benjamin is?",
+			pt: "Eu acabei de pegar o Noah e a July fudendo no apartemento dele... Mas agora eu vou retribuir o favor... Voc&ecirc; sabe onde o Benjamin est&aacute;?"
+		}
+	},
+	scene_7: {
+		text_1: {
+			en: "Come with me Benjamin, today is your lucky day...",
+			pt: "Vem comigo Benjamin, hoje &eacute; seu dia de sorte..."
+		},
+		text_2: {
+			en: "Hey Ness, what is happening?",
+			pt: "Oi Ness, o que est&aacute; acontecendo?"
+		}
+	},
+	scene_8: {
+		text_1: {
+			en: "Don't say anything, just take off your clothes and fuck me right now!",
+			pt: "N&atilde;o fala nada, s&oacute; tira a roupa e me fode agora!"
+		},
+		text_2: {
+			en: "But what about your boyfriend?",
+			pt: "Mas e o seu namorado?"
+		},
+		text_3: {
+			en: "Shhhh! Don't talk, just do as I said.",
+			pt: "Shhhh! N&atilde;o fala, s&oacute; faz o que eu disse."
+		},
+		text_4: {
+			en: "Ok...",
+			pt: "Ok..."
+		}
+	},
+	scene_9: {
+		text_1: {
+			en: "",
+			pt: ""
+		},
+		text_2: {
+			en: "",
+			pt: ""
+		}
+	},
+	scene_10: {
+		text_1: {
+			en: "Now come here and fuck me...",
+			pt: "Agora vem aqui e me fode..."
+		}
+	},
+	scene_11: {
+		text_1: {
+			en: "His cock is so small... I can barely feel it...",
+			pt: "O pau dele &eacute; t&atilde;o pequeno... Mal d&aacute; para sentir..."
+		},
+		text_2: {
+			en: "",
+			pt: ""
+		}
+	},
+	scene_12: {
+		text_1: {
+			en: "Oh, Ness, you are so hot...",
+			pt: "Oh, Ness, voc&ecirc; &eacute; t&atilde;o gostosa..."
+		},
+		text_2: {
+			en: "I can't believe we are actually having sex...",
+			pt: "Eu n&atilde;o acredito que estamos transando..."
+		},
+		text_3: {
+			en: "I have imagined this so many times...",
+			pt: "Eu tinha imaginado isso v&aacute;rias vezes..."
+		},
+		text_4: {
+			en: "This is actually better than I've imagined... I'm starting to like this...",
+			pt: "Isso est&aacute; sendo melhor do que eu esperava... Estou come&ccedil;ando a gostar..."
+		}
+	},
+	scene_13: {
+		text_1: {
+			en: "I cannot hold much longer...",
+			pt: "Eu n&atilde;o consigo segurar muito mais..."
+		},
+		text_2: {
+			en: "No, you can't cum yet...",
+			pt: "N&atilde;o, voc&ecirc; n&atilde;o pode gozar ainda..."
+		}
+	},
+	scene_14: {
+		text_1: {
+			en: "I still want you to fuck my ass!",
+			pt: "Eu ainda quero que voc&ecirc; coma o meu cu!"
+		},
+		text_2: {
+			en: "But go real slow, because I could never do it before...",
+			pt: "Mas vai bem devagar, pois eu nunca fiz isso antes..."
+		},
+		text_3: {
+			en: "",
+			pt: ""
+		}
+	},
+	scene_15: {
+		text_1: {
+			en: "Ouch... Even with a small dick, this hurts...",
+			pt: "Ai... Mesmo com um pau pequeno, isso d&oacute;i..."
+		},
+		text_2: {
+			en: "Imagine if I had done it with Noah... It would hurt even more!",
+			pt: "Imagine se eu tivesse feito isso com o Noah... Ia doer ainda mais!"
+		},
+		text_3: {
+			en: "I'm gonna cum, I'm gonna cum...",
+			pt: "Eu vou gozar, eu vou gozar..."
+		}
+	},
+	scene_16: {
+		text_1: {
+			en: "Hmmmmm... Ahmmmm...",
+			pt: "Hmmmmm... Ahmmmm..."
+		},
+		text_2: {
+			en: "Even though I felt pain, I liked when he came inside... It feels different...",
+			pt: "Mesmo tendo sentido dor, eu at&eacute; que gostei quando ele gozou dentro... Senti uma coisa diferente..."
+		}
+	},
+	scene_17: {
+		text_1: {
+			en: "",
+			pt: ""
+		},
+		text_2: {
+			en: "We have to go before someone comes here. Dress up and leave.",
+			pt: "N&oacute;s temos que ir antes que algu&eacute;m venha aqui. Vista-se e saia."
+		}
+	},
+	scene_18: {
+		text_1: {
+			en: "So, do you want to have dinner tomorrow?",
+			pt: "Ent&atilde;o, voc&ecirc; quer jantar comigo amanh&atilde;?"
+		},
+		text_2: {
+			en: "Benjamin, I want you to understand one thing, this was a one time thing, it will not happen again. Ever!",
+			pt: "Benjamin, eu quero que voc&ecirc; entenda uma coisa, isso n&atilde;o vai se repetir. Nunca!"
+		},
+		text_3: {
+			en: "And if you tell anyone, I will destroy you!",
+			pt: "E se voc&ecirc; contar para algu&eacute;m, eu te destruo!"
+		},
+		text_4: {
+			en: "Ok, ok...",
+			pt: "Ok, ok..."
+		}
+	},
+	scene_19: {
+		text_1: {
+			en: "I don't know how that bitch could handle Noah's cock in her ass...",
+			pt: "Eu n&atilde;o sei como aquela puta conseguiu aguentar o pau do Noah no cu dela..."
+		},
+		text_2: {
+			en: "Even one as small as Benjamin's hurts so bad...",
+			pt: "Mesmo com um pau pequeno como o do Benjamin j&aacute; d&oacute;i bastante..."
+		},
+		text_3: {
+			en: "I know someone who might know the answer...",
+			pt: "Eu sei de algu&eacute;m que pode saber a resposta..."
+		}
+	},
+	scene_20: {
+		text_1: {
+			en: "The end",
+			pt: "Fim"
+		}
+	}
+}
+</script>
+
+<body bgcolor="BLACK" onload="onLoad()" id="body_id" onkeydown="checkKey(event)">
+
+<div id="divVersion" class="version">V0.01a</div>
+
+<table id="main_table">
+<tbody>
+<tr id="mainTR" style="display:block">
+	<td>
+		<table id="img_table">
+		<tr>
+			<td align="center">
+				<img class="clickable" id="img_top" src="" alt="" onclick="next()"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div id="divContainer" class="container">
+					<img class="clickable" id="img_text" src="./text_bg.png" alt="" onclick="next()"/>
+					<div id="divActor" class="top-left"></div>
+					<div id="divSpeech" class="centered"></div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td align="center">
+				<table>
+				<tr>
+					<td>
+						<img class="clickable" id="homeBtn" src="./homeBtn.png" title="Home" onclick="home()" style="display:block"/>
+					</td>
+					<td>
+						&nbsp;
+					</td>
+					<td>
+						<img class="clickable" id="left" src="./left.png" title="Previous" onclick="previous()" style="display:block"/>
+					</td>
+					<td>
+						&nbsp;
+					</td>
+					<td>
+						<img class="clickable" id="right" src="./right.png" title="Next" onclick="next()" style="display:block"/>
+					</td>
+					<td>
+						&nbsp;
+					</td>
+					<td>
+						<img class="clickable" id="endBtn" src="./endBtn.png" title="End" onclick="end()" style="display:block"/>
+					</td>
+					<td>
+						&nbsp;
+					</td>
+					<td>
+						<img class="clickable" id="bookmarkSet" src="./bookmark_set.png" title="Set Bookmark" onclick="setBookmark()" style="display:block"/>
+					</td>
+					<td>
+						&nbsp;
+					</td>
+					<td>
+						<img class="disabled" id="bookmarkGo" src="./bookmark_go.png" title="Go to Bookmark" onclick="goToBookmark()" style="display:block"/>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td align="left">
+				<br>
+				<!-- img src="https://counter4.stat.ovh/private/freecounterstat.php?c=be8gtcrt48gqelm5kmsfeeg8bjf1sz9t" border="0" title="website counter" alt="website counter" -->
+			</td>
+		</tr>
+		</table>
+	</td>
+	<td rowspan="2">&nbsp;</td>
+	<td rowspan="2" style="vertical-align:top">
+		<table>
+		<tr>
+			<td align="center">
+				<img class="clickable" id="panic" src="./panic2.png" title="Panic!" onclick="panicOn()" onmouseover="shake()" onmouseout="noShake()"/>
+			</td>
+		</tr>
+		<tr>
+			<td align="center">
+				<img id="scroll" src="./scroll.png" title="Use your scroll to navigate"/>
+			</td>
+		</tr>
+		<tr>
+			<td align="center">
+				<div style="width:200px;" style="vertical-align:middle">
+					<select name="selLanguage" id="selLanguage" onchange="udpateLanguage()">
+						<option value="en">English</option>
+						<option value="pt">Português</option>
+					</select>
+				</div>
+
+			</td>
+		</tr>
+		<!--tr>
+			<td id="poi_td" style="background:#4a4a4a">
+				<h3 onclick="showAllPOIs()"> Points of Interest </h3>
+				<ul>
+					<li style="display:none" id="poi_9" onclick="updImg(9, 0)">Lena naked</li>
+					<li style="display:none" id="poi_12" onclick="updImg(12, 0)">Lena fingering</li>
+				</ul>
+			</td>
+		</tr-->
+		</table>
+	</td>
+</tr>
+<tr>
+	<td align="center">
+		<img class="clickable" id="excel" src="./excel.jpg" title="Excel" onclick="panicOff()" style="display:none"/>
+	</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>

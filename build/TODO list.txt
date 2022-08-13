@@ -12,3 +12,5 @@ TO DO LIST
 6) For charachters with multiple hair colors, add a separate session for hair collor
 	- Cindy
 	- Lena
+7) Add phone call poses to chars that use phone
+
