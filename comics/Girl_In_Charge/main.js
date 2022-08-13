@@ -118,7 +118,7 @@ function showScene(_scene) {
 		_imgIdx = _scene.texts[_scene.getTextIdx()].img;
 	}
 	var _imgId = ("" + _imgIdx).padStart(2, '0');
-	document.getElementById("img_top").src = "./" + getFolderName() + "/" + _sceneId + "-" + _imgId + ".png";
+	document.getElementById("img_top").src = "./" + getFolderName() + "/" + _sceneId + "-" + _imgId + ".webp";
 
 	showText(_scene);
 
