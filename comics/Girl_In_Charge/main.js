@@ -108,7 +108,10 @@ function showAllPOIs() {
 function showText(_scene) {
 	var _txt = _scene.texts[_scene.getTextIdx()];
 	document.getElementById("divActor").innerHTML = "<b><u>" + _txt.actor + "</u></b>";
-	document.getElementById("divSpeech").innerHTML = eval("SPEECHES.scene_" + getSceneId() + ".text_" + (_scene.getTextIdx() + 1) + "." +  LANGUAGE);
+
+	let __scene = SPEECHES.scenes.find(s => s.scene === getSceneId());
+	let __take = __scene.takes.find(t => t.take === (_scene.getTextIdx() + 1));
+	document.getElementById("divSpeech").innerHTML = eval("__take." + LANGUAGE);
 }
 
 function showScene(_scene) {
@@ -258,8 +261,26 @@ function udpateLanguage() {
 	showScene(SCENES.get("" + getSceneId()));
 }
 
+function loadData() {
+	var txts = [];
+
+	for (var scn of SPEECHES.scenes) {
+		txts = [];
+		for (var take of scn.takes) {
+			txts.push(new Text(take.speaker, take.type, take.image));
+		}
+		SCENES.set("" + scn.scene, new Scene("" + scn.scene, txts));
+	}
+}
+
 function onLoad() {
+	// first we need to load the json data into JS objects
+	loadData();
+
+	// then we can display the home page
 	home();
+
+	// and we config the scroller
 	scroller();
 }
 
