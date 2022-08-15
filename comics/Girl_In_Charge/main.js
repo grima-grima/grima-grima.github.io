@@ -117,6 +117,14 @@ function getImgText(_type) {
 	}
 }
 
+function showMiniHead(actorName) {
+	if ("" == actorName) {
+		document.getElementById("img_mini").src = "";
+	} else {
+		document.getElementById("img_mini").src = "./actors/" + actorName + "-mini.webp";
+	}
+}
+
 function showText(_scene) {
 	var _txt = _scene.texts[_scene.getTextIdx()];
 	document.getElementById("divActor").innerHTML = "<b><u>" + _txt.actor + "</u></b>";
@@ -125,6 +133,8 @@ function showText(_scene) {
 	let __take = __scene.takes.find(t => t.take === (_scene.getTextIdx() + 1));
 	document.getElementById("img_text").src = "./" + getImgText(__take.type) + ".png";
 	document.getElementById("divSpeech").innerHTML = eval("__take." + LANGUAGE);
+
+	showMiniHead(_txt.actor);
 }
 
 function showScene(_scene) {

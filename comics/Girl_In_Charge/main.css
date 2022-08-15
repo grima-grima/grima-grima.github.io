@@ -5,6 +5,13 @@
   color: white;
 }
 
+/* Actor mini img */
+.actor-mini {
+  position: absolute;
+  top: -20px;
+  left: -5px;
+}
+
 /* Top left text */
 .top-left {
   position: absolute;
