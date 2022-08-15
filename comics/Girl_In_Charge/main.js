@@ -22,9 +22,9 @@ function getSceneId() {
 	return SCENE_ID;
 }
 
-const SPEAK = "speaks";
-const THINK = "thinks";
-const NARRATE = "narrates";
+const SPEAKS = "SPEAKS";
+const THINKS = "THINKS";
+const NARRATES = "NARRATES";
 
 // Text
 function Text(_actor, _action, _img) {
@@ -105,12 +105,25 @@ function showAllPOIs() {
 	}
 }
 
+function getImgText(_type) {
+	if (NARRATES == _type) {
+		return "text_narrate";
+	} else if (SPEAKS == _type) {
+		return "text_speak";
+	} else if (THINKS == _type) {
+		return "text_think";
+	} else {
+		return "text_bg";
+	}
+}
+
 function showText(_scene) {
 	var _txt = _scene.texts[_scene.getTextIdx()];
 	document.getElementById("divActor").innerHTML = "<b><u>" + _txt.actor + "</u></b>";
 
 	let __scene = SPEECHES.scenes.find(s => s.scene === getSceneId());
 	let __take = __scene.takes.find(t => t.take === (_scene.getTextIdx() + 1));
+	document.getElementById("img_text").src = "./" + getImgText(__take.type) + ".png";
 	document.getElementById("divSpeech").innerHTML = eval("__take." + LANGUAGE);
 }
 
