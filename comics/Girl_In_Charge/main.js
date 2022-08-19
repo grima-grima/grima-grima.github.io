@@ -296,6 +296,10 @@ function loadData() {
 	}
 }
 
+function openPage(url) {
+	window.open(url);
+}
+
 function onLoad() {
 	// first we need to load the json data into JS objects
 	loadData();

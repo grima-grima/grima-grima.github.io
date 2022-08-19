@@ -20,6 +20,14 @@
   font-family: Calibri, Tahoma, sans-serif;
 }
 
+/* Top right text */
+.top-right {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  font-family: Calibri, Tahoma, sans-serif;
+}
+
 /* Bottom left text */
 .bottom-left {
   position: absolute;
