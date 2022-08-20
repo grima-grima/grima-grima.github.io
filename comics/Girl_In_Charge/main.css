@@ -55,6 +55,16 @@
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
+.byGrima {
+  position: absolute;
+  top: 146px;
+  left: 330px;
+  color: #BF9E5E;
+  font-family: Calibri, Tahoma, sans-serif;
+  z-index: 900000;
+  text-shadow: -1px 0 #FCE38E, 0 1px #FCE38E, 1px 0 #FCE38E, 0 -1px #FCE38E;
+}
+
 a {
   background: white;
   padding: 1px;
