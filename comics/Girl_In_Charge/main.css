@@ -39,10 +39,11 @@
 /* Centered text */
 .centered {
   position: absolute;
-  top: 50%;
+  top: 47%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: Calibri, Tahoma, sans-serif;
+  color: #03B3FF;
 }
 
 .version {
