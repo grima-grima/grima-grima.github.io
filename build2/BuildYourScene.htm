@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Build Your Scene - A Couple's Duet</title>
+
+<style>
+.version {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: black;
+  font-family: Tahoma, sans-serif;
+  z-index: 900000;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+
+a {
+  background: lightblue;
+  padding: 1px;
+  font-family: Tahoma, sans-serif;
+  color: black;
+}
+
+.a {
+  background: black;
+  padding: 1px;
+  font-family: Tahoma, sans-serif;
+  color: white;
+}
+
+.container {
+  position: relative;   
+}
+
+.textDontDiv {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: black;
+  font-family: Arial, Tahoma, sans-serif;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+  z-index: 1001;
+}
+
+.textBoxDiv {
+  position: absolute;
+  top: 784px;
+  left: 240px;
+  color: #ffffff;
+  font-family: Arial, Tahoma, sans-serif;
+}
+
+.nameBoxDiv {
+  position: absolute;
+  top: 754px;
+  left: 223px;
+  color: darkblue;
+  font-family: Arial, Tahoma, sans-serif;
+}
+
+.overlayAbove {
+  position: absolute;   
+  left:0;
+  top: 0;
+  z-index: 1000;
+}
+
+.overlayOrnament {
+  position: absolute;   
+  left:0;
+  top: 0;
+  z-index: 110;
+}
+
+.overlayupper {
+  position: absolute;   
+  left:0;
+  top: 0;
+  z-index: 97;
+}
+
+.overlaylower {
+  position: absolute;   
+  left:0;
+  top: 0;
+  z-index: 96;
+}
+
+.overlaywardrobe {
+  position: absolute;   
+  left:0;
+  top: 0;
+  z-index: 95;
+}
+
+.overlaybody {
+  position: absolute;   
+  left:0;
+  top: 0;
+  z-index: 90;
+}
+
+.overlaysweat {
+  position: absolute;   
+  left:0;
+  top: 0;
+  z-index: 91;
+}
+
+.overlayface {
+  position: absolute;   
+  left:0;
+  top: 0;
+  z-index: 92;
+}
+
+img.disabled {
+  opacity: 0.5;
+}
+
+img.clickable {
+  cursor: pointer;
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -1px) rotate(0deg); }
+  20% { transform: translate(1px, 1px) rotate(0deg); }
+  30% { transform: translate(-1px, -1px) rotate(0deg); }
+  40% { transform: translate(1px, 1px) rotate(0deg); }
+  50% { transform: translate(-1px, -1px) rotate(0deg); }
+  60% { transform: translate(1px, 1px) rotate(0deg); }
+  70% { transform: translate(-1px, -1px) rotate(0deg); }
+  80% { transform: translate(1px, 1px) rotate(0deg); }
+  90% { transform: translate(-1px, -1px) rotate(0deg); }
+  100% { transform: translate(1px, 1px) rotate(0deg); }
+}
+
+table, th, td {
+  border: 0px solid black;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+}
+
+p {
+  background: #333333;
+  color: #ffffff;
+  margin: 1px;
+  font-family: Tahoma, sans-serif;
+}
+
+.p1 {
+  background: #4f4f4f;
+  color: #ffffff;
+  margin: 0px;
+  font-family: Tahoma, sans-serif;
+}
+
+/* #################################################### */
+/* ###################### Modal ####################### */
+/* #################################################### */
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 999999; /* Sit on top */
+  padding-top: 1px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.65); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+}
+
+/* The Close Button */
+.close, .closeDialog, .closeAlert {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover, .close:focus, .closeDialog:hover, .closeDialog.focus, .closeAlert:hover, .closeAlert.focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+input[type=text] {
+  border: none;
+  border-bottom: 2px solid black;
+}
+
+input[type=text]:focus {
+  background-color: lightgray;
+}
+</style>
+</head>
+
+<script>
+const REGULAR_TITLE = document.title;
+const PANIC_TITLE = "Excel";
+var IS_PANIC_ON = false;
+var PREVIOUS_SELECTED_CHAR = null;
+var SELECTED_CHAR = null;
+var ERROR_IMG_ID = "";
+var CHAIN_ALERT_MODAL_TEXT = "";
+
+function Layer(_name, _index, _last, _folder, _extension, _type) {
+	this.name = _name;
+	this.index = _index;
+	this.last = _last;
+	this.folder = _folder;
+	this.extension = _extension;
+	this.type = _type;
+}
+
+function Ornament(_name, _id, _folder, _extension, _type, _isChecked) {
+	this.name = _name;
+	this.id = _id;
+	this.folder = _folder;
+	this.extension = _extension;
+	this.type = _type;
+	this.isChecked = _isChecked;
+}
+
+function Character(_name, _xPos, _layers, _ornaments, _isFlipped) {
+	this.name = _name;
+	this.xPos = _xPos;
+	this.layers = _layers;
+	this.ornaments = _ornaments;
+	this.isFlipped = _isFlipped;
+}
+
+function Scene(_chars, _speaker, _text) {
+	this.chars = _chars;
+	this.speaker = _speaker;
+	this.text = _text;
+}
+
+// ###############################################################
+// ############################################## CHARACTERS SETUP
+// ###############################################################
+const bgLayer = new Layer("BG", 1, 34, "bg", "jpg", "BG");
+const bgLayers = [bgLayer];
+const BG = new Character("BG", 0, bgLayers, null, false);
+let BG_WIDTH = 0;
+// ################### Nat setup
+let LAYER_TYPE = "Nat";
+let _body = new Layer("Expression", 1, 30, "body", "png", LAYER_TYPE);
+let _sweat = new Layer("Sweat", 1, 3, "sweat", "png", LAYER_TYPE);
+let _face = new Layer("Hair", 1, 6, "face", "png", LAYER_TYPE);
+let _wardrobe = new Layer("Clothes", 1, 28, "wardrobe", "png", LAYER_TYPE);
+let _layers = [_body, _sweat, _face, _wardrobe];
+
+let _ornament1 = new Ornament("Blush", 1, "ornaments", "png", LAYER_TYPE, false);
+let _ornament2 = new Ornament("Tears", 2, "ornaments", "png", LAYER_TYPE, false);
+let _ornament3 = new Ornament("Hand Bag", 3, "ornaments", "png", LAYER_TYPE, false);
+let _ornament4 = new Ornament("Gym Top Up", 4, "ornaments", "png", LAYER_TYPE, false);
+let _ornament5 = new Ornament("Towel", 5, "ornaments", "png", LAYER_TYPE, false);
+let _ornament6 = null;
+let _ornament7 = null;
+let _ornament8 = null;
+let _ornament9 = null;
+let _ornament10 = null;
+let _ornaments = [_ornament1, _ornament2, _ornament3, _ornament4, _ornament5];
+
+const Nat = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
+// ################### Darrel setup
+LAYER_TYPE = "Darrel";
+_body = new Layer("Expression", 1, 7, "body", "png", LAYER_TYPE);
+_wardrobe = new Layer("Wardrobe", 1, 3, "wardrobe", "png", LAYER_TYPE);
+_layers = [_body, _wardrobe];
+
+const Darrel = new Character(LAYER_TYPE, 0, _layers, [], false);
+// ################### DarrelHD setup
+LAYER_TYPE = "DarrelHD";
+_body = new Layer("Expression", 1, 3, "body", "png", LAYER_TYPE);
+_face = new Layer("Genitals", 1, 3, "face", "png", LAYER_TYPE);
+_wardrobe = new Layer("Wardrobe", 1, 5, "wardrobe", "png", LAYER_TYPE);
+_layers = [_body, _face, _wardrobe];
+
+const DarrelHD = new Character(LAYER_TYPE, 0, _layers, [], false);
+// ################### Ethan setup
+LAYER_TYPE = "Ethan";
+_body = new Layer("Expression", 1, 16, "body", "png", LAYER_TYPE);
+_sweat = new Layer("Genitals", 1, 3, "sweat", "png", LAYER_TYPE);
+_face = new Layer("Hair", 1, 1, "face", "png", LAYER_TYPE);
+_wardrobe = new Layer("Wardrobe", 1, 13, "wardrobe", "png", LAYER_TYPE);
+_layers = [_body, _sweat, _face, _wardrobe];
+
+const Ethan = new Character(LAYER_TYPE, 0, _layers, [], false);
+// ################### Jenna setup
+LAYER_TYPE = "Jenna";
+_body = new Layer("Expression", 1, 8, "body", "png", LAYER_TYPE);
+_face = new Layer("Hair", 1, 3, "face", "png", LAYER_TYPE);
+_wardrobe = new Layer("Wardrobe", 1, 5, "wardrobe", "png", LAYER_TYPE);
+_layers = [_body, _face, _wardrobe];
+
+const Jenna = new Character(LAYER_TYPE, 0, _layers, [], false);
+// ################### Peter setup
+LAYER_TYPE = "Peter";
+_body = new Layer("Expression", 1, 9, "body", "png", LAYER_TYPE);
+_sweat = new Layer("Genitals", 1, 3, "sweat", "png", LAYER_TYPE);
+_wardrobe = new Layer("Wardrobe", 1, 5, "wardrobe", "png", LAYER_TYPE);
+_layers = [_body, _sweat, _wardrobe];
+
+const Peter = new Character(LAYER_TYPE, 0, _layers, [], false);
+// ################### Riya setup
+LAYER_TYPE = "Riya";
+_body = new Layer("Expression", 1, 3, "body", "png", LAYER_TYPE);
+_face = new Layer("Hair", 1, 1, "face", "png", LAYER_TYPE);
+_wardrobe = new Layer("Wardrobe", 1, 3, "wardrobe", "png", LAYER_TYPE);
+_layers = [_body, _face, _wardrobe];
+
+const Riya = new Character(LAYER_TYPE, 0, _layers, [], false);
+// ################### Sam setup
+LAYER_TYPE = "Sam";
+_body = new Layer("Expression", 1, 4, "body", "png", LAYER_TYPE);
+_wardrobe = new Layer("Wardrobe", 1, 2, "wardrobe", "png", LAYER_TYPE);
+_layers = [_body, _wardrobe];
+
+const Sam = new Character(LAYER_TYPE, 0, _layers, [], false);
+// ###############################################################
+// ###############################################################
+// ###############################################################
+
+// ###############################################################
+// ################################################### SCENE SETUP
+// ###############################################################
+const SCENE = new Scene([], "", "");
+
+function getCharByName(_name) {
+	var _char = null;
+	switch (_name) {
+		case "Darrel": _char =  Darrel; break;
+		case "DarrelHD": _char =  DarrelHD; break;
+		case "Ethan": _char =  Ethan; break;
+		case "Jenna": _char =  Jenna; break;
+		case "Nat": _char =  Nat; break;
+		case "Peter": _char =  Peter; break;
+		case "Riya": _char =  Riya; break;
+		case "Sam": _char =  Sam; break;
+		default: alert("Character \"" + _name + "\" not found!");
+	}
+	return _char;
+}
+
+// #######################################################
+// general functions
+// #######################################################
+function removePreviousSelectedCharTRs(_tr) {
+	while (typeof(document.getElementById(_tr)) != 'undefined' && document.getElementById(_tr) != null) {
+		document.getElementById(_tr).parentNode.removeChild(document.getElementById(_tr));
+	}
+}
+
+function addTRsLayers(charName, layerName, idx) {
+	var trId = charName + "_tr";
+	var tmpTr = document.createElement("tr");
+	tmpTr.id = trId;
+	tmpTr.classList.add("charImg");
+	tmpTr.innerHTML = "<td colspan=\"3\" align=\"center\" style=\"background:#4a4a4a\"><p class=\"p1\">" + layerName + "</p></td>";
+	var _tbl = document.getElementById("charActionsTable");
+	_tbl.appendChild(tmpTr);
+
+	var tmpTr2 = document.createElement("tr");
+	tmpTr2.id = trId;
+	tmpTr2.classList.add("charImg");
+	tmpTr2.innerHTML = "<td align=\"right\"><img class=\"clickable\" width=\"95\" height=\"24\" id=\"left\" src=\"./left.png\" title=\"Previous\" onclick=\"previous(" + charName + ", " + idx + ")\"/></td>" +
+						"<td>&nbsp;</td>" +
+						"<td><img class=\"clickable\" width=\"95\" height=\"24\" id=\"right\" src=\"./left.png\" title=\"Next\" onclick=\"next(" + charName + ", " + idx + ")\" " +
+							"style=\"transform: scaleX(-1); -webkit-transform: scaleX(-1);\"/></td>";
+	_tbl = document.getElementById("charActionsTable");
+	_tbl.appendChild(tmpTr2);
+}
+
+function addTRsOrns(_char, ornName, idx) {
+	var checkedStr = "";
+	if (_char.ornaments[idx].isChecked) {
+		checkedStr = "checked";
+	}
+	var tmpId = "chk_" + _char.name.toLowerCase() + "_" + idx + "_orn";
+	var tmpP = document.createElement("p");
+	tmpP.innerHTML = "<input id=\"" + tmpId + "\" type=\"checkbox\" " + checkedStr + " onclick=\"updOrnament(" + _char.name + ", " + idx + ", '" + tmpId + "', '" + _char.name + ornName + "_orn_img')\"/>" + ornName;
+	var _td = document.getElementById("ornamentsTD");
+	_td.appendChild(tmpP);
+}
+
+function addTRsOrnHeader(charName) {
+	var trId = charName + "_tr";
+	var tmpTr = document.createElement("tr");
+	tmpTr.id = trId;
+	tmpTr.classList.add("charImg");
+	tmpTr.innerHTML = "<td colspan=\"3\" align=\"center\" style=\"background:#4a4a4a\"><p class=\"p1\">Ornaments</p></td>";
+	var _tbl = document.getElementById("charActionsTable");
+	_tbl.appendChild(tmpTr);
+
+	var tmpTr2 = document.createElement("tr");
+	tmpTr2.id = trId;
+	tmpTr2.classList.add("charImg");
+	tmpTr2.innerHTML = "<td id=\"ornamentsTD\" colspan=\"3\"></td>";
+	_tbl = document.getElementById("charActionsTable");
+	_tbl.appendChild(tmpTr2);
+}
+
+function udpateSelectedChar() {
+	var selChars = document.getElementById("selCharacters");
+	SELECTED_CHAR = getCharByName(selChars.options[selChars.selectedIndex].value);
+	if (PREVIOUS_SELECTED_CHAR != null) {
+		removePreviousSelectedCharTRs(PREVIOUS_SELECTED_CHAR.name + "_tr");
+	}
+	PREVIOUS_SELECTED_CHAR = SELECTED_CHAR;
+	for (var i = 0; i < SELECTED_CHAR.layers.length; i++) {
+		addTRsLayers(SELECTED_CHAR.name, SELECTED_CHAR.layers[i].name, i);
+	}
+	if (SELECTED_CHAR.ornaments != null && SELECTED_CHAR.ornaments.length > 0) {
+		addTRsOrnHeader(SELECTED_CHAR.name);
+		for (var i = 0; i < SELECTED_CHAR.ornaments.length; i++) {
+			addTRsOrns(SELECTED_CHAR, SELECTED_CHAR.ornaments[i].name, i);
+		}
+	}
+}
+
+function updLayer(layer) {
+	if ("BG" == layer.type) {
+		document.getElementById(layer.folder).src = "./" + layer.folder + "/" + layer.index + "." + layer.extension;
+		document.getElementById(layer.folder).onload = function() {
+			BG_WIDTH = this.clientWidth;
+		}
+	} else {
+		document.getElementById(layer.type + layer.name + "_layer_img").src = "./" + layer.type + "/" + layer.folder + "/" + layer.index + "." + layer.extension;
+	}
+}
+
+function updScene(_scene) {
+	if (_scene.chars != null && _scene.chars.length > 0) {
+		for (var i = 0; i < _scene.chars.length; i++) {
+			var _char = _scene.chars[i];
+			var _layers = _char.layers;
+			for (var j = 0; j < _layers.length; j++) {
+				var imgName = _char.name + _layers[j].name + "_layer_img";
+				var imgLayer = document.getElementById(imgName);
+				if(typeof(imgLayer) == 'undefined' || imgLayer == null){
+					var tmpImg = document.createElement("img");
+					tmpImg.src = "./" + _layers[j].type + "/" + _layers[j].folder + "/" + _layers[j].index + "." + _layers[j].extension;
+					tmpImg.height = "900";
+					tmpImg.classList.add("overlay" + _layers[j].folder);
+					tmpImg.classList.add("charImg");
+					tmpImg.id = imgName;
+					tmpImg.style.left = _char.xPos + "px";
+					//tmpImg.style.top = "50px";
+					var _div = document.getElementById("container");
+					_div.appendChild(tmpImg);
+				}
+
+				if (SELECTED_CHAR != null && SELECTED_CHAR.name == _char.name) {
+					addTRsLayers(SELECTED_CHAR.name, _layers[j].name, j);
+				}
+			}
+			var _orns = _char.ornaments;
+			if (_orns != null && _orns.length > 0) {
+				if (SELECTED_CHAR != null && SELECTED_CHAR.name == _char.name) {
+					addTRsOrnHeader(_char.name);
+				}
+				if (_char.name != "Bouncer") {
+					for (var k = 0; k < _orns.length; k++) {
+						var imgName = _char.name + _orns[k].name + "_orn_img";
+						var imgOrn = document.getElementById(imgName);
+						if (typeof(imgOrn) == 'undefined' || imgOrn == null) {
+							var tmpImg = document.createElement("img");
+							tmpImg.src = "./" + _orns[k].type + "/" + _orns[k].folder + "/" + _orns[k].id + "." + _orns[k].extension;
+							tmpImg.height = "900";
+							tmpImg.classList.add("overlayOrnament");
+							tmpImg.classList.add("charImg");
+							tmpImg.id = imgName;
+							tmpImg.style.left = _char.xPos + "px";
+							if (_orns[k].isChecked) {
+								tmpImg.style.display = "block";
+							} else {
+								tmpImg.style.display = "none";
+							}
+							var _div = document.getElementById("container");
+							_div.appendChild(tmpImg);
+						}
+						if (SELECTED_CHAR != null && SELECTED_CHAR.name == _char.name) {
+							addTRsOrns(_char, _orns[k].name, k);
+						}
+					}
+				}
+			}
+			showChar(_char);
+		}
+	}
+}
+
+function showChar(_char) {
+	if (_char.isFlipped) {
+		for (var i = 0; i < _char.layers.length; i++) {
+			if (typeof(document.getElementById(_char.name + _char.layers[i].name + "_layer_img")) != 'undefined' && document.getElementById(_char.name + _char.layers[i].name + "_layer_img") != null) {
+				document.getElementById(_char.name + _char.layers[i].name + "_layer_img").style.transform = "scaleX(-1)";
+			}
+		}
+		for (var i = 0; i < _char.ornaments.length; i++) {
+			if (typeof(document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img")) != 'undefined' && document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img") != null) {
+				document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img").style.transform = "scaleX(-1)";
+			}
+		}
+	} else {
+		for (var i = 0; i < _char.layers.length; i++) {
+			if (typeof(document.getElementById(_char.name + _char.layers[i].name + "_layer_img")) != 'undefined' && document.getElementById(_char.name + _char.layers[i].name + "_layer_img") != null) {
+				document.getElementById(_char.name + _char.layers[i].name + "_layer_img").style.transform = "scaleX(1)";
+			}
+		}
+		for (var i = 0; i < _char.ornaments.length; i++) {
+			if (typeof(document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img")) != 'undefined' && document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img") != null) {
+				document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img").style.transform = "scaleX(1)";
+			}
+		}
+	}
+}
+
+function flip(_char) {
+	if (_char != null) {
+		_char.isFlipped = !_char.isFlipped;
+		showChar(_char);
+	}
+}
+
+function moveChar(_char) {
+	for (var i = 0; i < _char.layers.length; i++) {
+		document.getElementById(_char.name + _char.layers[i].name + "_layer_img").style.left = _char.xPos + "px";
+	}
+	for (var i = 0; i < _char.ornaments.length; i++) {
+		if (typeof(document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img")) != 'undefined' && document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img") != null) {
+			document.getElementById(_char.name + _char.ornaments[i].name + "_orn_img").style.left = _char.xPos + "px";
+		}
+	}
+}
+
+function moveLeft(_char) {
+	if (_char != null) {
+		if ((_char.xPos - 50) < -100) {
+			_char.xPos = -100;
+		} else {
+			_char.xPos -= 50;
+		}
+		moveChar(_char);
+	}
+}
+
+function moveRight(_char) {
+	if (_char != null) {
+		if ((_char.xPos + 50) > 1050) {
+			_char.xPos = 1050;
+		} else {
+			_char.xPos += 50;
+		}
+		moveChar(_char);
+	}
+}
+
+function next(_char, layerIdx) {
+	if ((_char.layers[layerIdx].index + 1) > _char.layers[layerIdx].last) {
+		_char.layers[layerIdx].index = 1;
+	} else {
+		_char.layers[layerIdx].index = _char.layers[layerIdx].index + 1;
+	}
+	updLayer(_char.layers[layerIdx]);
+}
+
+function previous(_char, layerIdx) {
+	if ((_char.layers[layerIdx].index - 1) < 1) {
+		_char.layers[layerIdx].index = _char.layers[layerIdx].last;
+	} else {
+		_char.layers[layerIdx].index = _char.layers[layerIdx].index - 1;
+	}
+	updLayer(_char.layers[layerIdx]);
+}
+
+function panicOn() {
+	IS_PANIC_ON = true;
+	document.getElementById("mainTR").style.display = "none";
+	document.getElementById("excel").style.display = "block";
+	document.title = PANIC_TITLE;
+}
+
+function panicOff() {
+	IS_PANIC_ON = false;
+	document.getElementById("mainTR").style.display = "block";
+	document.getElementById("excel").style.display = "none";
+	document.title = REGULAR_TITLE;
+}
+
+function shake() {
+	document.getElementById("panic").style = "animation: shake 0.5s; animation-iteration-count: infinite;";
+}
+
+function noShake() {
+	document.getElementById("panic").style = "";
+}
+
+function about() {
+	modalAlert("This is a fan-made site using the images created by King B for the game 'A Couple's Duet'.");
+}
+
+function removeDont() {
+	removeElement("DontImg");
+	removeElement("textDontDiv");
+}
+
+function removeErrorImg() {
+	var tmpImg = document.createElement("img");
+	tmpImg.src = "./Ian/ornaments/dont.webp";
+	tmpImg.height = "900";
+	tmpImg.classList.add("overlayAbove");
+	tmpImg.id = "DontImg";
+	var _div = document.getElementById("container");
+	_div.appendChild(tmpImg);
+	document.getElementById(ERROR_IMG_ID).style.display = "none";
+
+	var divTxt = document.createElement("div");
+	divTxt.id = "textDontDiv";
+	divTxt.classList.add("textDontDiv");
+	divTxt.innerHTML = "<center><h1>No drugs for you!<br><br>Drugs are bad!<br><br>Don't do drugs!</h1></center>";
+	_div.appendChild(divTxt);
+
+	window.setTimeout(removeDont, 4000);
+}
+
+function updOrnament(_char, _ornIdx, chkId, imgId) {
+	_char.ornaments[_ornIdx].isChecked = document.getElementById(chkId).checked;
+	if (document.getElementById(chkId).checked) {
+		if (_char.name == "Ian" && _ornIdx == 4) {
+			if (ERROR_IMG_ID == "") {
+				document.getElementById(imgId).style.left = 0;
+				ERROR_IMG_ID = imgId;
+				document.getElementById(imgId).style.display = "block";
+				document.getElementById(imgId).style.transform = "scaleX(1)";
+				window.setTimeout(removeErrorImg, 2500);
+			}
+			_char.ornaments[_ornIdx].isChecked = false;
+			document.getElementById(chkId).checked = false;
+		} else {
+			document.getElementById(imgId).style.display = "block";
+		}
+	} else {
+		document.getElementById(imgId).style.display = "none";
+	}
+	if ((_char.name == "Stan" || _char.name == "Stan2") && SCENE.chars.length == 2 && (SCENE.chars[0].name == "Lena" || SCENE.chars[1].name == "Lena")) {
+		if (document.getElementById("hiddenDanny").style.display != "block") {
+			document.getElementById("hiddenDanny").style.display = "block";
+			document.getElementById("bg").style = "animation: shake 0.5s; animation-iteration-count: 1;";
+			window.setTimeout(removeBgStyleDanny, 500);
+		}
+	}
+}
+
+function countSelectedCharsModal() {
+	var chkCharSels = document.getElementsByClassName("chkCharSelection");
+	var _count = 0;
+	for (var i = 0; i < chkCharSels.length; i++) {
+		if (chkCharSels[i].checked) {
+			_count++;
+		}
+	}
+	return _count;
+}
+
+function addOptionToCombo(_name) {
+	var _combo = document.getElementById("selCharacters");
+	var option = document.createElement("OPTION");
+	option.value = _name;
+	option.innerHTML = _name;
+	option.classList.add("charImg");
+	if (SELECTED_CHAR != null && SELECTED_CHAR.name == _name) {
+		option.selected = true;
+	}
+	_combo.options.add(option);
+}
+
+function addSelectedCharsToScene() {
+	var chkCharSels = document.getElementsByClassName("chkCharSelection");
+	var _match = false;
+	for (var i = 0; i < chkCharSels.length; i++) {
+		if (chkCharSels[i].checked) {
+			var tmpChar = getCharByName(chkCharSels[i].value);
+			if (tmpChar != null) {
+				SCENE.chars.push(tmpChar);
+				addOptionToCombo(tmpChar.name);
+				if (SELECTED_CHAR != null && SELECTED_CHAR.name == tmpChar.name) {
+					_match = true;
+				}
+			}
+		}
+	}
+	if (!_match) {
+		var _combo = document.getElementById("selCharacters");
+		if (_combo.options.length > 0) {
+			_combo.selectedIndex = 0;
+		}
+	}
+}
+
+function removeAllCharsImgs() {
+	while (document.getElementsByClassName("charImg").length > 0) {
+		document.getElementsByClassName("charImg")[0].parentNode.removeChild(document.getElementsByClassName("charImg")[0]);
+	}
+}
+
+function btnConfirmModal() {
+	var tmpCount = countSelectedCharsModal();
+	if (tmpCount > 5) {
+		alert("Cannot select more than 5 characters.");
+	} else {
+		SCENE.chars = [];
+		removeAllCharsImgs();
+		addSelectedCharsToScene();
+		document.getElementById("myModal").style.display = "none";
+		updScene(SCENE);
+		if (tmpCount > 0) {
+			udpateSelectedChar();
+		}
+	}
+}
+
+function btnClearDialog() {
+	document.getElementById("txtSpeaker").value = "";
+	document.getElementById("txtDialog").value = "";
+}
+
+function removeElement(_id) {
+	var _element = document.getElementById(_id);
+	if (typeof(_element) != 'undefined' && _element != null) {
+		_element.parentNode.removeChild(_element);
+	}
+}
+
+function removeDialog() {
+	removeElement("txtBoxImg");
+	removeElement("textBoxDiv");
+	removeElement("nameTagImg");
+	removeElement("nameBoxDiv");
+}
+
+function showDialog() {
+	var _zIndex = 200;
+	var txtBoxImg = document.createElement("img");
+	txtBoxImg.src = "./textbox.png";
+	txtBoxImg.id = "txtBoxImg";
+	txtBoxImg.width = BG_WIDTH;
+	txtBoxImg.style.left = "0px";
+	txtBoxImg.style.zIndex = _zIndex;
+	txtBoxImg.style.position = "absolute";
+	txtBoxImg.onload = function() {
+		this.style.top = (900 - this.clientHeight + 1) + "px";
+	}
+	var _div = document.getElementById("container");
+	_div.appendChild(txtBoxImg);
+
+	if (SCENE.text != "") {
+		var divTxt = document.createElement("div");
+		divTxt.id = "textBoxDiv";
+		divTxt.classList.add("textBoxDiv");
+		divTxt.style.zIndex = _zIndex + 1;
+		if (SCENE.speaker != "") {
+			divTxt.innerHTML = "<i>" + SCENE.text + "</i>";
+		} else {
+			divTxt.innerHTML = SCENE.text;
+		}
+		_div.appendChild(divTxt);
+	}
+
+	if (SCENE.speaker != "") {
+		var nameTag = document.createElement("img");
+		nameTag.src = "./namebox.png";
+		nameTag.id = "nameTagImg";
+		nameTag.height = 30;
+		nameTag.style.top = "750px";
+		nameTag.style.left = "220px";
+		nameTag.style.zIndex = _zIndex + 1;
+		nameTag.style.position = "absolute";
+		_div.appendChild(nameTag);
+
+		var divName = document.createElement("div");
+		divName.id = "nameBoxDiv";
+		divName.classList.add("nameBoxDiv");
+		divName.style.zIndex = _zIndex + 2;
+		divName.innerHTML = SCENE.speaker;
+		_div.appendChild(divName);
+	}
+}
+
+function modalAlert(_txt) {
+	document.getElementById("alertTextId").innerHTML = _txt;
+	alertModal.style.display = "block";
+}
+
+function removeBgStyle(_name) {
+	document.getElementById("bg").style = "";
+	var idx = UNLOCKABLES.indexOf(_name);
+	if (idx > -1) {
+	  UNLOCKABLES.splice(idx, 1);
+	}
+
+	if (UNLOCKABLES.length == 0) {
+		unlockLena();
+		CHAIN_ALERT_MODAL_TEXT = specialUnlockText;
+	}
+	modalAlert("New character unlocked: " + _name);
+}
+
+function removeBgStyleLola() {
+	removeBgStyle("Lola");
+}
+
+function removeBgStyleJess() {
+	removeBgStyle("Jess");
+}
+
+function removeBgStyleDanny() {
+	removeBgStyle("Danny");
+}
+
+function btnConfirmDialogModal() {
+	removeDialog();
+	SCENE.speaker = document.getElementById("txtSpeaker").value;
+	SCENE.text = document.getElementById("txtDialog").value;
+	if (document.getElementById("chkShowDialog").checked) {
+		showDialog();
+	}
+	document.getElementById("myDialogModal").style.display = "none";
+	if (SCENE.speaker == "Lola" || SCENE.speaker.toLowerCase() == "cat") {
+		if (document.getElementById("hiddenLola").style.display != "block") {
+			document.getElementById("hiddenLola").style.display = "block";
+			document.getElementById("bg").style = "animation: shake 0.5s; animation-iteration-count: 1;";
+			window.setTimeout(removeBgStyleLola, 500);
+		}
+	}
+	if (SCENE.speaker == "Jess" || SCENE.speaker.toLowerCase() == "gggb") {
+		if (document.getElementById("hiddenJess").style.display != "block") {
+			document.getElementById("hiddenJess").style.display = "block";
+			document.getElementById("bg").style = "animation: shake 0.5s; animation-iteration-count: 1;";
+			window.setTimeout(removeBgStyleJess, 500);
+		}
+	}
+}
+
+function checkChild(_obj) {
+	_obj.children[0].checked = !_obj.children[0].checked;
+}
+
+function checkChecked(chkBoxId, divId) {
+	if (document.getElementById(chkBoxId).checked) {
+		document.getElementById(divId).style.display = "block";
+	}
+}
+
+function checkUnlockLena() {
+	if (document.getElementById("chk_danny").checked &&
+		document.getElementById("chk_jess").checked &&
+		document.getElementById("chk_lola").checked) {
+		unlockLena();
+	}
+}
+
+function onLoad() {
+	updLayer(BG.layers[0]);
+	document.getElementById("myModal").style.display = "block";
+}
+</script>
+
+<body bgcolor="BLACK" onload="onLoad()" id="body_id">
+
+<div class="version">V1.00</div>
+
+<table id="main_table">
+<tbody>
+<tr id="mainTR" style="display:block">
+	<td style="vertical-align:top">
+		<table id="img_table">
+		<tr>
+			<td id="container" class="container">
+				<img id="bg" height="900" src="" alt=""/>
+				<br>
+				<span class="a">If you enjoyed this mini game, feel free to support my work :) --></span>
+				&nbsp; <a href="https://www.buymeacoffee.com/grimagrima" onclick="unlockAllChars()" target="_blank">https://www.buymeacoffee.com/grimagrima</a>
+				<br>
+				<!--img src="https://counter4.stat.ovh/private/freecounterstat.php?c=9frbg52w5cm7rlx4qmwf4x1931szrykh" border="0" title="website counter" alt="website counter" -->
+			</td>
+		</tr>
+		</table>
+	</td>
+	<td style="vertical-align:top">
+		<table id="charActionsTable" style="vertical-align:top">
+		<tr>
+			<td colspan="3" align="left">
+				<img class="clickable" id="about" height="40" width="40" src="./about.png" title="About" onclick="about()" style="vertical-align:top"/>
+				&nbsp;
+				<img class="clickable" id="panic" height="60" src="./panic2.png" title="Panic!" onclick="panicOn()" onmouseover="shake()" onmouseout="noShake()"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="background:#4a4a4a"><p class="p1"> Background </p></td>
+		</tr>
+		<tr>
+			<td align="right">
+				<img class="clickable" width="95" height="24" id="left" src="./left.png" title="Previous" onclick="previous(BG, 0)"/>
+			</td>
+			<td>&nbsp;</td>
+			<td>
+				<img class="clickable" width="95" height="24" id="right" src="./left.png" title="Next" onclick="next(BG, 0)" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="background:#4a4a4a"><p class="p1"> Dialog </p></td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center">
+				<img class="clickable" height="35" id="openDialogModalBtn" src="./dialog.png" title="Dialog"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="background:#4a4a4a"><p class="p1"> Characters </p></td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="vertical-align:middle">
+				<div style="width:200px;" style="vertical-align:middle">
+					<select name="selCharacters" id="selCharacters" onchange="udpateSelectedChar()">
+					</select>
+					<img class="clickable" width="19" height="19" id="openModalBtn" src="./gear.png" title="Add/Remove Chars"/>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="background:#4a4a4a"><p class="p1"> Flip Character </p></td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center">
+				<img class="clickable" width="100" height="30" id="flip" src="./flip.webp" title="Flip" onclick="flip(SELECTED_CHAR)"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center" style="background:#4a4a4a"><p class="p1"> Move Character </p></td>
+		</tr>
+		<tr>
+			<td align="right">
+				<img class="clickable" width="95" height="24" id="left" src="./left.png" title="Previous" onclick="moveLeft(SELECTED_CHAR)"/>
+			</td>
+			<td>&nbsp;</td>
+			<td>
+				<img class="clickable" width="95" height="24" id="right" src="./left.png" title="Next" onclick="moveRight(SELECTED_CHAR)" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"/>
+			</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+		<img class="clickable" id="excel" src="./excel.jpg" title="Excel" onclick="panicOff()" style="display:none"/>
+	</td>
+</tr>
+</tbody>
+</table>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+	<br>
+    <p>Select up to 5 characters for the scene and click "Confirm":</p>
+	<br>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Darrel" id="chk_darrel"/>Darrel</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="DarrelHD" id="chk_darrelhd"/>Darrel HD</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Ethan" id="chk_ethan"/>Ethan</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Jenna" id="chk_jenna"/>Jenna</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Nat" id="chk_nat"/>Nat</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Peter" id="chk_peter"/>Peter</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Riya" id="chk_riya"/>Riya</p>
+	<p onclick="checkChild(this)"><input class="chkCharSelection" type="checkbox" onclick="this.checked = !this.checked" value="Sam" id="chk_sam"/>Sam</p>
+	<br>
+	<input id="cancelModalBtn" type="button" value="Cancel"/>
+	&nbsp;
+	<input type="button" value="Confirm" onclick="btnConfirmModal()"/>
+  </div>
+
+</div>
+
+<!-- The Dialog Modal -->
+<div id="myDialogModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="closeDialog">&times;</span>
+	<br>
+    <p>Dialog:</p>
+	<br>
+	<p>Speaker</p>
+	<input class="txtSpeaker" type="text" value="" id="txtSpeaker" size="8" maxlength="8" placeholder="Speaker"/>
+	<br><br>
+	<p>Text</p>
+	<input class="txtDialog" type="text" value="" id="txtDialog" size="40" maxlength="200" placeholder="Dialog"/>
+	<br><br>
+	<p><input class="chkShowDialog" type="checkbox" checked value="chkShowDialog" id="chkShowDialog"/>Show Dialog?</p>
+	<br>
+	<input id="cancelDialogModalBtn" type="button" value="Cancel"/>
+	&nbsp;
+	<input type="button" value="Confirm" onclick="btnConfirmDialogModal()"/>
+	&nbsp;
+	<input type="button" value="Clear" onclick="btnClearDialog()"/>
+  </div>
+
+</div>
+
+<!-- The Alert Modal -->
+<div id="myAlertModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="closeAlert">&times;</span>
+	<br>
+	<p id="alertTextId"></p>
+	<br>
+	<input id="closeAlertModalBtn" type="button" value="Ok"/>
+  </div>
+</div>
+
+<script>
+function clearCharSelectionCheckboxes() {
+	var chkCharSels = document.getElementsByClassName("chkCharSelection");
+	for (var i = 0; i < chkCharSels.length; i++) {
+		chkCharSels[i].checked = false;
+	}
+}
+
+function checkCharsInScene() {
+	var _chars = SCENE.chars;
+	if (_chars != null && _chars.length > 0) {
+		for (var i = 0; i < _chars.length; i++) {
+			document.getElementById("chk_" + _chars[i].name.toLowerCase()).checked = true;
+		}
+	}
+}
+
+// Get the modal
+var modal = document.getElementById("myModal");
+var dialogModal = document.getElementById("myDialogModal");
+var alertModal = document.getElementById("myAlertModal");
+
+// Get the button that opens the modal
+var btnOpenModal = document.getElementById("openModalBtn");
+var btnOpenDialogModal = document.getElementById("openDialogModalBtn");
+var btnCancel = document.getElementById("cancelModalBtn");
+var btnCancelDialog = document.getElementById("cancelDialogModalBtn");
+var btnCloseAlert = document.getElementById("closeAlertModalBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+var closeDialog = document.getElementsByClassName("closeDialog")[0];
+var closeAlert = document.getElementsByClassName("closeAlert")[0];
+
+function closeAlertModal() {
+	alertModal.style.display = "none";
+	if (CHAIN_ALERT_MODAL_TEXT != "") {
+		modalAlert(CHAIN_ALERT_MODAL_TEXT);
+		CHAIN_ALERT_MODAL_TEXT = "";
+	}
+}
+
+// When the user clicks the button, open the modal 
+btnOpenModal.onclick = function() {
+	clearCharSelectionCheckboxes();
+	checkCharsInScene();
+	modal.style.display = "block";
+}
+
+btnOpenDialogModal.onclick = function() {
+	if (document.getElementById("txtSpeaker").value == "" && SELECTED_CHAR != null) {
+		document.getElementById("txtSpeaker").value = SELECTED_CHAR.name;
+	}
+	dialogModal.style.display = "block";
+}
+
+btnCancel.onclick = function() {
+  modal.style.display = "none";
+}
+
+btnCancelDialog.onclick = function() {
+  dialogModal.style.display = "none";
+}
+
+btnCloseAlert.onclick = function() {
+  closeAlertModal();
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+closeDialog.onclick = function() {
+  dialogModal.style.display = "none";
+}
+
+closeAlert.onclick = function() {
+  closeAlertModal();
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+  if (event.target == dialogModal) {
+    dialogModal.style.display = "none";
+  }
+  if (event.target == alertModal) {
+    closeAlertModal();
+  }
+}
+</script>
+
+</body>
+</html>
