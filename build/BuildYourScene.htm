@@ -283,6 +283,9 @@ let _ornament7 = null;
 let _ornament8 = null;
 let _ornament9 = null;
 let _ornament10 = null;
+let _ornament11 = null;
+let _ornament12 = null;
+let _ornament13 = null;
 let _ornaments = [_ornament1, _ornament2, _ornament3, _ornament4];
 
 const Alison = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
@@ -349,7 +352,10 @@ _layers = [_face, _body];
 
 _ornament1 = new Ornament("Face", 1, "ornaments", "png", LAYER_TYPE, false);
 _ornament2 = new Ornament("Body", 2, "ornaments", "png", LAYER_TYPE, false);
-_ornaments = [_ornament1, _ornament2];
+_ornament3 = new Ornament("Eye Bruise", 3, "ornaments", "png", LAYER_TYPE, false);
+_ornament4 = new Ornament("Eye Bruise 2", 4, "ornaments", "png", LAYER_TYPE, false);
+_ornament5 = new Ornament("Blood", 5, "ornaments", "png", LAYER_TYPE, false);
+_ornaments = [_ornament1, _ornament2, _ornament3, _ornament4, _ornament5];
 
 const Cindy = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
 // ################### Danny setup
@@ -475,7 +481,10 @@ _ornament7 = new Ornament("Choker", 7, "ornaments", "webp", LAYER_TYPE, false);
 _ornament8 = new Ornament("Collar", 8, "ornaments", "webp", LAYER_TYPE, false);
 _ornament9 = new Ornament("Piercing 1", 9, "ornaments", "webp", LAYER_TYPE, false);
 _ornament10 = new Ornament("Piercing 2", 10, "ornaments", "webp", LAYER_TYPE, false);
-_ornaments = [_ornament1, _ornament2, _ornament3, _ornament4, _ornament5, _ornament6, _ornament7, _ornament8, _ornament9, _ornament10];
+_ornament11 = new Ornament("Eye Bruise", 11, "ornaments", "webp", LAYER_TYPE, false);
+_ornament12 = new Ornament("Eye Bruise 2", 12, "ornaments", "webp", LAYER_TYPE, false);
+_ornament13 = new Ornament("Blood", 13, "ornaments", "webp", LAYER_TYPE, false);
+_ornaments = [_ornament1, _ornament2, _ornament3, _ornament4, _ornament5, _ornament6, _ornament7, _ornament8, _ornament9, _ornament10, _ornament11, _ornament12, _ornament13];
 
 const Lena = new Character(LAYER_TYPE, 0, _layers, _ornaments, false);
 // ################### Lola setup
@@ -1258,7 +1267,7 @@ function onLoad() {
 
 <body bgcolor="BLACK" onload="onLoad()" id="body_id">
 
-<div class="version">V0.85</div>
+<div class="version">V0.86</div>
 
 <table id="main_table">
 <tbody>
