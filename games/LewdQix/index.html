@@ -239,9 +239,9 @@ function Sparx(_tile, _clockwise) {
 	}
 	this.move = function() {
 		if (this.canMove) {
-			if (this.clockwise) {
-				// first move clockwise
-				if (this.prev.row == this.tile.row && this.prev.col == this.tile.col) {
+			// if first move
+			if (this.prev.row == this.tile.row && this.prev.col == this.tile.col) {
+				if (this.clockwise) {
 					if (this.tile.row == 0) {
 						this.setTile(GRID.map[this.tile.row][this.tile.col + 1]);
 					} else if (this.tile.col == 0) {
@@ -250,51 +250,6 @@ function Sparx(_tile, _clockwise) {
 						this.setTile(GRID.map[this.tile.row + 1][this.tile.col]);
 					}
 				} else {
-					if ((this.tile.col - this.prev.col) > 0) { // left to right
-						if (GRID.inGrid(this.tile.row, this.tile.col + 1) && GRID.map[this.tile.row][this.tile.col + 1].tileType == PATH) {
-							this.setTile(GRID.map[this.tile.row][this.tile.col + 1]);
-						} else if (GRID.inGrid(this.tile.row + 1, this.tile.col) && GRID.map[this.tile.row + 1][this.tile.col].tileType == PATH) { // up to down
-							this.setTile(GRID.map[this.tile.row + 1][this.tile.col]);
-						} else if (GRID.inGrid(this.tile.row, this.tile.col + 1) && GRID.map[this.tile.row][this.tile.col + 1].tileType == DEADPATH) {
-							this.setTile(GRID.map[this.tile.row][this.tile.col + 1]);
-						} else if (GRID.inGrid(this.tile.row + 1, this.tile.col) && GRID.map[this.tile.row + 1][this.tile.col].tileType == DEADPATH) { // up to down
-							this.setTile(GRID.map[this.tile.row + 1][this.tile.col]);
-						}
-					} else if ((this.tile.row - this.prev.row) > 0) { // up to down
-						if (GRID.inGrid(this.tile.row + 1, this.tile.col) && GRID.map[this.tile.row + 1][this.tile.col].tileType == PATH) {
-							this.setTile(GRID.map[this.tile.row + 1][this.tile.col]);
-						} else if (GRID.inGrid(this.tile.row, this.tile.col - 1) && GRID.map[this.tile.row][this.tile.col - 1].tileType == PATH) { // right to left
-							this.setTile(GRID.map[this.tile.row][this.tile.col - 1]);
-						} else if (GRID.inGrid(this.tile.row + 1, this.tile.col) && GRID.map[this.tile.row + 1][this.tile.col].tileType == DEADPATH) {
-							this.setTile(GRID.map[this.tile.row + 1][this.tile.col]);
-						} else if (GRID.inGrid(this.tile.row, this.tile.col - 1) && GRID.map[this.tile.row][this.tile.col - 1].tileType == DEADPATH) { // right to left
-							this.setTile(GRID.map[this.tile.row][this.tile.col - 1]);
-						}
-					} else if ((this.tile.col - this.prev.col) < 0) { // right to left
-						if (GRID.inGrid(this.tile.row, this.tile.col - 1) && GRID.map[this.tile.row][this.tile.col - 1].tileType == PATH) {
-							this.setTile(GRID.map[this.tile.row][this.tile.col - 1]);
-						} else if (GRID.inGrid(this.tile.row - 1, this.tile.col) && GRID.map[this.tile.row - 1][this.tile.col].tileType == PATH) { // down to up
-							this.setTile(GRID.map[this.tile.row - 1][this.tile.col]);
-						} else if (GRID.inGrid(this.tile.row, this.tile.col - 1) && GRID.map[this.tile.row][this.tile.col - 1].tileType == DEADPATH) {
-							this.setTile(GRID.map[this.tile.row][this.tile.col - 1]);
-						} else if (GRID.inGrid(this.tile.row - 1, this.tile.col) && GRID.map[this.tile.row - 1][this.tile.col].tileType == DEADPATH) { // down to up
-							this.setTile(GRID.map[this.tile.row - 1][this.tile.col]);
-						}
-					} else { // down to up
-						if (GRID.inGrid(this.tile.row - 1, this.tile.col) && GRID.map[this.tile.row - 1][this.tile.col].tileType == PATH) {
-							this.setTile(GRID.map[this.tile.row - 1][this.tile.col]);
-						} else if (GRID.inGrid(this.tile.row, this.tile.col + 1) && GRID.map[this.tile.row][this.tile.col + 1].tileType == PATH) { // left to right
-							this.setTile(GRID.map[this.tile.row][this.tile.col + 1]);
-						} else if (GRID.inGrid(this.tile.row - 1, this.tile.col) && GRID.map[this.tile.row - 1][this.tile.col].tileType == DEADPATH) {
-							this.setTile(GRID.map[this.tile.row - 1][this.tile.col]);
-						} else if (GRID.inGrid(this.tile.row, this.tile.col + 1) && GRID.map[this.tile.row][this.tile.col + 1].tileType == DEADPATH) { // left to right
-							this.setTile(GRID.map[this.tile.row][this.tile.col + 1]);
-						}
-					}
-				}
-			} else {
-				// first move non-clockwise
-				if (this.prev.row == this.tile.row && this.prev.col == this.tile.col) {
 					if (this.tile.row == 0) {
 						this.setTile(GRID.map[this.tile.row][this.tile.col - 1]);
 					} else if (this.tile.col == 0) {
@@ -302,47 +257,64 @@ function Sparx(_tile, _clockwise) {
 					} else {
 						this.setTile(GRID.map[this.tile.row - 1][this.tile.col]);
 					}
-				} else {
-					if ((this.tile.col - this.prev.col) < 0) { // right to left
-						if (GRID.inGrid(this.tile.row, this.tile.col - 1) && GRID.map[this.tile.row][this.tile.col - 1].tileType == PATH) {
-							this.setTile(GRID.map[this.tile.row][this.tile.col - 1]);
-						} else if (GRID.inGrid(this.tile.row + 1, this.tile.col) && GRID.map[this.tile.row + 1][this.tile.col].tileType == PATH) { // down to up
-							this.setTile(GRID.map[this.tile.row + 1][this.tile.col]);
-						} else if (GRID.inGrid(this.tile.row, this.tile.col - 1) && GRID.map[this.tile.row][this.tile.col - 1].tileType == DEADPATH) {
-							this.setTile(GRID.map[this.tile.row][this.tile.col + 1]);
-						} else if (GRID.inGrid(this.tile.row + 1, this.tile.col) && GRID.map[this.tile.row + 1][this.tile.col].tileType == DEADPATH) { // down to up
-							this.setTile(GRID.map[this.tile.row + 1][this.tile.col]);
-						}
-					} else if ((this.tile.row - this.prev.row) < 0) { // down to up
-						if (GRID.inGrid(this.tile.row - 1, this.tile.col) && GRID.map[this.tile.row - 1][this.tile.col].tileType == PATH) {
-							this.setTile(GRID.map[this.tile.row - 1][this.tile.col]);
-						} else if (GRID.inGrid(this.tile.row, this.tile.col - 1) && GRID.map[this.tile.row][this.tile.col - 1].tileType == PATH) { // left to right
-							this.setTile(GRID.map[this.tile.row][this.tile.col - 1]);
-						} else if (GRID.inGrid(this.tile.row - 1, this.tile.col) && GRID.map[this.tile.row - 1][this.tile.col].tileType == DEADPATH) {
-							this.setTile(GRID.map[this.tile.row - 1][this.tile.col]);
-						} else if (GRID.inGrid(this.tile.row, this.tile.col - 1) && GRID.map[this.tile.row][this.tile.col - 1].tileType == DEADPATH) { // left to right
-							this.setTile(GRID.map[this.tile.row][this.tile.col - 1]);
-						}
-					} else if ((this.tile.col - this.prev.col) > 0) { // left to right
-						if (GRID.inGrid(this.tile.row, this.tile.col + 1) && GRID.map[this.tile.row][this.tile.col + 1].tileType == PATH) {
-							this.setTile(GRID.map[this.tile.row][this.tile.col + 1]);
-						} else if (GRID.inGrid(this.tile.row - 1, this.tile.col) && GRID.map[this.tile.row - 1][this.tile.col].tileType == PATH) { // up to down
-							this.setTile(GRID.map[this.tile.row - 1][this.tile.col]);
-						} else if (GRID.inGrid(this.tile.row, this.tile.col + 1) && GRID.map[this.tile.row][this.tile.col + 1].tileType == DEADPATH) {
-							this.setTile(GRID.map[this.tile.row][this.tile.col + 1]);
-						} else if (GRID.inGrid(this.tile.row - 1, this.tile.col) && GRID.map[this.tile.row - 1][this.tile.col].tileType == DEADPATH) { // up to down
-							this.setTile(GRID.map[this.tile.row - 1][this.tile.col]);
-						}
-					} else { // up to down
-						if (GRID.inGrid(this.tile.row + 1, this.tile.col) && GRID.map[this.tile.row + 1][this.tile.col].tileType == PATH) {
-							this.setTile(GRID.map[this.tile.row + 1][this.tile.col]);
-						} else if (GRID.inGrid(this.tile.row, this.tile.col + 1) && GRID.map[this.tile.row][this.tile.col + 1].tileType == PATH) { // right to left
-							this.setTile(GRID.map[this.tile.row][this.tile.col + 1]);
-						} else if (GRID.inGrid(this.tile.row + 1, this.tile.col) && GRID.map[this.tile.row + 1][this.tile.col].tileType == DEADPATH) {
-							this.setTile(GRID.map[this.tile.row + 1][this.tile.col]);
-						} else if (GRID.inGrid(this.tile.row, this.tile.col + 1) && GRID.map[this.tile.row][this.tile.col + 1].tileType == DEADPATH) { // right to left
-							this.setTile(GRID.map[this.tile.row][this.tile.col + 1]);
-						}
+				}
+			} else {
+				// not first move
+				if ((this.tile.col - this.prev.col) > 0) { // left to right
+					if (GRID.inGrid(this.tile.row, this.tile.col + 1) && GRID.map[this.tile.row][this.tile.col + 1].tileType == PATH) {
+						this.setTile(GRID.map[this.tile.row][this.tile.col + 1]);
+					} else if (GRID.inGrid(this.tile.row + 1, this.tile.col) && GRID.map[this.tile.row + 1][this.tile.col].tileType == PATH) { // up to down
+						this.setTile(GRID.map[this.tile.row + 1][this.tile.col]);
+					} else if (GRID.inGrid(this.tile.row - 1, this.tile.col) && GRID.map[this.tile.row - 1][this.tile.col].tileType == PATH) { // down to up
+						this.setTile(GRID.map[this.tile.row - 1][this.tile.col]);
+					} else if (GRID.inGrid(this.tile.row, this.tile.col + 1) && GRID.map[this.tile.row][this.tile.col + 1].tileType == DEADPATH) {
+						this.setTile(GRID.map[this.tile.row][this.tile.col + 1]);
+					} else if (GRID.inGrid(this.tile.row + 1, this.tile.col) && GRID.map[this.tile.row + 1][this.tile.col].tileType == DEADPATH) { // up to down
+						this.setTile(GRID.map[this.tile.row + 1][this.tile.col]);
+					} else if (GRID.inGrid(this.tile.row - 1, this.tile.col) && GRID.map[this.tile.row - 1][this.tile.col].tileType == DEADPATH) { // down to up
+						this.setTile(GRID.map[this.tile.row - 1][this.tile.col]);
+					}
+				} else if ((this.tile.row - this.prev.row) > 0) { // up to down
+					if (GRID.inGrid(this.tile.row + 1, this.tile.col) && GRID.map[this.tile.row + 1][this.tile.col].tileType == PATH) {
+						this.setTile(GRID.map[this.tile.row + 1][this.tile.col]);
+					} else if (GRID.inGrid(this.tile.row, this.tile.col - 1) && GRID.map[this.tile.row][this.tile.col - 1].tileType == PATH) { // right to left
+						this.setTile(GRID.map[this.tile.row][this.tile.col - 1]);
+					} else if (GRID.inGrid(this.tile.row, this.tile.col + 1) && GRID.map[this.tile.row][this.tile.col + 1].tileType == PATH) { // left to right
+						this.setTile(GRID.map[this.tile.row][this.tile.col + 1]);
+					} else if (GRID.inGrid(this.tile.row + 1, this.tile.col) && GRID.map[this.tile.row + 1][this.tile.col].tileType == DEADPATH) {
+						this.setTile(GRID.map[this.tile.row + 1][this.tile.col]);
+					} else if (GRID.inGrid(this.tile.row, this.tile.col - 1) && GRID.map[this.tile.row][this.tile.col - 1].tileType == DEADPATH) { // right to left
+						this.setTile(GRID.map[this.tile.row][this.tile.col - 1]);
+					} else if (GRID.inGrid(this.tile.row, this.tile.col + 1) && GRID.map[this.tile.row][this.tile.col + 1].tileType == DEADPATH) { // left to right
+						this.setTile(GRID.map[this.tile.row][this.tile.col + 1]);
+					}
+				} else if ((this.tile.col - this.prev.col) < 0) { // right to left
+					if (GRID.inGrid(this.tile.row, this.tile.col - 1) && GRID.map[this.tile.row][this.tile.col - 1].tileType == PATH) {
+						this.setTile(GRID.map[this.tile.row][this.tile.col - 1]);
+					} else if (GRID.inGrid(this.tile.row - 1, this.tile.col) && GRID.map[this.tile.row - 1][this.tile.col].tileType == PATH) { // down to up
+						this.setTile(GRID.map[this.tile.row - 1][this.tile.col]);
+					} else if (GRID.inGrid(this.tile.row + 1, this.tile.col) && GRID.map[this.tile.row + 1][this.tile.col].tileType == PATH) { // up to down
+						this.setTile(GRID.map[this.tile.row + 1][this.tile.col]);
+					} else if (GRID.inGrid(this.tile.row, this.tile.col - 1) && GRID.map[this.tile.row][this.tile.col - 1].tileType == DEADPATH) {
+						this.setTile(GRID.map[this.tile.row][this.tile.col - 1]);
+					} else if (GRID.inGrid(this.tile.row - 1, this.tile.col) && GRID.map[this.tile.row - 1][this.tile.col].tileType == DEADPATH) { // down to up
+						this.setTile(GRID.map[this.tile.row - 1][this.tile.col]);
+					} else if (GRID.inGrid(this.tile.row + 1, this.tile.col) && GRID.map[this.tile.row + 1][this.tile.col].tileType == DEADPATH) { // up to down
+						this.setTile(GRID.map[this.tile.row + 1][this.tile.col]);
+					}
+				} else { // down to up
+					if (GRID.inGrid(this.tile.row - 1, this.tile.col) && GRID.map[this.tile.row - 1][this.tile.col].tileType == PATH) {
+						this.setTile(GRID.map[this.tile.row - 1][this.tile.col]);
+					} else if (GRID.inGrid(this.tile.row, this.tile.col + 1) && GRID.map[this.tile.row][this.tile.col + 1].tileType == PATH) { // left to right
+						this.setTile(GRID.map[this.tile.row][this.tile.col + 1]);
+					} else if (GRID.inGrid(this.tile.row, this.tile.col - 1) && GRID.map[this.tile.row][this.tile.col - 1].tileType == PATH) { // right to left
+						this.setTile(GRID.map[this.tile.row][this.tile.col - 1]);
+					} else if (GRID.inGrid(this.tile.row - 1, this.tile.col) && GRID.map[this.tile.row - 1][this.tile.col].tileType == DEADPATH) {
+						this.setTile(GRID.map[this.tile.row - 1][this.tile.col]);
+					} else if (GRID.inGrid(this.tile.row, this.tile.col + 1) && GRID.map[this.tile.row][this.tile.col + 1].tileType == DEADPATH) { // left to right
+						this.setTile(GRID.map[this.tile.row][this.tile.col + 1]);
+					} else if (GRID.inGrid(this.tile.row, this.tile.col - 1) && GRID.map[this.tile.row][this.tile.col - 1].tileType == DEADPATH) { // right to left
+						this.setTile(GRID.map[this.tile.row][this.tile.col - 1]);
 					}
 				}
 			}
@@ -472,11 +444,13 @@ function movePlayer() {
 			//console.log("PLAYER.isClaiming: " + PLAYER.isClaiming)
 			if (PLAYER.isClaiming) {
 				if (wasPushing && GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R].tileType == PATH) {
+					PLAYER.isClaiming = false;
+					wasPushing = false;
 					PLAYER.setTile(GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R]);
 					claim();
 					return;
 				}
-				if (GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R].tileType == PUSH) {
+				if (GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R].tileType == PUSH || GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R].tileType == CLAIM) {
 					return;
 				}
 				if (GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R].tileType == EMPTY) {
