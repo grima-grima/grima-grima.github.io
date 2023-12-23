@@ -15,6 +15,7 @@ const PATH_ZINDEX = 1100;
 const PLAYER_ZINDEX = 1200;
 const SPARX_ZINDEX = 1300;
 const QIX_ZINDEX = 1400;
+const PAUSE_ZINDEX = 2000;
 const ANIMATION_INTERVAL = 100;
 
 var KEYS = [];
@@ -91,6 +92,10 @@ function newImage(src, height, position, top, left, zIndex, alt) {
 	//img.onload = function() { positionImg(this); }
 	return img;
 }
+
+var PAUSED_IMG = newImage("./img/paused.png", 120, "absolute", (((GRID_ROWS * CEL_HEIGHT) / 2) - (120 / 2) - 10), (((GRID_COLS * CEL_HEIGHT) / 2) - (250 / 2)), PAUSE_ZINDEX, "Game Paused");
+PAUSED_IMG.id = "PausedImgModal";
+PAUSED_IMG.style.visibility = "hidden";
 
 function Player(_tile) {
 	this.tile = _tile;
@@ -510,6 +515,8 @@ function onLoad() {
 	for (i = 0; i < sparxList.length; i++) {
 		td.appendChild(sparxList[i].img);
 	}
+
+	td.appendChild(PAUSED_IMG);
 }
 
 function pausePlayHover(img) {
@@ -530,16 +537,15 @@ function pausePlayLeave(img) {
 
 function pauseGame(img) {
 	IS_PAUSED = !IS_PAUSED;
+	PAUSED_IMG.style.visibility = (IS_PAUSED ? "visible" : "hidden");
 	pausePlayHover(img);
 }
 
 function startGame() {
-	var wasPaused = IS_PAUSED;
-	IS_PAUSED = true;
 	if (!confirm("Do you want to start a new game?")) {
-		IS_PAUSED = wasPaused;
 		return;
 	}
+	IS_PAUSED = true;
 
 	document.getElementById("btn_pause").src = "./img/pause.png";
 
@@ -551,11 +557,19 @@ function startGame() {
 	SPARX2 = new Sparx(GRID.map[Math.floor(Math.random() * (GRID.rows - 2))][0], (Math.floor(Math.random() * 10) > 5) ? true : false);
 	SPARX3 = new Sparx(GRID.map[Math.floor(Math.random() * (GRID.rows - 2))][GRID.columns - 1], (Math.floor(Math.random() * 10) > 5) ? true : false);
 	sparxList = [SPARX1, SPARX2, SPARX3];
+	PAUSED_IMG.style.visibility = "hidden";
 
 	var td = document.getElementById("td_game");
 	td.replaceChildren();
 	onLoad();
 	IS_PAUSED = false;
+}
+
+function moveKeysLeave() {
+	document.getElementById("movement_keys_img").src = "./img/movement_keys_0.png";
+}
+function moveKeysOver() {
+	document.getElementById("movement_keys_img").src = "./img/movement_keys_1.png";
 }
 
 window.addEventListener("keydown", function (e) {
@@ -590,6 +604,29 @@ window.addEventListener("keyup", function (e) {
 				</td>
 			</tr>
 			<tr>
+				<td colspan="3" bgcolor="white" align="center" onmouseover="moveKeysOver()" onmouseleave="moveKeysLeave()" title="Movement Keys">
+					<table>
+						<tr>
+							<td><b style="font-family:'Calibri'">Lives: 10</b></td>
+						</tr>
+						<tr>
+							<td><b style="font-family:'Calibri'">Level: 1</b></td>
+						</tr>
+						<tr>
+							<td><b style="font-family:'Calibri'">Claimed: 25%</b></td>
+						</tr>
+						<tr>
+							<td><b style="font-family:'Calibri'">Claim Goal: 45%</b></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<img align="left" height="10px" src="./img/empty_tile.png"/>
+				</td>
+			</tr>
+			<tr>
 				<td>
 					<img align="left" height="48px" id="btn_pause" src="./img/pause.png" title="Pause" onmouseover="pausePlayHover(this)" onmouseleave="pausePlayLeave(this)" onclick="pauseGame(this)"/>
 				</td>
@@ -598,6 +635,46 @@ window.addEventListener("keyup", function (e) {
 				</td>
 				<td>
 					<img align="left" height="48px" id="btn_restart" src="./img/restart.png" title="Restart" onmouseover="this.src='./img/restart_hover.png'" onmouseleave="this.src='./img/restart.png'" onclick="startGame()"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<img align="left" height="10px" src="./img/empty_tile.png"/>
+				</td>
+			</tr>
+			<tr>
+				<td bgcolor="white" colspan="3">
+					<img align="left" height="10px" src="./img/empty_tile.png"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" bgcolor="white" align="center" onmouseover="moveKeysOver()" onmouseleave="moveKeysLeave()" title="Movement Keys">
+					<img id="movement_keys_img" align="center" src="./img/movement_keys_0.png" title="Movement Keys"/><br/>
+					<img align="left" height="10px" src="./img/empty_tile.png"/><br/>
+					<img id="space_key_img" align="center" src="./img/space_key.png" title="Space Key"/><br/>
+					<img align="left" height="10px" src="./img/empty_tile.png"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<img align="left" height="10px" src="./img/empty_tile.png"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" bgcolor="white" align="center" onmouseover="moveKeysOver()" onmouseleave="moveKeysLeave()" title="Movement Keys">
+					<table>
+						<tr>
+							<td align="center"><b style="font-family:'Calibri'">Use W, A, S, D,<br/> or the arrow keys<br/> to move the cursor</b></td>
+						</tr>
+						<tr>
+							<td>
+								<img align="left" height="10px" src="./img/empty_tile.png"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center"><b style="font-family:'Calibri'">Press the 'Space' key<br/> to start capturing</b></td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 		</table>
