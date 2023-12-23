@@ -1,6 +1,8 @@
 <html>
 <head>
 	<title>LewdQix</title>
+	<link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
+	<link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
 	<link rel="stylesheet" href="./main.css">
 </head>
 
@@ -14,7 +16,9 @@ const PLAYER_ZINDEX = 1200;
 const SPARX_ZINDEX = 1300;
 const QIX_ZINDEX = 1400;
 const ANIMATION_INTERVAL = 100;
+
 var KEYS = [];
+var IS_PAUSED = false;
 
 function TileType(_type, _img) {
 	this.type = _type;
@@ -166,6 +170,9 @@ function Qix(_tile) {
 		this.imgTail.src = this.images[this.imgIdx];
 	}
 	this.move = function() {
+		if (IS_PAUSED) {
+			return;
+		}
 		this.tickCounter++;
 		if (this.tickCounter >= 10) {
 			this.tickCounter = 0;
@@ -238,6 +245,9 @@ function Sparx(_tile, _clockwise) {
 		this.img.src = this.images[this.imgIdx];
 	}
 	this.move = function() {
+		if (IS_PAUSED) {
+			return;
+		}
 		if (this.canMove) {
 			// if first move
 			if (this.prev.row == this.tile.row && this.prev.col == this.tile.col) {
@@ -414,6 +424,10 @@ function claim() {
 }
 
 function movePlayer() {
+	if (IS_PAUSED) {
+		return;
+	}
+
 	VEL_R = 0;
 	if (KEYS[39] || KEYS[68]) { // 39 = right / 68 = "D"
 		VEL_R = 1;
@@ -476,6 +490,9 @@ window.setInterval(movePlayer, 1000 / 20);
 
 function onLoad() {
 	var td = document.getElementById("td_game");
+	var bgImg = newImage("./img/temp_bg_img.webp", 600, "relative", 0, 0, 1, "");
+	bgImg.id = "BgImg";
+	td.appendChild(bgImg);
 
 	for (var rowIdx = 0; rowIdx < GRID.rows; rowIdx++) {
 		for (var colIdx = 0; colIdx < GRID.columns; colIdx++) {
@@ -493,9 +510,52 @@ function onLoad() {
 	for (i = 0; i < sparxList.length; i++) {
 		td.appendChild(sparxList[i].img);
 	}
+}
 
-	var lewdImg = document.getElementById("LewdImg");
-	lewdImg.src = "./img/temp_bg_img.webp";
+function pausePlayHover(img) {
+	if (IS_PAUSED) {
+		img.src = "./img/play_hover.png";
+	} else {
+		img.src = "./img/pause_hover.png";
+	}
+}
+
+function pausePlayLeave(img) {
+	if (IS_PAUSED) {
+		img.src = "./img/play.png";
+	} else {
+		img.src = "./img/pause.png";
+	}
+}
+
+function pauseGame(img) {
+	IS_PAUSED = !IS_PAUSED;
+	pausePlayHover(img);
+}
+
+function startGame() {
+	var wasPaused = IS_PAUSED;
+	IS_PAUSED = true;
+	if (!confirm("Do you want to start a new game?")) {
+		IS_PAUSED = wasPaused;
+		return;
+	}
+
+	document.getElementById("btn_pause").src = "./img/pause.png";
+
+	// reseting elements
+	GRID = new Grid(0, 0, GRID_ROWS, GRID_COLS, CEL_HEIGHT);
+	PLAYER = new Player(GRID.map[GRID.rows - 1][GRID.columns / 2]);
+	QIX = new Qix(GRID.map[GRID.rows / 2][GRID.columns / 2]);
+	SPARX1 = new Sparx(GRID.map[0][Math.floor(Math.random() * (GRID.columns - 2))], (Math.floor(Math.random() * 10) > 5) ? true : false);
+	SPARX2 = new Sparx(GRID.map[Math.floor(Math.random() * (GRID.rows - 2))][0], (Math.floor(Math.random() * 10) > 5) ? true : false);
+	SPARX3 = new Sparx(GRID.map[Math.floor(Math.random() * (GRID.rows - 2))][GRID.columns - 1], (Math.floor(Math.random() * 10) > 5) ? true : false);
+	sparxList = [SPARX1, SPARX2, SPARX3];
+
+	var td = document.getElementById("td_game");
+	td.replaceChildren();
+	onLoad();
+	IS_PAUSED = false;
 }
 
 window.addEventListener("keydown", function (e) {
@@ -514,12 +574,33 @@ window.addEventListener("keyup", function (e) {
 <tr style="position: relative;">
 	<td>&nbsp;</td>
 	<td id="td_game" style="position: relative;">
-		<img width="900" height="600" id="LewdImg" src="./img/empty_tile.png" title="Revealed"/>
+		<!--img width="900" height="600" id="BgImg" src="./img/empty_tile.png" title="Revealed"/-->
 	</td>
 	<td>&nbsp;&nbsp;</td>
 	<td class="tops">
-		<img valign="top" align="left" width="200" id="LewdQix-Logo" src="./LewdQix-Logo.png" title="Lewd Qix"/>
-		<br><br>
+		<table>
+			<tr>
+				<td colspan="3">
+					<img valign="top" align="left" width="200" id="LewdQix-Logo" src="./LewdQix-Logo.png" title="Lewd Qix"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<img align="left" height="10px" src="./img/empty_tile.png"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<img align="left" height="48px" id="btn_pause" src="./img/pause.png" title="Pause" onmouseover="pausePlayHover(this)" onmouseleave="pausePlayLeave(this)" onclick="pauseGame(this)"/>
+				</td>
+				<td>
+					<img align="left" height="2px" src="./img/empty_tile.png"/>
+				</td>
+				<td>
+					<img align="left" height="48px" id="btn_restart" src="./img/restart.png" title="Restart" onmouseover="this.src='./img/restart_hover.png'" onmouseleave="this.src='./img/restart.png'" onclick="startGame()"/>
+				</td>
+			</tr>
+		</table>
 	</td>
 </tr>
 </tbody>
