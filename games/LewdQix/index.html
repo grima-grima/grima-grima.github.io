@@ -413,6 +413,23 @@ function updateGrid() {
 	}
 }
 
+
+function countEmpty() {
+	var count = 0;
+	for (var i = 0; i < GRID_ROWS; i++) {
+		for (var j = 0; j < GRID_COLS; j++) {
+			if (GRID.map[i][j].tileType == EMPTY || GRID.map[i][j].tileType == PATH) {
+				count++;
+			}
+		}
+	}
+	return count;
+}
+
+function getClaimPercent() {
+	return Math.round((GRID_ROWS * GRID_COLS - countEmpty()) / (GRID_ROWS * GRID_COLS) * 100);
+}
+
 var wasPushing = false;
 function claim() {
 	for (var rowIdx = 0; rowIdx < GRID.rows; rowIdx++) {
@@ -426,6 +443,7 @@ function claim() {
 	}
 	unclaim(QIX.tile);
 	updateGrid();
+	document.getElementById("claimed_text").textContent = getClaimPercent();
 }
 
 function movePlayer() {
@@ -607,16 +625,16 @@ window.addEventListener("keyup", function (e) {
 				<td colspan="3" bgcolor="white" align="center" onmouseover="moveKeysOver()" onmouseleave="moveKeysLeave()" title="Movement Keys">
 					<table>
 						<tr>
-							<td><b style="font-family:'Calibri'">Lives: 10</b></td>
+							<td><b style="font-family:'Calibri'">Lives: <span id="lives_text">10</span></b></td>
 						</tr>
 						<tr>
-							<td><b style="font-family:'Calibri'">Level: 1</b></td>
+							<td><b style="font-family:'Calibri'">Level: <span id="level_text">1</span></b></td>
 						</tr>
 						<tr>
-							<td><b style="font-family:'Calibri'">Claimed: 25%</b></td>
+							<td><b style="font-family:'Calibri'">Claimed: <span id="claimed_text">0</span>%</b></td>
 						</tr>
 						<tr>
-							<td><b style="font-family:'Calibri'">Claim Goal: 45%</b></td>
+							<td><b style="font-family:'Calibri'">Claim Goal: <span id="goal_text">60</span>%</b></td>
 						</tr>
 					</table>
 				</td>
@@ -649,10 +667,28 @@ window.addEventListener("keyup", function (e) {
 			</tr>
 			<tr>
 				<td colspan="3" bgcolor="white" align="center" onmouseover="moveKeysOver()" onmouseleave="moveKeysLeave()" title="Movement Keys">
-					<img id="movement_keys_img" align="center" src="./img/movement_keys_0.png" title="Movement Keys"/><br/>
-					<img align="left" height="10px" src="./img/empty_tile.png"/><br/>
-					<img id="space_key_img" align="center" src="./img/space_key.png" title="Space Key"/><br/>
-					<img align="left" height="10px" src="./img/empty_tile.png"/>
+					<table>
+						<tr>
+							<td align="center">
+								<img id="movement_keys_img" align="center" src="./img/movement_keys_0.png" title="Movement Keys"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<img align="left" height="10px" src="./img/empty_tile.png"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">
+								<img id="space_key_img" align="center" src="./img/space_key.png" title="Space Key"/><br/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">
+								<img align="left" height="10px" src="./img/empty_tile.png"/>
+							</td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 			<tr>
@@ -672,7 +708,7 @@ window.addEventListener("keyup", function (e) {
 							</td>
 						</tr>
 						<tr>
-							<td align="center"><b style="font-family:'Calibri'">Press the 'Space' key<br/> to start capturing</b></td>
+							<td align="center"><b style="font-family:'Calibri'">Press the Space key<br/> to start capturing</b></td>
 						</tr>
 					</table>
 				</td>
