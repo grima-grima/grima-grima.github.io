@@ -21,6 +21,8 @@ const ANIMATION_INTERVAL = 100;
 var KEYS = [];
 var IS_PAUSED = false;
 
+var PLAYER_TAIL = [];
+
 function TileType(_type, _img) {
 	this.type = _type;
 	this.img = _img;
@@ -80,6 +82,7 @@ function Grid(_x, _y, _rows, _columns, _tileSize) {
 
 var GRID = new Grid(0, 0, GRID_ROWS, GRID_COLS, CEL_HEIGHT);
 
+
 function newImage(src, height, position, top, left, zIndex, alt) {
 	var img = new Image();
 	img.src = src;
@@ -93,9 +96,22 @@ function newImage(src, height, position, top, left, zIndex, alt) {
 	return img;
 }
 
+var IS_GAME_OVER = false;
+var GAME_OVER_IMG = newImage("./img/game_over_img.webp", 600, "relative", 0, 0, 1, "Game Over");
+function gameOver() {
+	IS_GAME_OVER = true;
+	var td = document.getElementById("td_game");
+	td.replaceChildren();
+	td.appendChild(GAME_OVER_IMG);
+}
+
 var PAUSED_IMG = newImage("./img/paused.png", 120, "absolute", (((GRID_ROWS * CEL_HEIGHT) / 2) - (120 / 2) - 10), (((GRID_COLS * CEL_HEIGHT) / 2) - (250 / 2)), PAUSE_ZINDEX, "Game Paused");
 PAUSED_IMG.id = "PausedImgModal";
 PAUSED_IMG.style.visibility = "hidden";
+
+function removeImmunity() {
+	PLAYER.isImmune = false;
+}
 
 function Player(_tile) {
 	this.tile = _tile;
@@ -105,7 +121,25 @@ function Player(_tile) {
 	this.img = newImage(this.images[0], CEL_HEIGHT, "absolute", this.tile.y, this.tile.x, PLAYER_ZINDEX, "Player");
 	this.img.id = "player_img";
 	this.isClaiming = false;
+	this.lives = 10;
+	this.isImmune = false;
+	this.immuneUntil = new Date();
 
+	this.hit = function() {
+		if (this.isImmune) {
+			return;
+		}
+		this.lives--;
+		updateLives(this.lives);
+		if (this.lives > 0) {
+			this.isImmune = true;
+			var t = new Date();
+			t.setSeconds(t.getSeconds() + 3);
+			this.immuneUntil = t;
+		} else {
+			gameOver();
+		}
+	}
 	this.getTile = function() { return this.tile; }
 	this.setTile = function(_curr) {
 		if (GRID.inGrid(_curr.row, _curr.col)) {
@@ -113,7 +147,10 @@ function Player(_tile) {
 			this.tile = _curr
 			GRID.map[_curr.row][_curr.col].hasPlayer = true;
 			this.img.style.top = _curr.y;
-			this.img.style.left = _curr.x; 
+			this.img.style.left = _curr.x;
+			if (this.tile.hasSparx || this.tile.hasQix) {
+				this.hit();
+			}
 		}
 	}
 	this.nextImg = function() {
@@ -122,6 +159,19 @@ function Player(_tile) {
 			this.imgIdx = 0;
 		}
 		this.img.src = this.images[this.imgIdx];
+		if (this.isImmune) {
+			// if paused, keep extending the immunity
+			if (IS_PAUSED) {
+				this.immuneUntil = new Date(this.immuneUntil.getTime() + ANIMATION_INTERVAL);
+			}
+
+			if (this.immuneUntil < new Date()) {
+				this.isImmune = false;
+				this.img.style.filter = "invert(0)";
+			} else {
+				this.img.style.filter = "invert(100)";
+			}
+		}
 	}
 }
 
@@ -131,6 +181,27 @@ function playerNextImg() {
 }
 window.setInterval(playerNextImg, ANIMATION_INTERVAL);
 
+
+async function breakPlayerTail() {
+	IS_PAUSED = true;
+	PLAYER.hit();
+
+	while (PLAYER_TAIL.length > 0) {
+		var t = PLAYER_TAIL.pop();
+		if (PLAYER_TAIL.length == 0) {
+			t.tileType = PATH;
+		} else {
+			t.tileType = EMPTY;
+		}
+		var img = document.getElementById("img_" + t.row + "_" + t.col);
+		img.src = t.tileType.img;
+
+		PLAYER.setTile(t);
+		await new Promise(resolve => setTimeout(resolve, 5));
+	}
+
+	IS_PAUSED = false;
+}
 
 function Qix(_tile) {
 	this.tile = _tile;
@@ -175,7 +246,7 @@ function Qix(_tile) {
 		this.imgTail.src = this.images[this.imgIdx];
 	}
 	this.move = function() {
-		if (IS_PAUSED) {
+		if (IS_PAUSED || IS_GAME_OVER) {
 			return;
 		}
 		this.tickCounter++;
@@ -198,6 +269,9 @@ function Qix(_tile) {
 			var newTile = GRID.map[newRow][newCol];
 			if (newTile.tileType != PATH) {
 				this.setTile(newTile);
+				if (this.getTile().tileType == PUSH) {
+					breakPlayerTail();
+				}
 			} else {
 				this.velY *= -1;
 				this.velX *= -1;
@@ -250,7 +324,7 @@ function Sparx(_tile, _clockwise) {
 		this.img.src = this.images[this.imgIdx];
 	}
 	this.move = function() {
-		if (IS_PAUSED) {
+		if (IS_PAUSED || IS_GAME_OVER) {
 			return;
 		}
 		if (this.canMove) {
@@ -334,6 +408,9 @@ function Sparx(_tile, _clockwise) {
 				}
 			}
 		}
+		if (this.getTile().hasPlayer) {
+			PLAYER.hit();
+		}
 		this.canMove = !this.canMove;
 	}
 }
@@ -357,7 +434,9 @@ function pushIfEmpty(_row, _col) {
 		GRID.map[_row][_col].tileType = PUSH;
 		var img = document.getElementById("img_" + _row + "_" + _col);
 		img.src = PUSH.img;
+		return true;
 	}
+	return false;
 }
 
 var VEL_L = 0;
@@ -427,7 +506,23 @@ function countEmpty() {
 }
 
 function getClaimPercent() {
-	return Math.round((GRID_ROWS * GRID_COLS - countEmpty()) / (GRID_ROWS * GRID_COLS) * 100);
+	return Math.floor((GRID_ROWS * GRID_COLS - countEmpty()) / (GRID_ROWS * GRID_COLS) * 100);
+}
+
+function updateLives(_lives) {
+	document.getElementById("lives_text").textContent = _lives;
+}
+
+function updateLevel(_level) {
+	document.getElementById("level_text").textContent = _level;
+}
+
+function updateClaimedPercent(_claimed) {
+	document.getElementById("claimed_text").textContent = _claimed;
+}
+
+function updateGoal(_goal) {
+	document.getElementById("goal_text").textContent = _goal;
 }
 
 var wasPushing = false;
@@ -443,11 +538,11 @@ function claim() {
 	}
 	unclaim(QIX.tile);
 	updateGrid();
-	document.getElementById("claimed_text").textContent = getClaimPercent();
+	updateClaimedPercent(getClaimPercent());
 }
 
 function movePlayer() {
-	if (IS_PAUSED) {
+	if (IS_PAUSED || IS_GAME_OVER) {
 		return;
 	}
 
@@ -483,6 +578,7 @@ function movePlayer() {
 				if (wasPushing && GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R].tileType == PATH) {
 					PLAYER.isClaiming = false;
 					wasPushing = false;
+					PLAYER_TAIL = [];
 					PLAYER.setTile(GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R]);
 					claim();
 					return;
@@ -495,11 +591,18 @@ function movePlayer() {
 				}
 				if ((((VEL_L + VEL_R) > 0) && ((VEL_U + VEL_D) > 0)) || (((VEL_L + VEL_R) > 0) && ((VEL_U + VEL_D) < 0))) { // diagonal move -> (right and dowm) or (right and up)
 					pushIfEmpty(PLAYER.getTile().row, PLAYER.getTile().col + VEL_L + VEL_R);
+					PLAYER_TAIL.push(GRID.map[PLAYER.getTile().row][PLAYER.getTile().col + VEL_L + VEL_R]);
 				} else if ((((VEL_L + VEL_R) < 0) && ((VEL_U + VEL_D) > 0)) || (((VEL_L + VEL_R) < 0) && ((VEL_U + VEL_D) < 0))) { // diagonal move -> (left and dowm) or (left and up)
 					pushIfEmpty(PLAYER.getTile().row, PLAYER.getTile().col + VEL_L + VEL_R);
+					PLAYER_TAIL.push(GRID.map[PLAYER.getTile().row][PLAYER.getTile().col + VEL_L + VEL_R]);
 				}
-				PLAYER.setTile(GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R]);
-				pushIfEmpty(PLAYER.getTile().row, PLAYER.getTile().col);
+				if (pushIfEmpty(PLAYER.getTile().row + VEL_U + VEL_D, PLAYER.getTile().col + VEL_L + VEL_R)) {
+					if (PLAYER.getTile().tileType == PATH) {
+						PLAYER_TAIL.push(PLAYER.getTile());
+					}
+					PLAYER.setTile(GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R]);
+					PLAYER_TAIL.push(PLAYER.getTile());
+				}
 			} else { // not claiming, can only move to another PATH tile
 				if (GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R].tileType == PATH) {
 					PLAYER.setTile(GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R]);
@@ -577,10 +680,16 @@ function startGame() {
 	sparxList = [SPARX1, SPARX2, SPARX3];
 	PAUSED_IMG.style.visibility = "hidden";
 
-	var td = document.getElementById("td_game");
-	td.replaceChildren();
+	// updating UI
+	updateLives(PLAYER.lives);
+	updateLevel(1);
+	updateClaimedPercent(0);
+	updateGoal(60);
+
+	document.getElementById("td_game").replaceChildren();
 	onLoad();
 	IS_PAUSED = false;
+	IS_GAME_OVER = false;
 }
 
 function moveKeysLeave() {
