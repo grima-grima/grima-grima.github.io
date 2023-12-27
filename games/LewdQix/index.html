@@ -43,6 +43,89 @@ const CLAIM = new TileType(_CLAIM, "./img/empty_tile.png");
 const _DEADPATH = "DEADPATH";
 const DEADPATH = new TileType(_DEADPATH, "./img/semi_tile.png");
 
+function Girl(_id, _name, _fromGame, _patreon) {
+	this.id = _id;
+	this.name = _name;
+	this.fromGame = _fromGame;
+	this.patreon = _patreon;
+	this.img = "./img/girl_head_" + this.id + ".webp";
+	this.getTitle = function() { return this.name + "\r\n(From: " + this.fromGame + ")\r\n" + this.patreon; }
+}
+var GIRL = new Girl("001", "Vanessa", "Girl In Charge", "https://www.patreon.com/grimagrima");
+var GIRL2 = new Girl("002", "Vanessa2", "Girl In Charge", "");
+
+function Girls() {
+	this.selectedGirl = -1;
+	this.girls = [];
+	this.push = function(_girl) { this.girls.push(_girl); }
+	this.getSelectedGirl = function() {
+		if (this.selectedGirl == -1) {
+			return null;
+		} else {
+			return this.girls[this.selectedGirl];
+		}
+	}
+}
+var GIRLS = new Girls();
+GIRLS.push(GIRL);
+GIRLS.push(GIRL2);
+GIRLS.selectedGirl = 0;
+
+function Avatar(_id, _name, _fromGame) {
+	this.id = _id;
+	this.name = _name;
+	this.fromGame = _fromGame;
+	this.img = "./img/player_head_" + this.id + ".webp";
+	this.getTitle = function() { return this.name + "\r\n(From: " + this.fromGame + ")"; }
+}
+var AVATAR = new Avatar("001", "Dylan", "Girl In Charge");
+var AVATAR2 = new Avatar("002", "Dylan2", "Girl In Charge");
+
+function Avatars() {
+	this.selectedAvatar = -1;
+	this.avatars = [];
+	this.push = function(_avatar) { this.avatars.push(_avatar); }
+	this.getSelectedAvatar = function() {
+		if (this.selectedAvatar == -1) {
+			return null;
+		} else {
+			return this.avatars[this.selectedAvatar];
+		}
+	}
+}
+var AVATARS = new Avatars();
+AVATARS.push(AVATAR);
+AVATARS.push(AVATAR);
+AVATARS.selectedAvatar = 0;
+
+
+function Level(_girlImg, _goal) {
+	this.girlImg = _girlImg;
+	this.goal = _goal;
+}
+
+function Levels(_avatar, _girl) {
+	this.avatar = _avatar;
+	this.girl = _girl;
+	this.level = 1;
+	this.finished = false;
+	this.levels = [
+		new Level("./img/girl_" + this.girl.id + "-01.webp", 60),
+		new Level("./img/girl_" + this.girl.id + "-02.webp", 70),
+		new Level("./img/girl_" + this.girl.id + "-03.webp", 80)
+	];
+	this.getCurrentLevel = function() { return this.levels[this.level - 1]; }
+	this.nextLevel = function() {
+		if (this.level >= this.levels.length) {
+			this.finished = true;
+		} else {
+			this.level++; 
+		}
+	}
+	this.getAvatarImg = function() { return this.avatar.img; }
+	this.getGirlHead = function() { return this.girl.img; }
+}
+
 function Tile(_x, _y, _pixels, _row, _col, _tileType) {
 	this.x = _x;
 	this.y = _y;
@@ -109,6 +192,11 @@ var PAUSED_IMG = newImage("./img/paused.png", 120, "absolute", (((GRID_ROWS * CE
 PAUSED_IMG.id = "PausedImgModal";
 PAUSED_IMG.style.visibility = "hidden";
 
+var NEXT_LEVEL_IMG = newImage("./img/level_complete.png", 165, "absolute", (((GRID_ROWS * CEL_HEIGHT) / 2) - (165 / 2) - 10), (((GRID_COLS * CEL_HEIGHT) / 2) - (400 / 2)), PAUSE_ZINDEX, "Next Level");
+NEXT_LEVEL_IMG.id = "NextLevelImgModal";
+NEXT_LEVEL_IMG.style.visibility = "hidden";
+
+
 function removeImmunity() {
 	PLAYER.isImmune = false;
 }
@@ -141,6 +229,8 @@ function Player(_tile) {
 		}
 	}
 	this.getTile = function() { return this.tile; }
+	this.hide = function() { this.img.style.visibility = "hidden"; }
+	this.show = function() { this.img.style.visibility = "visible"; }
 	this.setTile = function(_curr) {
 		if (GRID.inGrid(_curr.row, _curr.col)) {
 			GRID.map[this.tile.row][this.tile.col].hasPlayer = false;
@@ -181,22 +271,26 @@ function playerNextImg() {
 }
 window.setInterval(playerNextImg, ANIMATION_INTERVAL);
 
+function tailPop() {
+	var t = PLAYER_TAIL.pop();
+	if (PLAYER_TAIL.length == 0) {
+		t.tileType = PATH;
+	} else {
+		t.tileType = EMPTY;
+	}
+	var img = document.getElementById("img_" + t.row + "_" + t.col);
+	img.src = t.tileType.img;
+
+	PLAYER.setTile(t);
+}
 
 async function breakPlayerTail() {
+	wasPushing = false;
 	IS_PAUSED = true;
 	PLAYER.hit();
 
 	while (PLAYER_TAIL.length > 0) {
-		var t = PLAYER_TAIL.pop();
-		if (PLAYER_TAIL.length == 0) {
-			t.tileType = PATH;
-		} else {
-			t.tileType = EMPTY;
-		}
-		var img = document.getElementById("img_" + t.row + "_" + t.col);
-		img.src = t.tileType.img;
-
-		PLAYER.setTile(t);
+		tailPop();
 		await new Promise(resolve => setTimeout(resolve, 5));
 	}
 
@@ -235,6 +329,16 @@ function Qix(_tile) {
 			this.imgTail.style.top = this.tail.y;
 			this.imgTail.style.left = this.tail.x;
 		}
+	}
+	this.show = function() {
+		this.img.style.visibility = "visible";
+		this.imgMid.style.visibility = "visible";
+		this.imgTail.style.visibility = "visible";
+	}
+	this.hide = function() {
+		this.img.style.visibility = "hidden";
+		this.imgMid.style.visibility = "hidden";
+		this.imgTail.style.visibility = "hidden";
 	}
 	this.nextImg = function() {
 		this.imgIdx++;
@@ -291,7 +395,7 @@ function qixMove() {
 	QIX.nextImg();
 	QIX.move();
 }
-window.setInterval(qixMove, ANIMATION_INTERVAL);
+window.setInterval(qixMove, ANIMATION_INTERVAL / 2);
 
 
 function Sparx(_tile, _clockwise) {
@@ -316,6 +420,8 @@ function Sparx(_tile, _clockwise) {
 			this.img.style.left = _curr.x; 
 		}
 	}
+	this.hide = function() { this.img.style.visibility = "hidden"; }
+	this.show = function() { this.img.style.visibility = "visible"; }
 	this.nextImg = function() {
 		this.imgIdx++;
 		if (this.imgIdx >= this.images.length) {
@@ -525,8 +631,34 @@ function updateGoal(_goal) {
 	document.getElementById("goal_text").textContent = _goal;
 }
 
+async function clearGrid() {
+	for (var colIdx = 0; colIdx < GRID.columns; colIdx++) {
+		for (var rowIdx = 0; rowIdx < GRID.rows; rowIdx++) {
+			var img = document.getElementById("img_" + rowIdx + "_" + colIdx);
+			img.src = CLAIM.img;
+		}
+		await new Promise(resolve => setTimeout(resolve, 20));
+	}
+}
+
+function hideActors() {
+	PLAYER.hide();
+	QIX.hide();
+	for (i = 0; i < sparxList.length; i++) {
+		sparxList[i].hide();
+	}
+}
+
+function showActors() {
+	PLAYER.show();
+	QIX.show();
+	for (i = 0; i < sparxList.length; i++) {
+		sparxList[i].show();
+	}
+}
+
 var wasPushing = false;
-function claim() {
+async function claim() {
 	for (var rowIdx = 0; rowIdx < GRID.rows; rowIdx++) {
 		for (var colIdx = 0; colIdx < GRID.columns; colIdx++) {
 			if (GRID.map[rowIdx][colIdx].tileType == PATH || GRID.map[rowIdx][colIdx].tileType == PUSH) {
@@ -538,7 +670,19 @@ function claim() {
 	}
 	unclaim(QIX.tile);
 	updateGrid();
-	updateClaimedPercent(getClaimPercent());
+	var claimPercent = getClaimPercent();
+	updateClaimedPercent(claimPercent);
+	if (claimPercent >= LEVELS.getCurrentLevel().goal) {
+		IS_PAUSED = true; 
+		LEVELS.nextLevel();
+		hideActors();
+		clearGrid();
+		await new Promise(resolve => setTimeout(resolve, 5 * 1000));
+		NEXT_LEVEL_IMG.style.visibility = "visible";
+		await new Promise(resolve => setTimeout(resolve, 5 * 1000));
+		showActors();
+		loadLevel();
+	}
 }
 
 function movePlayer() {
@@ -571,6 +715,15 @@ function movePlayer() {
 		PLAYER.isClaiming = true;
 	}
 
+	if (wasPushing && !PLAYER.isClaiming) {
+		tailPop();
+		if (PLAYER_TAIL.length == 0) {
+			wasPushing = false;
+			return;
+		}
+		return;
+	}
+
 	if (VEL_L != 0 || VEL_R != 0 || VEL_U != 0 || VEL_D != 0) {
 		if (GRID.inGrid(PLAYER.getTile().row + VEL_U + VEL_D, PLAYER.getTile().col + VEL_L + VEL_R)) {
 			//console.log("PLAYER.isClaiming: " + PLAYER.isClaiming)
@@ -583,7 +736,9 @@ function movePlayer() {
 					claim();
 					return;
 				}
-				if (GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R].tileType == PUSH || GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R].tileType == CLAIM) {
+				if (GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R].tileType == PUSH
+					|| GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R].tileType == CLAIM
+					|| GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R].tileType == DEADPATH) {
 					return;
 				}
 				if (GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R].tileType == EMPTY) {
@@ -597,8 +752,11 @@ function movePlayer() {
 					PLAYER_TAIL.push(GRID.map[PLAYER.getTile().row][PLAYER.getTile().col + VEL_L + VEL_R]);
 				}
 				if (pushIfEmpty(PLAYER.getTile().row + VEL_U + VEL_D, PLAYER.getTile().col + VEL_L + VEL_R)) {
-					if (PLAYER.getTile().tileType == PATH) {
+					if (PLAYER.getTile().tileType == PATH || PLAYER.getTile().tileType == EMPTY) {
 						PLAYER_TAIL.push(PLAYER.getTile());
+					}
+					if (PLAYER.getTile().tileType == EMPTY) {
+						pushIfEmpty(PLAYER.getTile().row, PLAYER.getTile().col);
 					}
 					PLAYER.setTile(GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R]);
 					PLAYER_TAIL.push(PLAYER.getTile());
@@ -613,10 +771,42 @@ function movePlayer() {
 }
 window.setInterval(movePlayer, 1000 / 20);
 
+function openPatreon() {
+	pauseGame(document.getElementById("btn_pause"));
+	window.open(LEVELS.girl.patreon, "_blank").focus();
+	pausePlayLeave(document.getElementById("btn_pause"));
+}
 
-function onLoad() {
+function loadLevel() {
+	// reseting elements
+	GRID = new Grid(0, 0, GRID_ROWS, GRID_COLS, CEL_HEIGHT);
+	var playerLives = PLAYER.lives;
+	PLAYER = new Player(GRID.map[GRID.rows - 1][GRID.columns / 2]);
+	PLAYER.lives = playerLives;
+	QIX = new Qix(GRID.map[GRID.rows / 2][GRID.columns / 2]);
+	SPARX1 = new Sparx(GRID.map[0][Math.floor(Math.random() * (GRID.columns - 2))], (Math.floor(Math.random() * 10) > 5) ? true : false);
+	SPARX2 = new Sparx(GRID.map[Math.floor(Math.random() * (GRID.rows - 2))][0], (Math.floor(Math.random() * 10) > 5) ? true : false);
+	SPARX3 = new Sparx(GRID.map[Math.floor(Math.random() * (GRID.rows - 2))][GRID.columns - 1], (Math.floor(Math.random() * 10) > 5) ? true : false);
+	sparxList = [SPARX1, SPARX2, SPARX3];
+	PAUSED_IMG.style.visibility = "hidden";
+	NEXT_LEVEL_IMG.style.visibility = "hidden";
+
+	// updating UI
+	updateLives(PLAYER.lives);
+	updateLevel(LEVELS.level);
+	updateClaimedPercent(0);
+	updateGoal(LEVELS.getCurrentLevel().goal);
+	document.getElementById("player_head_img").src = LEVELS.getAvatarImg();
+	document.getElementById("player_head_img").title = LEVELS.avatar.getTitle();
+	document.getElementById("girl_head_img").src = LEVELS.getGirlHead();
+	document.getElementById("girl_head_img").title = LEVELS.girl.getTitle();
+	if (LEVELS.girl.patreon != "") {
+		document.getElementById("girl_head_img").onclick = openPatreon;
+	}
+
 	var td = document.getElementById("td_game");
-	var bgImg = newImage("./img/temp_bg_img.webp", 600, "relative", 0, 0, 1, "");
+	td.replaceChildren();
+	var bgImg = newImage(LEVELS.getCurrentLevel().girlImg, 600, "relative", 0, 0, 1, "");
 	bgImg.id = "BgImg";
 	td.appendChild(bgImg);
 
@@ -638,6 +828,13 @@ function onLoad() {
 	}
 
 	td.appendChild(PAUSED_IMG);
+	td.appendChild(NEXT_LEVEL_IMG);
+	IS_PAUSED = false;
+}
+
+function onLoad() {
+	LEVELS = new Levels(AVATARS.getSelectedAvatar(), GIRLS.getSelectedGirl());
+	loadLevel();
 }
 
 function pausePlayHover(img) {
@@ -670,33 +867,21 @@ function startGame() {
 
 	document.getElementById("btn_pause").src = "./img/pause.png";
 
-	// reseting elements
-	GRID = new Grid(0, 0, GRID_ROWS, GRID_COLS, CEL_HEIGHT);
-	PLAYER = new Player(GRID.map[GRID.rows - 1][GRID.columns / 2]);
-	QIX = new Qix(GRID.map[GRID.rows / 2][GRID.columns / 2]);
-	SPARX1 = new Sparx(GRID.map[0][Math.floor(Math.random() * (GRID.columns - 2))], (Math.floor(Math.random() * 10) > 5) ? true : false);
-	SPARX2 = new Sparx(GRID.map[Math.floor(Math.random() * (GRID.rows - 2))][0], (Math.floor(Math.random() * 10) > 5) ? true : false);
-	SPARX3 = new Sparx(GRID.map[Math.floor(Math.random() * (GRID.rows - 2))][GRID.columns - 1], (Math.floor(Math.random() * 10) > 5) ? true : false);
-	sparxList = [SPARX1, SPARX2, SPARX3];
-	PAUSED_IMG.style.visibility = "hidden";
-
-	// updating UI
-	updateLives(PLAYER.lives);
-	updateLevel(1);
-	updateClaimedPercent(0);
-	updateGoal(60);
-
-	document.getElementById("td_game").replaceChildren();
 	onLoad();
+
 	IS_PAUSED = false;
 	IS_GAME_OVER = false;
 }
 
 function moveKeysLeave() {
 	document.getElementById("movement_keys_img").src = "./img/movement_keys_0.png";
+	document.getElementById("tr_pre_movement_text").style = "display:none";
+	document.getElementById("tr_movement_text").style = "display:none";
 }
 function moveKeysOver() {
 	document.getElementById("movement_keys_img").src = "./img/movement_keys_1.png";
+	document.getElementById("tr_pre_movement_text").style = "display:";
+	document.getElementById("tr_movement_text").style = "display:";
 }
 
 window.addEventListener("keydown", function (e) {
@@ -713,25 +898,24 @@ window.addEventListener("keyup", function (e) {
 <table id="main_table">
 <tbody>
 <tr style="position: relative;">
-	<td>&nbsp;</td>
-	<td id="td_game" style="position: relative;">
+	<td id="td_game" class="tops" style="position: relative;">
 		<!--img width="900" height="600" id="BgImg" src="./img/empty_tile.png" title="Revealed"/-->
 	</td>
-	<td>&nbsp;&nbsp;</td>
-	<td class="tops">
+	<td rowspan="3"><img align="center" width="5px" src="./img/empty_tile.png"/></td>
+	<td rowspan="3" class="tops">
 		<table>
 			<tr>
-				<td colspan="3">
-					<img valign="top" align="left" width="200" id="LewdQix-Logo" src="./LewdQix-Logo.png" title="Lewd Qix"/>
+				<td>
+					<img align="center" width="202" id="LewdQix-Logo" src="./LewdQix-Logo.png" title="Lewd Qix"/>
 				</td>
 			</tr>
 			<tr>
-				<td colspan="3">
-					<img align="left" height="10px" src="./img/empty_tile.png"/>
+				<td>
+					<img height="5px" src="./img/empty_tile.png"/>
 				</td>
 			</tr>
 			<tr>
-				<td colspan="3" bgcolor="white" align="center" onmouseover="moveKeysOver()" onmouseleave="moveKeysLeave()" title="Movement Keys">
+				<td bgcolor="white" align="center">
 					<table>
 						<tr>
 							<td><b style="font-family:'Calibri'">Lives: <span id="lives_text">10</span></b></td>
@@ -749,81 +933,82 @@ window.addEventListener("keyup", function (e) {
 				</td>
 			</tr>
 			<tr>
-				<td colspan="3">
-					<img align="left" height="10px" src="./img/empty_tile.png"/>
+				<td>
+					<img align="left" height="5px" src="./img/empty_tile.png"/>
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					<img height="24px" id="btn_pause" src="./img/pause.png" title="Pause" onmouseover="pausePlayHover(this)" onmouseleave="pausePlayLeave(this)" onclick="pauseGame(this)"/>
+					<img width="10px" src="./img/empty_tile.png"/>
+					<img height="24px" id="btn_restart" src="./img/restart.png" title="Restart" onmouseover="this.src='./img/restart_hover.png'" onmouseleave="this.src='./img/restart.png'" onclick="startGame()"/>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<img align="left" height="48px" id="btn_pause" src="./img/pause.png" title="Pause" onmouseover="pausePlayHover(this)" onmouseleave="pausePlayLeave(this)" onclick="pauseGame(this)"/>
+					<img align="left" height="1px" src="./img/empty_tile.png"/>
 				</td>
+			</tr>
+			<tr>
+				<td bgcolor="white" align="center" onmouseover="moveKeysOver()" onmouseleave="moveKeysLeave()" title="Movement Keys">
+					<img align="left" height="5px" src="./img/empty_tile.png"/>
+				</td>
+			</tr>
+			<tr>
+				<td bgcolor="white" align="center" onmouseover="moveKeysOver()" onmouseleave="moveKeysLeave()" title="Movement Keys">
+					<img id="movement_keys_img" height="56" align="center" src="./img/movement_keys_0.png" title="Movement Keys"/>
+					<img align="left" height="5px" src="./img/empty_tile.png"/>
+					<img id="space_key_img" height="27" align="center" src="./img/space_key.png" title="Space Key"/><br/>
+					<img align="left" height="5px" src="./img/empty_tile.png"/>
+				</td>
+			</tr>
+			<tr id="tr_pre_movement_text" style="display:none">
 				<td>
-					<img align="left" height="2px" src="./img/empty_tile.png"/>
-				</td>
-				<td>
-					<img align="left" height="48px" id="btn_restart" src="./img/restart.png" title="Restart" onmouseover="this.src='./img/restart_hover.png'" onmouseleave="this.src='./img/restart.png'" onclick="startGame()"/>
+					<img align="left" height="5px" src="./img/empty_tile.png"/>
 				</td>
 			</tr>
-			<tr>
-				<td colspan="3">
-					<img align="left" height="10px" src="./img/empty_tile.png"/>
-				</td>
-			</tr>
-			<tr>
-				<td bgcolor="white" colspan="3">
-					<img align="left" height="10px" src="./img/empty_tile.png"/>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="3" bgcolor="white" align="center" onmouseover="moveKeysOver()" onmouseleave="moveKeysLeave()" title="Movement Keys">
+			<tr id="tr_movement_text" style="display:none">
+				<td bgcolor="white" align="center" title="Movement Keys">
 					<table>
 						<tr>
-							<td align="center">
-								<img id="movement_keys_img" align="center" src="./img/movement_keys_0.png" title="Movement Keys"/>
-							</td>
+							<td align="center"><b style="font-family:'Calibri'; font-size:15px;">Use W, A, S, D, or the arrow<br/> keys to move the cursor.</b></td>
 						</tr>
 						<tr>
 							<td>
-								<img align="left" height="10px" src="./img/empty_tile.png"/>
+								<img align="left" height="5px" src="./img/empty_tile.png"/>
 							</td>
 						</tr>
 						<tr>
-							<td align="center">
-								<img id="space_key_img" align="center" src="./img/space_key.png" title="Space Key"/><br/>
-							</td>
-						</tr>
-						<tr>
-							<td align="center">
-								<img align="left" height="10px" src="./img/empty_tile.png"/>
-							</td>
+							<td align="center"><b style="font-family:'Calibri'; font-size:15px;">Keep the Space key pressed<br/> to capture.</b></td>
 						</tr>
 					</table>
 				</td>
 			</tr>
 			<tr>
-				<td colspan="3">
-					<img align="left" height="10px" src="./img/empty_tile.png"/>
+				<td>
+					<img align="left" height="5px" src="./img/empty_tile.png"/>
 				</td>
 			</tr>
 			<tr>
-				<td colspan="3" bgcolor="white" align="center" onmouseover="moveKeysOver()" onmouseleave="moveKeysLeave()" title="Movement Keys">
-					<table>
-						<tr>
-							<td align="center"><b style="font-family:'Calibri'">Use W, A, S, D,<br/> or the arrow keys<br/> to move the cursor</b></td>
-						</tr>
-						<tr>
-							<td>
-								<img align="left" height="10px" src="./img/empty_tile.png"/>
-							</td>
-						</tr>
-						<tr>
-							<td align="center"><b style="font-family:'Calibri'">Press the Space key<br/> to start capturing</b></td>
-						</tr>
-					</table>
+				<td>
+					<img align="center" width="202" src="./img/player_and_girl.png"/>
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					<img height="140" class="round" id="player_head_img" src="./img/empty_tile.png" title="Player"/>
+					<img width="9px" src="./img/empty_tile.png"/>
+					<img height="140" class="round" id="girl_head_img" src="./img/empty_tile.png" title="Girl"/>
 				</td>
 			</tr>
 		</table>
 	</td>
+</tr>
+<tr>
+	<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
+</tr>
+<tr>
+	<td align="center" bgcolor="white"><a style="font-family:'Calibri'" href="https://www.patreon.com/grimagrima" target="_blank">https://www.patreon.com/grimagrima</a></td>
 </tr>
 </tbody>
 </table>
