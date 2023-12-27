@@ -51,8 +51,6 @@ function Girl(_id, _name, _fromGame, _patreon) {
 	this.img = "./img/girl_head_" + this.id + ".webp";
 	this.getTitle = function() { return this.name + "\r\n(From: " + this.fromGame + ")\r\n" + this.patreon; }
 }
-var GIRL = new Girl("001", "Vanessa", "Girl In Charge", "https://www.patreon.com/grimagrima");
-var GIRL2 = new Girl("002", "Vanessa2", "Girl In Charge", "");
 
 function Girls() {
 	this.selectedGirl = -1;
@@ -67,8 +65,9 @@ function Girls() {
 	}
 }
 var GIRLS = new Girls();
-GIRLS.push(GIRL);
-GIRLS.push(GIRL2);
+GIRLS.push(new Girl("001", "Vanessa", "Girl In Charge", "https://www.patreon.com/grimagrima"));
+GIRLS.push(new Girl("002", "Vanessa2", "Girl In Charge", ""));
+GIRLS.push(new Girl("003", "Violet", "The Love App", "https://www.patreon.com/grimagrima"));
 GIRLS.selectedGirl = 0;
 
 function Avatar(_id, _name, _fromGame) {
@@ -78,8 +77,6 @@ function Avatar(_id, _name, _fromGame) {
 	this.img = "./img/player_head_" + this.id + ".webp";
 	this.getTitle = function() { return this.name + "\r\n(From: " + this.fromGame + ")"; }
 }
-var AVATAR = new Avatar("001", "Dylan", "Girl In Charge");
-var AVATAR2 = new Avatar("002", "Dylan2", "Girl In Charge");
 
 function Avatars() {
 	this.selectedAvatar = -1;
@@ -94,8 +91,10 @@ function Avatars() {
 	}
 }
 var AVATARS = new Avatars();
-AVATARS.push(AVATAR);
-AVATARS.push(AVATAR);
+AVATARS.push(new Avatar("001", "Dylan", "Girl In Charge"));
+AVATARS.push(new Avatar("002", "Dylan2", "Girl In Charge"));
+AVATARS.push(new Avatar("003", "Silhouette", ""));
+AVATARS.push(new Avatar("003", "Silhouette2", ""));
 AVATARS.selectedAvatar = 0;
 
 
@@ -760,6 +759,8 @@ function movePlayer() {
 					}
 					PLAYER.setTile(GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R]);
 					PLAYER_TAIL.push(PLAYER.getTile());
+				} else if (GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R].tileType == PATH) {
+					PLAYER.setTile(GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R]);
 				}
 			} else { // not claiming, can only move to another PATH tile
 				if (GRID.map[PLAYER.getTile().row + VEL_U + VEL_D][PLAYER.getTile().col + VEL_L + VEL_R].tileType == PATH) {
@@ -771,10 +772,14 @@ function movePlayer() {
 }
 window.setInterval(movePlayer, 1000 / 20);
 
-function openPatreon() {
+function openURL(_url) {
 	pauseGame(document.getElementById("btn_pause"));
-	window.open(LEVELS.girl.patreon, "_blank").focus();
+	window.open(_url, "_blank").focus();
 	pausePlayLeave(document.getElementById("btn_pause"));
+}
+
+function openPatreon() {
+	openURL(LEVELS.girl.patreon);
 }
 
 function loadLevel() {
@@ -802,6 +807,10 @@ function loadLevel() {
 	document.getElementById("girl_head_img").title = LEVELS.girl.getTitle();
 	if (LEVELS.girl.patreon != "") {
 		document.getElementById("girl_head_img").onclick = openPatreon;
+		document.getElementById("girl_head_img").classList.add("clickable");
+	} else {
+		document.getElementById("girl_head_img").onclick = null;
+		document.getElementById("girl_head_img").classList.remove("clickable");
 	}
 
 	var td = document.getElementById("td_game");
@@ -830,11 +839,11 @@ function loadLevel() {
 	td.appendChild(PAUSED_IMG);
 	td.appendChild(NEXT_LEVEL_IMG);
 	IS_PAUSED = false;
+	IS_GAME_OVER = false;
 }
 
 function onLoad() {
-	LEVELS = new Levels(AVATARS.getSelectedAvatar(), GIRLS.getSelectedGirl());
-	loadLevel();
+	document.getElementById("AvatarModal").style.display = "block";
 }
 
 function pausePlayHover(img) {
@@ -866,11 +875,8 @@ function startGame() {
 	IS_PAUSED = true;
 
 	document.getElementById("btn_pause").src = "./img/pause.png";
-
+	PLAYER = new Player(GRID.map[GRID.rows - 1][GRID.columns / 2]);
 	onLoad();
-
-	IS_PAUSED = false;
-	IS_GAME_OVER = false;
 }
 
 function moveKeysLeave() {
@@ -939,9 +945,9 @@ window.addEventListener("keyup", function (e) {
 			</tr>
 			<tr>
 				<td align="center">
-					<img height="24px" id="btn_pause" src="./img/pause.png" title="Pause" onmouseover="pausePlayHover(this)" onmouseleave="pausePlayLeave(this)" onclick="pauseGame(this)"/>
+					<img height="24px" id="btn_pause" class="clickable" src="./img/pause.png" title="Pause" onmouseover="pausePlayHover(this)" onmouseleave="pausePlayLeave(this)" onclick="pauseGame(this)"/>
 					<img width="10px" src="./img/empty_tile.png"/>
-					<img height="24px" id="btn_restart" src="./img/restart.png" title="Restart" onmouseover="this.src='./img/restart_hover.png'" onmouseleave="this.src='./img/restart.png'" onclick="startGame()"/>
+					<img height="24px" id="btn_restart" class="clickable" src="./img/restart.png" title="Restart" onmouseover="this.src='./img/restart_hover.png'" onmouseleave="this.src='./img/restart.png'" onclick="startGame()"/>
 				</td>
 			</tr>
 			<tr>
@@ -1008,10 +1014,186 @@ window.addEventListener("keyup", function (e) {
 	<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
 </tr>
 <tr>
-	<td align="center" bgcolor="white"><a style="font-family:'Calibri'" href="https://www.patreon.com/grimagrima" target="_blank">https://www.patreon.com/grimagrima</a></td>
+	<td class="clickable" align="center" bgcolor="white" onclick="openURL('https://www.patreon.com/grimagrima')"><a style="font-family:'Calibri'">https://www.patreon.com/grimagrima</a></td>
 </tr>
 </tbody>
 </table>
+
+<!-- The AvatarModal -->
+<div id="AvatarModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <p align="center" class="round sticky">Select your Avatar:</p>
+	<br>
+	<table id="t_AvatarList" align="center">
+		<tr>
+			<td><img height='140' class='round clickable' src='./img/player_head_001.webp' title='Dylan' onclick='setAvatar(0)'/></td>
+			<td class='round' bgcolor='gray' align='center' onclick='setAvatar(0)'><p>Dylan<br/>(Girl In Charge)</p></td>
+			<td><img width='30px' src='./img/empty_tile.png'/></td>
+			<td><img height="140" class="round clickable" src="./img/player_head_002.webp" title="Dylan2" onclick="setAvatar(1)"/></td>
+			<td class="round" bgcolor="gray" align="center" onclick="setAvatar(1)"><p>Dylan2<br/>(Girl In Charge)</p></td>
+			<td><img width="30px" src="./img/empty_tile.png"/></td>
+			<td><img height="140" class="round clickable" src="./img/player_head_003.webp" title="Silhouette" onclick="setAvatar(2)"/></td>
+			<td class="round" bgcolor="gray" align="center" onclick="setAvatar(2)"><p>Silhouette<br/></p></td>
+			<td><img width="30px" src="./img/empty_tile.png"/></td>
+		</tr>
+		<tr><td><img height='30px' src='./img/empty_tile.png'/></td></tr>
+	</table>
+	<br>
+  </div>
+</div>
+
+<!-- The GirlModal -->
+<div id="GirlModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <p align="center" class="round sticky">Select a Girl:</p>
+	<br>
+	<table id="t_GirlList" align="center">
+		<tr>
+			<td><img height='140' class='round clickable' src='./img/girl_head_001.webp' title='Vanessa' onclick='setGirl(0)'/></td>
+			<td class='round' bgcolor='gray' align='center' onclick='setGirl(0)'><p>Vanessa<br/>(Girl In Charge)</p></td>
+			<td><img width='30px' src='./img/empty_tile.png'/></td>
+			<td><img height="140" class="round clickable" src="./img/girl_head_002.webp" title="Vanessa2" onclick="setGirl(1)"/></td>
+			<td class="round" bgcolor="gray" align="center" onclick="setGirl(1)"><p>Vanessa2<br/>(Girl In Charge)</p></td>
+			<td><img width="30px" src="./img/empty_tile.png"/></td>
+			<td><img height="140" class="round clickable" src="./img/girl_head_003.webp" title="Silhouette" onclick="setGirl(2)"/></td>
+			<td class="round" bgcolor="gray" align="center" onclick="setGirl(2)"><p>Silhouette<br/></p></td>
+			<td><img width="30px" src="./img/empty_tile.png"/></td>
+		</tr>
+		<tr><td><img height='30px' src='./img/empty_tile.png'/></td></tr>
+	</table>
+	<br>
+  </div>
+</div>
+
+<script>
+// Get the avatarModal
+var avatarModal = document.getElementById("AvatarModal");
+
+// Get the girlModal
+var girlModal = document.getElementById("GirlModal");
+
+function avatarImage(_i) {
+	var img = new Image();
+	img.src = AVATARS.avatars[_i].img;
+	img.title = AVATARS.avatars[_i].getTitle();
+	img.height = 140;
+	img.classList.add("round");
+	img.classList.add("clickable");
+	img.onclick = function() { setAvatar(_i); }
+	return img;
+}
+
+function girlImage(_i) {
+	var img = new Image();
+	img.src = GIRLS.girls[_i].img;
+	img.title = GIRLS.girls[_i].getTitle();
+	img.height = 140;
+	img.classList.add("round");
+	img.classList.add("clickable");
+	img.onclick = function() { setGirl(_i); }
+	return img;
+}
+
+function newEmptyImg() {
+	var img = new Image();
+	img.src = "./img/empty_tile.png";
+	img.height = "30";
+	img.width = "30";
+	return img;
+}
+
+function displayAvatars() {
+	var tAvatarList = document.getElementById("t_AvatarList");
+	tAvatarList.replaceChildren();
+
+	var rowCount = 0;
+	var cellCount = 0;
+	var row1 = null;
+	var row2 = null;
+	var cell1 = null;
+	var cell2 = null;
+	var cell3 = null;
+	var cell4 = null;
+
+	for (var i = 0; i < AVATARS.avatars.length; i++) {
+		if (((i + 1) % 3) == 1) {
+			row1 = tAvatarList.insertRow(rowCount++);
+		}
+		cell1 = row1.insertCell();
+		cell1.appendChild(avatarImage(i));
+
+		cell2 = row1.insertCell();
+		cell2.classList.add("round");
+		cell2.style.backgroundColor = "gray";
+		cell2.align = "center";
+		cell2.innerHTML = "<p>" + AVATARS.avatars[i].name + "<br/>(" + AVATARS.avatars[i].fromGame + ")</p>";
+
+		cell3 = row1.insertCell();
+		cell3.appendChild(newEmptyImg());
+
+		if (((i + 1) % 3) == 0) {
+			row2 = tAvatarList.insertRow(rowCount++);
+			cell4 = row2.insertCell();
+			cell4.appendChild(newEmptyImg());
+		}
+	}
+}
+displayAvatars();
+
+function displayGirls() {
+	var tGirlList = document.getElementById("t_GirlList");
+	tGirlList.replaceChildren();
+
+	var rowCount = 0;
+	var cellCount = 0;
+	var row1 = null;
+	var row2 = null;
+	var cell1 = null;
+	var cell2 = null;
+	var cell3 = null;
+	var cell4 = null;
+
+	for (var i = 0; i < GIRLS.girls.length; i++) {
+		if (((i + 1) % 3) == 1) {
+			row1 = tGirlList.insertRow(rowCount++);
+		}
+		cell1 = row1.insertCell();
+		cell1.appendChild(girlImage(i));
+
+		cell2 = row1.insertCell();
+		cell2.classList.add("round");
+		cell2.style.backgroundColor = "gray";
+		cell2.align = "center";
+		cell2.innerHTML = "<p>" + GIRLS.girls[i].name + "<br/>(" + GIRLS.girls[i].fromGame + ")</p>";
+
+		cell3 = row1.insertCell();
+		cell3.appendChild(newEmptyImg());
+
+		if (((i + 1) % 3) == 0) {
+			row2 = tGirlList.insertRow(rowCount++);
+			cell4 = row2.insertCell();
+			cell4.appendChild(newEmptyImg());
+		}
+	}
+}
+displayGirls();
+
+function setAvatar(_seq) {
+	AVATARS.selectedAvatar = _seq;
+	avatarModal.style.display = "none";
+	girlModal.style.display = "block";
+}
+
+function setGirl(_seq) {
+	GIRLS.selectedGirl = _seq;
+	girlModal.style.display = "none";
+	LEVELS = new Levels(AVATARS.getSelectedAvatar(), GIRLS.getSelectedGirl());
+	loadLevel();
+}
+</script>
+
 
 </body>
 </html>
