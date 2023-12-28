@@ -45,13 +45,29 @@ const CLAIM = new TileType(_CLAIM, "./img/empty_tile.png");
 const _DEADPATH = "DEADPATH";
 const DEADPATH = new TileType(_DEADPATH, "./img/semi_tile.png");
 
+function LevelImg(_revealed, _maxPercentage) {
+	this.revealed = _revealed;
+	this.maxPercentage = _maxPercentage;
+	this.isRevealed = function() { return this.revealed; }
+	this.setMaxPercentage = function(_revealedPercent) {
+		if (_revealedPercent > this.maxPercentage) {
+			this.maxPercentage = _revealedPercent;
+		}
+	}
+}
+
 function Girl(_id, _name, _fromGame, _patreon) {
 	this.id = _id;
 	this.name = _name;
 	this.fromGame = _fromGame;
 	this.patreon = _patreon;
 	this.img = "./img/girl_head_" + this.id + ".webp";
+	this.levelImgs = [];
+	this.levelImgs[0] = new LevelImg(false, 0);
+	this.levelImgs[1] = new LevelImg(false, 0);
+	this.levelImgs[2] = new LevelImg(false, 0);
 	this.getTitle = function() { return this.name + "\r\n(From: " + this.fromGame + ")\r\n" + this.patreon; }
+	this.getLevelImg = function(_level) { return this.levelImgs[_level - 1];}
 }
 
 function Girls() {
@@ -70,7 +86,8 @@ var GIRLS = new Girls();
 GIRLS.push(new Girl("001", "Vanessa", "Girl In Charge", "https://www.patreon.com/grimagrima"));
 GIRLS.push(new Girl("002", "Vanessa2", "Girl In Charge", ""));
 GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
-GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
+GIRLS.push(new Girl("100", "Emily", "Our Home", "https://patreon.com/oldhiccup"));
+GIRLS.push(new Girl("101", "Sabrina", "Our Home", "https://patreon.com/oldhiccup"));
 GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
 GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
 GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
@@ -697,16 +714,23 @@ async function claim() {
 	updateGrid();
 	var claimPercent = getClaimPercent();
 	updateClaimedPercent(claimPercent);
+	GIRLS.getSelectedGirl().getLevelImg(LEVELS.level).setMaxPercentage(claimPercent);
 	if (claimPercent >= LEVELS.getCurrentLevel().goal) {
+		GIRLS.getSelectedGirl().getLevelImg(LEVELS.level).revealed = true;
 		IS_PAUSED = true; 
 		LEVELS.nextLevel();
 		hideActors();
 		clearGrid();
-		await new Promise(resolve => setTimeout(resolve, 5 * 1000));
+		await new Promise(resolve => setTimeout(resolve, 5 * 1000)); // 5 seconds
 		NEXT_LEVEL_IMG.style.visibility = "visible";
-		await new Promise(resolve => setTimeout(resolve, 5 * 1000));
+		await new Promise(resolve => setTimeout(resolve, 5 * 1000)); // 5 seconds
 		showActors();
-		loadLevel();
+		if (LEVELS.finished) {
+			displayGirls();
+			girlModal.style.display = "block";
+		} else {
+			loadLevel();
+		}
 	}
 }
 
@@ -1084,18 +1108,37 @@ window.addEventListener("keyup", function (e) {
 	<table id="t_GirlList" align="center">
 		<tr>
 			<td><img height='140' class='round clickable' src='./img/girl_head_001.webp' title='Vanessa' onclick='setGirl(0)'/></td>
-			<td class='round' bgcolor='gray' align='center' onclick='setGirl(0)'><p>Vanessa<br/>(Girl In Charge)</p></td>
+			<td class='round' bgcolor='gray' align='center' style="padding-left: 5px; padding-right: 5px;">
+				<table><tr><td colspan='3' align="center"><p>Vanessa<br/>(Girl In Charge)</p></td></tr><tr><td align="center"><img src='./img/check_true.png'></td><td align="center"><img src='./img/check_true.png'></td><td align="center"><img src='./img/check_false.png'></td></tr></table>
+			</td>
 			<td><img width='30px' src='./img/empty_tile.png'/></td>
 			<td><img height="140" class="round clickable" src="./img/girl_head_002.webp" title="Vanessa2" onclick="setGirl(1)"/></td>
-			<td class="round" bgcolor="gray" align="center" onclick="setGirl(1)"><p>Vanessa2<br/>(Girl In Charge)</p></td>
+			<td class="round" bgcolor="gray" align="center" style="padding:5px;">
+				<table><tr><td colspan='3'><p>Vanessa2<br/>(Girl In Charge)</p></td></tr><tr><td><img src='./img/check_false.png'></td><td><img src='./img/check_false.png'></td><td><img src='./img/check_false.png'></td></tr></table>
+			</td>
 			<td><img width="30px" src="./img/empty_tile.png"/></td>
 			<td><img height="140" class="round clickable" src="./img/girl_head_003.webp" title="Silhouette" onclick="setGirl(2)"/></td>
-			<td class="round" bgcolor="gray" align="center" onclick="setGirl(2)"><p>Silhouette<br/></p></td>
+			<td class="round" bgcolor="gray" align="center">
+				<table><tr><td colspan='3'><p>???<br/>(???)</p></td></tr><tr><td><img src='./img/check_false.png'></td><td><img src='./img/check_false.png'></td><td><img src='./img/check_false.png'></td></tr></table>
+			</td>
 			<td><img width="30px" src="./img/empty_tile.png"/></td>
 		</tr>
 		<tr><td><img height='30px' src='./img/empty_tile.png'/></td></tr>
 	</table>
 	<br>
+  </div>
+</div>
+
+<!-- The ImgModal -->
+<div id="ImgModal" class="modal2">
+  <!-- Modal content -->
+  <div class="modal-content">
+	<table align="center">
+		<tr>
+			<td><img id="levelImgModal" align="center" height="600" src="./img/girl_001-01.webp"/></td>
+			<td class="tops"><span class="close">&times;</span></td>
+		</tr>
+	</table>
   </div>
 </div>
 
@@ -1106,6 +1149,16 @@ var avatarModal = document.getElementById("AvatarModal");
 // Get the girlModal
 var girlModal = document.getElementById("GirlModal");
 
+// Get the ImgModal
+var imgModal = document.getElementById("ImgModal");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  imgModal.style.display = "none";
+}
 function avatarImage(_i) {
 	var img = new Image();
 	img.src = AVATARS.avatars[_i].img;
@@ -1141,7 +1194,6 @@ function displayAvatars() {
 	tAvatarList.replaceChildren();
 
 	var rowCount = 0;
-	var cellCount = 0;
 	var row1 = null;
 	var row2 = null;
 	var cell1 = null;
@@ -1159,6 +1211,7 @@ function displayAvatars() {
 		cell2 = row1.insertCell();
 		cell2.classList.add("round");
 		cell2.style.backgroundColor = "gray";
+		cell2.style.padding = "5px";
 		cell2.align = "center";
 		cell2.innerHTML = "<p>" + AVATARS.avatars[i].name + "<br/>(" + AVATARS.avatars[i].fromGame + ")</p>";
 
@@ -1174,12 +1227,51 @@ function displayAvatars() {
 }
 displayAvatars();
 
+function showUncoveredImg(_girl, _level) {
+	var img = document.getElementById("levelImgModal");
+	img.src = "./img/girl_" + GIRLS.girls[_girl].id + "-0" + _level + ".webp";
+	imgModal.style.display = "block";
+}
+
+function getCheckImg(_girl, _level) {
+	var img = new Image();
+	if (GIRLS.girls[_girl].getLevelImg(_level).isRevealed()) {
+		img.src = "./img/check_true.png";
+		img.classList.add("clickable");
+		img.onclick = function() { showUncoveredImg(_girl, _level); }
+	} else {
+		img.src = "./img/check_false.png";
+		img.classList.remove("clickable");
+	}
+	img.title = "Level " + _level + " image max percentage: " + GIRLS.girls[_girl].getLevelImg(_level).maxPercentage + "%";
+	return img;
+}
+
+function getGirlNameTable(_i) {
+	var t = document.createElement('table');
+
+	var r0 = t.insertRow(0);
+	var cellName = r0.insertCell();
+	cellName.align = "center";
+	cellName.colSpan = 3;
+	cellName.innerHTML = "<p>" + GIRLS.girls[_i].name + "<br/>(" + GIRLS.girls[_i].fromGame + ")</p>";
+
+	var r1 = t.insertRow(1);
+	for (var i = 1; i <= 3; i++) {
+		var cell = r1.insertCell();
+		cell.align = "center";
+		cell.style.padding = "5px";
+		cell.appendChild(getCheckImg(_i, i));
+	}
+
+	return t;
+}
+
 function displayGirls() {
 	var tGirlList = document.getElementById("t_GirlList");
 	tGirlList.replaceChildren();
 
 	var rowCount = 0;
-	var cellCount = 0;
 	var row1 = null;
 	var row2 = null;
 	var cell1 = null;
@@ -1197,8 +1289,9 @@ function displayGirls() {
 		cell2 = row1.insertCell();
 		cell2.classList.add("round");
 		cell2.style.backgroundColor = "gray";
+		cell2.style.padding = "5px";
 		cell2.align = "center";
-		cell2.innerHTML = "<p>" + GIRLS.girls[i].name + "<br/>(" + GIRLS.girls[i].fromGame + ")</p>";
+		cell2.appendChild(getGirlNameTable(i));
 
 		cell3 = row1.insertCell();
 		cell3.appendChild(newEmptyImg());
@@ -1214,6 +1307,7 @@ displayGirls();
 
 function setAvatar(_seq) {
 	AVATARS.selectedAvatar = _seq;
+	displayGirls();
 	avatarModal.style.display = "none";
 	girlModal.style.display = "block";
 }
