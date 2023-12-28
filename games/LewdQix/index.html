@@ -204,7 +204,6 @@ function Grid(_x, _y, _rows, _columns, _tileSize) {
 		}
 	}
 }
-
 var GRID = new Grid(0, 0, GRID_ROWS, GRID_COLS, CEL_HEIGHT);
 
 
@@ -667,10 +666,15 @@ function updateLevel(_level) {
 
 function updateClaimedPercent(_claimed) {
 	document.getElementById("claimed_text").textContent = _claimed;
+	document.getElementById("myBar").style.width = _claimed + "%";
+	document.getElementById("myBar").innerHTML = _claimed + "%";
+
 }
 
 function updateGoal(_goal) {
 	document.getElementById("goal_text").textContent = _goal;
+	document.getElementById("myTarget").style.width = _goal + "%";
+	document.getElementById("myTarget").innerHTML = _goal + "%";
 }
 
 async function clearGrid() {
@@ -820,12 +824,14 @@ function movePlayer() {
 		}
 	}
 }
-window.setInterval(movePlayer, 1000 / 20);
+window.setInterval(movePlayer, 1000 / 15);
 
 function openURL(_url) {
-	pauseGame(document.getElementById("btn_pause"));
+	if (!IS_PAUSED) {
+		pauseGame(document.getElementById("btn_pause"));
+		pausePlayLeave(document.getElementById("btn_pause"));
+	}
 	window.open(_url, "_blank").focus();
-	pausePlayLeave(document.getElementById("btn_pause"));
 }
 
 function openPatreon() {
@@ -1061,6 +1067,14 @@ window.addEventListener("keyup", function (e) {
 	</td>
 </tr>
 <tr>
+	<td>
+		<div id="myProgress">
+			<b style="font-family:'Calibri'; font-size:12px;"><div id="myTarget">0%</div></b>
+			<b style="font-family:'Calibri'; font-size:12px;"><div id="myBar">0%</div></b>
+		</div>
+	</td>
+</tr>
+<tr>
 	<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
 </tr>
 <tr>
@@ -1136,7 +1150,7 @@ window.addEventListener("keyup", function (e) {
 	<table align="center">
 		<tr>
 			<td><img id="levelImgModal" align="center" height="600" src="./img/girl_001-01.webp"/></td>
-			<td class="tops"><span class="close">&times;</span></td>
+			<td class="tops"><span class="close" title="Close">&times;</span></td>
 		</tr>
 	</table>
   </div>
