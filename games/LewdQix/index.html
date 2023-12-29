@@ -98,6 +98,11 @@ GIRLS.push(new Girl("105", "Bonnie", "Fattening Career", "https://www.patreon.co
 GIRLS.push(new Girl("106", "Krystal", "The Gain Trials", "https://www.patreon.com/Bladerune9"));
 GIRLS.push(new Girl("107", "Trista", "Fattening Career", "https://www.patreon.com/Bladerune9"));
 
+// Cyberlinxxx - https://www.patreon.com/Bakaplays
+GIRLS.push(new Girl("110", "A-Z", "Cyberlinxxx", "https://www.patreon.com/Bakaplays"));
+GIRLS.push(new Girl("111", "Geena", "Cyberlinxxx", "https://www.patreon.com/Bakaplays"));
+GIRLS.push(new Girl("112", "Zandra", "Cyberlinxxx", "https://www.patreon.com/Bakaplays"));
+
 GIRLS.selectedGirl = 0;
 
 function Avatar(_id, _name, _fromGame) {
@@ -656,11 +661,16 @@ function updateLevel(_level) {
 	document.getElementById("level_text").textContent = _level;
 }
 
+function getGirlLocalStorageKey(_girl, _level) {
+	return "girl_" + _girl + "_" + _level;
+}
+
 function updateClaimedPercent(_claimed) {
 	document.getElementById("claimed_text").textContent = _claimed;
 	document.getElementById("myBar").style.width = _claimed + "%";
 	document.getElementById("myBar").innerHTML = _claimed + "%";
-
+	GIRLS.getSelectedGirl().getLevelImg(LEVELS.level).setMaxPercentage(_claimed);
+	localStorage.setItem(getGirlLocalStorageKey(GIRLS.getSelectedGirl().id, LEVELS.level - 1) + "_max", _claimed);
 }
 
 function updateGoal(_goal) {
@@ -710,10 +720,10 @@ async function claim() {
 	updateGrid();
 	var claimPercent = getClaimPercent();
 	updateClaimedPercent(claimPercent);
-	GIRLS.getSelectedGirl().getLevelImg(LEVELS.level).setMaxPercentage(claimPercent);
 	if (claimPercent >= LEVELS.getCurrentLevel().goal) {
 		GIRLS.getSelectedGirl().getLevelImg(LEVELS.level).revealed = true;
 		IS_PAUSED = true; 
+		localStorage.setItem(getGirlLocalStorageKey(GIRLS.getSelectedGirl().id, LEVELS.level - 1) + "_rev", "Y");
 		LEVELS.nextLevel();
 		hideActors();
 		clearGrid();
@@ -819,6 +829,9 @@ function movePlayer() {
 window.setInterval(movePlayer, 1000 / 15);
 
 function openURL(_url) {
+	if (_url == "") {
+		return;
+	}
 	if (!IS_PAUSED) {
 		pauseGame(document.getElementById("btn_pause"));
 		pausePlayLeave(document.getElementById("btn_pause"));
@@ -893,7 +906,25 @@ function loadLevel() {
 	IS_GAME_OVER = false;
 }
 
+function loadGirlsFromLocalStorage() {
+	for (var i = 0; i < GIRLS.girls.length; i++) {
+		for (var j = 0; j < GIRLS.girls[i].levelImgs.length; j++) {
+			var key = getGirlLocalStorageKey(GIRLS.girls[i].id, j);
+			var revealed = localStorage.getItem(key + "_rev");
+			if (revealed == "Y") {
+				GIRLS.girls[i].levelImgs[j].revealed = true;
+			}
+
+			var maxPercentage = localStorage.getItem(key + "_max");
+			if (maxPercentage != "" && !isNaN(maxPercentage)) {
+				GIRLS.girls[i].levelImgs[j].setMaxPercentage(maxPercentage);
+			}
+		}
+	}
+}
+
 function onLoad() {
+	loadGirlsFromLocalStorage();
 	document.getElementById("AvatarModal").style.display = "block";
 }
 
@@ -927,7 +958,7 @@ function startGame() {
 
 	document.getElementById("btn_pause").src = "./img/pause.png";
 	PLAYER = new Player(GRID.map[GRID.rows - 1][GRID.columns / 2]);
-	onLoad();
+	document.getElementById("AvatarModal").style.display = "block";
 }
 
 function moveKeysLeave() {
