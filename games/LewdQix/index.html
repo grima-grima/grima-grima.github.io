@@ -1,5 +1,7 @@
 <html>
 <head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>LewdQix</title>
 	<link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
 	<link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
@@ -85,25 +87,17 @@ function Girls() {
 var GIRLS = new Girls();
 GIRLS.push(new Girl("001", "Vanessa", "Girl In Charge", "https://www.patreon.com/grimagrima"));
 GIRLS.push(new Girl("002", "Vanessa2", "Girl In Charge", ""));
-GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
+//GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
+
+// Our Home - https://patreon.com/oldhiccup
 GIRLS.push(new Girl("100", "Emily", "Our Home", "https://patreon.com/oldhiccup"));
 GIRLS.push(new Girl("101", "Sabrina", "Our Home", "https://patreon.com/oldhiccup"));
-GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
-GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
-GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
-GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
-GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
-GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
-GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
-GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
-GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
-GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
-GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
-GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
-GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
-GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
-GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
-GIRLS.push(new Girl("003", "???", "???", "https://www.patreon.com/grimagrima"));
+
+// Fattening Career / The Gain Trials - https://www.patreon.com/Bladerune9
+GIRLS.push(new Girl("105", "Bonnie", "Fattening Career", "https://www.patreon.com/Bladerune9"));
+GIRLS.push(new Girl("106", "Krystal", "The Gain Trials", "https://www.patreon.com/Bladerune9"));
+GIRLS.push(new Girl("107", "Trista", "Fattening Career", "https://www.patreon.com/Bladerune9"));
+
 GIRLS.selectedGirl = 0;
 
 function Avatar(_id, _name, _fromGame) {
@@ -129,15 +123,7 @@ function Avatars() {
 var AVATARS = new Avatars();
 AVATARS.push(new Avatar("001", "Dylan", "Girl In Charge"));
 AVATARS.push(new Avatar("002", "Dylan2", "Girl In Charge"));
-AVATARS.push(new Avatar("003", "Silhouette", ""));
-AVATARS.push(new Avatar("003", "Silhouette2", ""));
-AVATARS.push(new Avatar("003", "Silhouette2", ""));
-AVATARS.push(new Avatar("003", "Silhouette2", ""));
-AVATARS.push(new Avatar("003", "Silhouette2", ""));
-AVATARS.push(new Avatar("003", "Silhouette2", ""));
-AVATARS.push(new Avatar("003", "Silhouette2", ""));
-AVATARS.push(new Avatar("003", "Silhouette2", ""));
-AVATARS.push(new Avatar("003", "Silhouette2", ""));
+AVATARS.push(new Avatar("003", "Silhouette", "N/A"));
 AVATARS.selectedAvatar = 0;
 
 
@@ -290,6 +276,8 @@ function Player(_tile) {
 			this.imgIdx = 0;
 		}
 		this.img.src = this.images[this.imgIdx];
+		var staticPlayer = document.getElementById("staticPlayer");
+		staticPlayer.src = this.images[this.imgIdx];
 		if (this.isImmune) {
 			// if paused, keep extending the immunity
 			if (IS_PAUSED) {
@@ -299,8 +287,10 @@ function Player(_tile) {
 			if (this.immuneUntil < new Date()) {
 				this.isImmune = false;
 				this.img.style.filter = "invert(0)";
+				staticPlayer.style.filter = "invert(0)";
 			} else {
 				this.img.style.filter = "invert(100)";
+				staticPlayer.style.filter = "invert(100)";
 			}
 		}
 	}
@@ -387,6 +377,7 @@ function Qix(_tile) {
 			this.imgIdx = 0;
 		}
 		this.img.src = this.images[this.imgIdx];
+		document.getElementById("staticQix").src = this.images[this.imgIdx];
 		this.imgMid.src = this.images[this.imgIdx];
 		this.imgTail.src = this.images[this.imgIdx];
 	}
@@ -469,6 +460,7 @@ function Sparx(_tile, _clockwise) {
 			this.imgIdx = 0;
 		}
 		this.img.src = this.images[this.imgIdx];
+		document.getElementById("staticSparx").src = this.images[this.imgIdx];
 	}
 	this.move = function() {
 		if (IS_PAUSED || IS_GAME_OVER) {
@@ -868,6 +860,9 @@ function loadLevel() {
 		document.getElementById("girl_head_img").onclick = null;
 		document.getElementById("girl_head_img").classList.remove("clickable");
 	}
+	document.getElementById("bGirlName").innerHTML = GIRLS.getSelectedGirl().name;
+	document.getElementById("bGameName").innerHTML = GIRLS.getSelectedGirl().fromGame;
+	document.getElementById("uPatreon").innerHTML = GIRLS.getSelectedGirl().patreon;
 
 	var td = document.getElementById("td_game");
 	td.replaceChildren();
@@ -977,19 +972,53 @@ window.addEventListener("keyup", function (e) {
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="white" align="center">
+				<td>
+					<img align="center" width="202" src="./img/player_and_girl.png"/>
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					<img height="140" class="round" id="player_head_img" src="./img/empty_tile.png" title="Player"/>
+					<img width="9px" src="./img/empty_tile.png"/>
+					<img height="140" class="round" id="girl_head_img" src="./img/empty_tile.png" title="Girl"/>
+				</td>
+			</tr>
+			<tr>
+				<td bgcolor="white" align="center" class="round">
 					<table>
 						<tr>
-							<td><b style="font-family:'Calibri'">Lives: <span id="lives_text">10</span></b></td>
+							<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
 						</tr>
 						<tr>
-							<td><b style="font-family:'Calibri'">Level: <span id="level_text">1</span></b></td>
+							<td align="left" style="font-family:'Calibri'; font-size:15px;">Girl: <b id="bGirlName"></b></td>
 						</tr>
 						<tr>
-							<td><b style="font-family:'Calibri'">Claimed: <span id="claimed_text">0</span>%</b></td>
+							<td align="left" style="font-family:'Calibri'; font-size:15px;">Game: <b id="bGameName"></b></td>
 						</tr>
 						<tr>
-							<td><b style="font-family:'Calibri'">Claim Goal: <span id="goal_text">60</span>%</b></td>
+							<td class="clickable" align="left" onclick="openPatreon()" style="font-family:'Calibri'; font-size:10px;"><u id="uPatreon"></u></td>
+						</tr>
+						<tr>
+							<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
+			</tr>
+			<tr>
+				<td bgcolor="white" align="center" class="round">
+					<table style="font-family:'Calibri'; font-size:15px;">
+						<tr>
+							<td>Lives: <b><span id="lives_text">10</span></b></td>
+							<td><img width="10px" src="./img/empty_tile.png"/></td>
+							<td>Level: <b><span id="level_text">1</span></b></td>
+						</tr>
+						<tr>
+							<td>Claimed: <b><span id="claimed_text">0</span>%</b></td>
+							<td><img width="10px" src="./img/empty_tile.png"/></td>
+							<td>Goal: <b><span id="goal_text">60</span>%</b></td>
 						</tr>
 					</table>
 				</td>
@@ -1012,36 +1041,47 @@ window.addEventListener("keyup", function (e) {
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="white" align="center" onmouseover="moveKeysOver()" onmouseleave="moveKeysLeave()" title="Movement Keys">
-					<img align="left" height="5px" src="./img/empty_tile.png"/>
+				<td bgcolor="white" align="center" onmouseover="moveKeysOver()" onmouseleave="moveKeysLeave()" title="Movement Keys" class="round">
+					<table>
+						<tr>
+							<td><img align="center" height="5px" src="./img/empty_tile.png"/></td>
+						</tr>
+						<tr>
+							<td>
+								<img id="movement_keys_img" height="56" align="center" src="./img/movement_keys_0.png" title="Movement Keys"/>
+								<img align="left" height="5px" src="./img/empty_tile.png"/>
+								<img id="space_key_img" height="27" align="center" src="./img/space_key.png" title="Space Key"/><br/>
+							</td>
+						</tr>
+						<tr>
+							<td><img align="center" height="5px" src="./img/empty_tile.png"/></td>
+						</tr>
+					</table>
+					
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="white" align="center" onmouseover="moveKeysOver()" onmouseleave="moveKeysLeave()" title="Movement Keys">
-					<img id="movement_keys_img" height="56" align="center" src="./img/movement_keys_0.png" title="Movement Keys"/>
-					<img align="left" height="5px" src="./img/empty_tile.png"/>
-					<img id="space_key_img" height="27" align="center" src="./img/space_key.png" title="Space Key"/><br/>
-					<img align="left" height="5px" src="./img/empty_tile.png"/>
-				</td>
-			</tr>
-			<tr id="tr_pre_movement_text" style="display:none">
 				<td>
 					<img align="left" height="5px" src="./img/empty_tile.png"/>
 				</td>
 			</tr>
-			<tr id="tr_movement_text" style="display:none">
-				<td bgcolor="white" align="center" title="Movement Keys">
-					<table>
+			<tr>
+				<td bgcolor="white" align="center" title="Movement Keys" class="round">
+					<table style="font-family:'Calibri'; font-size:15px;">
 						<tr>
-							<td align="center"><b style="font-family:'Calibri'; font-size:15px;">Use W, A, S, D, or the arrow<br/> keys to move the cursor.</b></td>
+							<td align="center">Use W, A, S, D, or the arrow<br/> keys to move the cursor.</td>
 						</tr>
 						<tr>
-							<td>
-								<img align="left" height="5px" src="./img/empty_tile.png"/>
-							</td>
+							<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
 						</tr>
 						<tr>
-							<td align="center"><b style="font-family:'Calibri'; font-size:15px;">Keep the Space key pressed<br/> to capture.</b></td>
+							<td align="center">Keep the Space key pressed<br/> to capture.</td>
+						</tr>
+						<tr>
+							<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
+						</tr>
+						<tr>
+							<td align="center">Don't let the enemies hit you.</td>
 						</tr>
 					</table>
 				</td>
@@ -1052,15 +1092,35 @@ window.addEventListener("keyup", function (e) {
 				</td>
 			</tr>
 			<tr>
-				<td>
-					<img align="center" width="202" src="./img/player_and_girl.png"/>
+				<td bgcolor="white" align="center" class="round">
+					<table style="font-family:'Calibri'; font-size:15px;">
+						<tr>
+							<td align="center"><img id="staticPlayer" height="10px" width="10px" src="./img/player_00.png"/></td>
+							<td><img height="5px" src="./img/empty_tile.png"/></td>
+							<td>Player</td>
+						</tr>
+						<tr>
+							<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
+						</tr>
+						<tr>
+							<td align="center"><img id="staticQix" height="10px" width="30" src="./img/qix_00.png"/></td>
+							<td><img height="5px" src="./img/empty_tile.png"/></td>
+							<td>Qix (enemy)</td>
+						</tr>
+						<tr>
+							<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
+						</tr>
+						<tr>
+							<td align="center"><img id="staticSparx" height="10px" width="10" src="./img/sparx_00.png"/></td>
+							<td><img height="5px" src="./img/empty_tile.png"/></td>
+							<td>Sparx (enemy)</td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 			<tr>
-				<td align="center">
-					<img height="140" class="round" id="player_head_img" src="./img/empty_tile.png" title="Player"/>
-					<img width="9px" src="./img/empty_tile.png"/>
-					<img height="140" class="round" id="girl_head_img" src="./img/empty_tile.png" title="Girl"/>
+				<td>
+					<img align="left" height="5px" src="./img/empty_tile.png"/>
 				</td>
 			</tr>
 		</table>
@@ -1078,7 +1138,7 @@ window.addEventListener("keyup", function (e) {
 	<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
 </tr>
 <tr>
-	<td class="clickable" align="center" bgcolor="white" onclick="openURL('https://www.patreon.com/grimagrima')"><a style="font-family:'Calibri'">https://www.patreon.com/grimagrima</a></td>
+	<td class="clickable round" align="center" bgcolor="white" onclick="openURL('https://www.patreon.com/grimagrima')"><a style="font-family:'Calibri'">https://www.patreon.com/grimagrima</a></td>
 </tr>
 </tbody>
 </table>
@@ -1333,7 +1393,6 @@ function setGirl(_seq) {
 	loadLevel();
 }
 </script>
-
 
 </body>
 </html>
