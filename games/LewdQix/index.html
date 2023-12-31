@@ -103,6 +103,10 @@ GIRLS.push(new Girl("110", "A-Z", "Cyberlinxxx", "https://www.patreon.com/Bakapl
 GIRLS.push(new Girl("111", "Geena", "Cyberlinxxx", "https://www.patreon.com/Bakaplays"));
 GIRLS.push(new Girl("112", "Zandra", "Cyberlinxxx", "https://www.patreon.com/Bakaplays"));
 
+// Almost Dead - https://www.patreon.com/BadMustard
+GIRLS.push(new Girl("115", "Lucy", "Almost Dead", "https://www.patreon.com/BadMustard"));
+GIRLS.push(new Girl("116", "Tina", "Almost Dead", "https://www.patreon.com/BadMustard"));
+
 GIRLS.selectedGirl = 0;
 
 function Avatar(_id, _name, _fromGame) {
@@ -966,10 +970,19 @@ function moveKeysLeave() {
 	document.getElementById("tr_pre_movement_text").style = "display:none";
 	document.getElementById("tr_movement_text").style = "display:none";
 }
+
 function moveKeysOver() {
 	document.getElementById("movement_keys_img").src = "./img/movement_keys_1.png";
 	document.getElementById("tr_pre_movement_text").style = "display:";
 	document.getElementById("tr_movement_text").style = "display:";
+}
+
+function showCredits() {
+	if (!IS_PAUSED) {
+		pauseGame(document.getElementById("btn_pause"));
+		pausePlayLeave(document.getElementById("btn_pause"));
+	}
+	creditsModal.style.display = "block";
 }
 
 window.addEventListener("keydown", function (e) {
@@ -989,23 +1002,17 @@ window.addEventListener("keyup", function (e) {
 	<td id="td_game" class="tops" style="position: relative;">
 		<!--img width="900" height="600" id="BgImg" src="./img/empty_tile.png" title="Revealed"/-->
 	</td>
-	<td rowspan="3"><img align="center" width="5px" src="./img/empty_tile.png"/></td>
-	<td rowspan="3" class="tops">
+	<td rowspan="4"><img align="center" width="5px" src="./img/empty_tile.png"/></td>
+	<td rowspan="4" class="tops">
 		<table>
 			<tr>
-				<td>
-					<img align="center" width="202" id="LewdQix-Logo" src="./LewdQix-Logo.png" title="Lewd Qix (v0.1)"/>
-				</td>
+				<td><img align="center" width="202" id="LewdQix-Logo" src="./LewdQix-Logo.png" title="Lewd Qix (v0.1)"/></td>
 			</tr>
 			<tr>
-				<td>
-					<img height="5px" src="./img/empty_tile.png"/>
-				</td>
+				<td><img height="5px" src="./img/empty_tile.png"/></td>
 			</tr>
 			<tr>
-				<td>
-					<img align="center" width="202" src="./img/player_and_girl.png"/>
-				</td>
+				<td><img align="center" width="202" src="./img/player_and_girl.png"/></td>
 			</tr>
 			<tr>
 				<td align="center">
@@ -1055,9 +1062,7 @@ window.addEventListener("keyup", function (e) {
 				</td>
 			</tr>
 			<tr>
-				<td>
-					<img align="left" height="5px" src="./img/empty_tile.png"/>
-				</td>
+				<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
 			</tr>
 			<tr>
 				<td align="center">
@@ -1067,9 +1072,7 @@ window.addEventListener("keyup", function (e) {
 				</td>
 			</tr>
 			<tr>
-				<td>
-					<img align="left" height="1px" src="./img/empty_tile.png"/>
-				</td>
+				<td><img align="left" height="1px" src="./img/empty_tile.png"/></td>
 			</tr>
 			<tr>
 				<td bgcolor="white" align="center" onmouseover="moveKeysOver()" onmouseleave="moveKeysLeave()" title="Movement Keys" class="round">
@@ -1092,9 +1095,7 @@ window.addEventListener("keyup", function (e) {
 				</td>
 			</tr>
 			<tr>
-				<td>
-					<img align="left" height="5px" src="./img/empty_tile.png"/>
-				</td>
+				<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
 			</tr>
 			<tr>
 				<td bgcolor="white" align="center" title="Movement Keys" class="round">
@@ -1118,9 +1119,7 @@ window.addEventListener("keyup", function (e) {
 				</td>
 			</tr>
 			<tr>
-				<td>
-					<img align="left" height="5px" src="./img/empty_tile.png"/>
-				</td>
+				<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
 			</tr>
 			<tr>
 				<td bgcolor="white" align="center" class="round">
@@ -1150,8 +1149,21 @@ window.addEventListener("keyup", function (e) {
 				</td>
 			</tr>
 			<tr>
-				<td>
-					<img align="left" height="5px" src="./img/empty_tile.png"/>
+				<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
+			</tr>
+			<tr>
+				<td bgcolor="white" align="center" class="round clickable" onclick="showCredits()">
+					<table>
+						<tr>
+							<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
+						</tr>
+						<tr>
+							<td style="font-family:'Calibri'; font-size:15px;"><b>Credits</b></td>
+						</tr>
+						<tr>
+							<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 		</table>
@@ -1247,6 +1259,97 @@ window.addEventListener("keyup", function (e) {
   </div>
 </div>
 
+<!-- The CreditsModal -->
+<div id="CreditsModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+	<div class="sticky">
+		<p align="center" class="round white"><img width="202" id="LewdQix-Logo" src="./LewdQix-Logo.png" title="Lewd Qix"/></p>
+		<p align="center" class="round">Credits:</p>
+		<span class="closeCredits" title="Close">&times;</span>
+	</div>
+	<br>
+	<table id="t_Credits" align="center" style="font-family:'Calibri'">
+		<tr>
+			<td><p align="center" class="round">Inspired by the game Qix</p><br/><br/></td>
+		</tr>
+		<tr>
+			<td><p align="center" class="round">Game developed by:</p></td>
+		</tr>
+		<tr>
+			<td align="center"><p class="gray round"><b>Grima Grima Games</b></p><br/><br/></td>
+		</tr>
+		<tr>
+			<td><p align="center" class="round">Characters / Images provided by:</p></td>
+		</tr>
+		<tr>
+			<td align="center"><p class="gray round"><b>Grima Grima Games</b></p></td>
+		</tr>
+		<tr>
+			<td align="center"><b>- Girl In Charge</b></td>
+		</tr>
+		<tr>
+			<td align="center" class="clickable" onclick="openURL('https://www.patreon.com/grimagrima')">https://www.patreon.com/grimagrima</td>
+		</tr>
+		<tr>
+			<td><br></td>
+		</tr>
+		<tr>
+			<td align="center"><p class="gray round"><b>Old Hiccup</b></p></td>
+		</tr>
+		<tr>
+			<td align="center"><b>- Our Home</b></td>
+		</tr>
+		<tr>
+			<td align="center" class="clickable" onclick="openURL('https://patreon.com/oldhiccup')">https://patreon.com/oldhiccup</td>
+		</tr>
+		<tr>
+			<td><br></td>
+		</tr>
+		<tr>
+			<td align="center"><p class="gray round"><b>Bladerune9</b></p></td>
+		</tr>
+		<tr>
+			<td align="center"><b>- Fattening Career</b></td>
+		</tr>
+		<tr>
+			<td align="center"><b>- The Gain Trials</b></td>
+		</tr>
+		<tr>
+			<td align="center" class="clickable" onclick="openURL('https://www.patreon.com/Bladerune9')">https://www.patreon.com/Bladerune9</td>
+		</tr>
+		<tr>
+			<td><br></td>
+		</tr>
+		<tr>
+			<td align="center"><p class="gray round"><b>Baka_Energy_studios</b></p></td>
+		</tr>
+		<tr>
+			<td align="center"><b>- Cyberlinxxx</b></td>
+		</tr>
+		<tr>
+			<td align="center" class="clickable" onclick="openURL('https://www.patreon.com/Bakaplays')">https://www.patreon.com/Bakaplays</td>
+		</tr>
+		<tr>
+			<td><br></td>
+		</tr>
+		<tr>
+			<td align="center"><p class="gray round"><b>BadMustard</b></p></td>
+		</tr>
+		<tr>
+			<td align="center"><b>- Almost Dead</b></td>
+		</tr>
+		<tr>
+			<td align="center" class="clickable" onclick="openURL('https://www.patreon.com/BadMustard')">https://www.patreon.com/BadMustard</td>
+		</tr>
+		<tr>
+			<td><br></td>
+		</tr>
+	</table>
+	<br>
+  </div>
+</div>
+
 <script>
 // Get the avatarModal
 var avatarModal = document.getElementById("AvatarModal");
@@ -1257,13 +1360,22 @@ var girlModal = document.getElementById("GirlModal");
 // Get the ImgModal
 var imgModal = document.getElementById("ImgModal");
 
+// Get the CreditsModal
+var creditsModal = document.getElementById("CreditsModal");
+
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
+var spanCredits = document.getElementsByClassName("closeCredits")[0];
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
   imgModal.style.display = "none";
 }
+
+spanCredits.onclick = function() {
+  creditsModal.style.display = "none";
+}
+
 function avatarImage(_i) {
 	var img = new Image();
 	img.src = AVATARS.avatars[_i].img;

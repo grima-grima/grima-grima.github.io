@@ -80,6 +80,10 @@ p.white {
   background: #ffffff;
 }
 
+p.gray {
+  background: gray;
+}
+
 div.sticky {
 	background: #ffffff;
 	position: sticky;
@@ -133,14 +137,14 @@ div.sticky {
 }
 
 /* The Close Button */
-.close, .closeDialog, .closeAlert {
+.close, .closeCredits {
   color: #aaaaaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 
-.close:hover, .close:focus, .closeDialog:hover, .closeDialog.focus, .closeAlert:hover, .closeAlert.focus {
+.close:hover, .close:focus, .closeCredits:hover, .closeCredits.focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;
