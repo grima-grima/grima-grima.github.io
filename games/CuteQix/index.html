@@ -65,7 +65,7 @@ function Cute(_id, _name, _fromGame) {
 	this.levelImgs[0] = new LevelImg(false, 0);
 	this.levelImgs[1] = new LevelImg(false, 0);
 	this.levelImgs[2] = new LevelImg(false, 0);
-	this.getTitle = function() { return this.name + "\r\n(Type: " + this.fromGame + ")"; }
+	this.getTitle = function() { return this.name + "\r\n(" + this.fromGame + ")"; }
 	this.getLevelImg = function(_level) { return this.levelImgs[_level - 1];}
 }
 
@@ -103,6 +103,7 @@ CUTES.push(new Cute("018", "Fennec Fox", "Fennec Fox"));
 CUTES.push(new Cute("019", "Baby Panda", "Giant Panda"));
 CUTES.push(new Cute("020", "Baby Red Panda", "Red Panda"));
 CUTES.push(new Cute("021", "Seahorse", "Seahorse"));
+CUTES.push(new Cute("022", "Dolphin", "Dolphin"));
 
 CUTES.selectedCute = 0;
 
@@ -127,8 +128,14 @@ function Avatars() {
 	}
 }
 var AVATARS = new Avatars();
+
 AVATARS.push(new Avatar("001", "Alan", "Veterinarian"));
 AVATARS.push(new Avatar("002", "Amara", "Medical Doctor"));
+AVATARS.push(new Avatar("003", "Michael", "Astronaut"));
+AVATARS.push(new Avatar("004", "Mila", "Teacher"));
+AVATARS.push(new Avatar("005", "Rupert", "Clown"));
+AVATARS.push(new Avatar("006", "RVT-303", "Robot"));
+
 AVATARS.selectedAvatar = 0;
 
 
@@ -993,7 +1000,7 @@ window.addEventListener("keyup", function (e) {
 	<td rowspan="4" class="tops">
 		<table>
 			<tr>
-				<td><img align="center" width="202" id="CuteQix-Logo" src="./CuteQix-Logo.png" title="CuteQix (v0.1)"/></td>
+				<td><img class="round" align="center" width="202" id="CuteQix-Logo" src="./CuteQix-Logo.png" title="CuteQix (v0.1)"/></td>
 			</tr>
 			<tr>
 				<td><img height="5px" src="./img/empty_tile.png"/></td>
@@ -1175,7 +1182,7 @@ window.addEventListener("keyup", function (e) {
   <!-- Modal content -->
   <div class="modal-content">
 	<div class="sticky">
-		<p align="center" class="round white"><img width="202" id="CuteQix-Logo" src="./CuteQix-Logo.png" title="CuteQix"/></p>
+		<p align="center" class="round white"><img class="round" width="202" id="CuteQix-Logo" src="./CuteQix-Logo.png" title="CuteQix"/></p>
 		<p align="center" class="round">Select your Avatar:</p>
 	</div>
 	<br>
@@ -1194,7 +1201,7 @@ window.addEventListener("keyup", function (e) {
   <!-- Modal content -->
   <div class="modal-content">
 	<div class="sticky">
-		<p align="center" class="round white"><img width="202" id="CuteQix-Logo" src="./CuteQix-Logo.png" title="CuteQix"/></p>
+		<p align="center" class="round white"><img class="round" width="202" id="CuteQix-Logo" src="./CuteQix-Logo.png" title="CuteQix"/></p>
 		<p align="center" class="round">Select a Level:</p>
 	</div>
 	<br>
@@ -1214,7 +1221,11 @@ window.addEventListener("keyup", function (e) {
   <div class="modal-content">
 	<table align="center">
 		<tr>
+			<td><img class="clickable" onmouseover="this.src='./img/left_hover.png'" onmouseleave="this.src='./img/left.png'" id="imgLeft" src="./img/left.png"/></td>
+			<td><img width="5px" src="./img/empty_tile.png"/></td>
 			<td><img id="levelImgModal" align="center" height="600" src="./img/cute_001-01.webp"/></td>
+			<td><img width="5px" src="./img/empty_tile.png"/></td>
+			<td><img class="clickable" onmouseover="this.src='./img/right_hover.png'" onmouseleave="this.src='./img/right.png'" id="imgRight" src="./img/right.png"/></td>
 			<td class="tops"><span class="close" title="Close">&times;</span></td>
 		</tr>
 	</table>
@@ -1226,31 +1237,38 @@ window.addEventListener("keyup", function (e) {
   <!-- Modal content -->
   <div class="modal-content">
 	<div class="sticky">
-		<p align="center" class="round white"><img width="202" id="CuteQix-Logo" src="./CuteQix-Logo.png" title="CuteQix"/></p>
-		<p align="center" class="round">Credits:</p>
+		<p align="center" class="round white"><img class="round" width="202" id="CuteQix-Logo" src="./CuteQix-Logo.png" title="CuteQix"/></p>
+		<p align="center" class="round">Credits: (v0.1)</p>
 		<span class="closeCredits" title="Close">&times;</span>
 	</div>
 	<br>
 	<table id="t_Credits" align="center" style="font-family:'Calibri'">
 		<tr>
-			<td class="tops"><img class="round" width="320px" src="./CuteQix_Logo3.webp" title="CuteQix"/></td>
+			<td class="tops">
+				<img class="round" width="320px" src="./CuteQix_Logo3.webp" title="CuteQix"/><br/>
+				<img class="round" width="320px" src="./CuteQix_Logo2.webp" title="CuteQix"/><br/>
+				<img class="round" width="320px" src="./CuteQix_Logo.webp" title="CuteQix"/><br/>
+			</td>
 			<td><img width="30px" src="./img/empty_tile.png"/></td>
 			<td class="tops">
 				<table>
 					<tr>
-						<td><p align="center" class="round">Game developed by:</p></td>
+						<td><p align="center" class="round">CuteQix developed by:</p></td>
 					</tr>
 					<tr>
-						<td align="center"><p class="gray round"><b>Grima Grima Games</b></p><br/></td>
+						<td align="center"><p class="gray round"><b>Imperfect Lines Games</b></p></td>
+					</tr>
+					<tr>
+						<td align="center" class="clickable" onclick="openURL('https://www.patreon.com/grimagrima')"><img class="round" src="./ImperfectLinesGames-Logo.png"/></td>
 					</tr>
 					<tr>
 						<td align="center" class="clickable" onclick="openURL('https://www.patreon.com/grimagrima')">https://www.patreon.com/grimagrima</td>
 					</tr>
 					<tr>
-						<td><br></td>
+						<td><p align="center" class="round">Inspired by the game Qix</p></td>
 					</tr>
 					<tr>
-						<td><p align="center" class="round">Inspired by the game Qix</p><br/></td>
+						<td align="right">Jan-2024</td>
 					</tr>
 				</table>
 			</td>
@@ -1354,9 +1372,37 @@ function displayAvatars() {
 }
 displayAvatars();
 
-function showUncoveredImg(_cute, _level) {
+function setFullImage(_cute, _level) {
 	var img = document.getElementById("levelImgModal");
 	img.src = "./img/cute_" + CUTES.cutes[_cute].id + "-0" + _level + ".webp";
+	navigationImageLeftRight(_cute, _level);
+}
+
+function navigationImageLeftRight(_cute, _level) {
+	var imgLeft = document.getElementById("imgLeft");
+	imgLeft.style.pointerEvents = "auto";
+	var imgRight = document.getElementById("imgRight");
+	imgRight.style.pointerEvents = "auto";
+
+	if (_level == 1) {
+		imgLeft.style.pointerEvents = "none";
+		
+		if (CUTES.cutes[_cute].getLevelImg(_level + 1).isRevealed()) {
+			imgRight.onclick = function() { setFullImage(_cute, (_level + 1)); }
+		} else {
+			imgRight.style.pointerEvents = "none";
+		}
+	} else if (_level == 2) {
+		imgLeft.onclick = function() { setFullImage(_cute, (_level - 1)); }
+		imgRight.onclick = function() { setFullImage(_cute, (_level + 1)); }
+	} else if (_level == 3) {
+		imgLeft.onclick = function() { setFullImage(_cute, (_level - 1)); }
+		imgRight.style.pointerEvents = "none";
+	}
+}
+
+function showUncoveredImg(_cute, _level) {
+	setFullImage(_cute, _level);
 	imgModal.style.display = "block";
 }
 
