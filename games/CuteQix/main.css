@@ -1,3 +1,7 @@
+span.clickable {
+  cursor: pointer;
+}
+
 img.disabled {
   opacity: 0.5;
 }
@@ -12,6 +16,21 @@ img.round {
 	border-bottom-left-radius: 10px;
 	border-bottom-right-radius: 10px;
 }
+
+img.leftArrow {
+  position: fixed; /* Stay in place */
+  z-index: 11000; /* Sit on top */
+  left: 120;
+  top: 300;
+}
+
+img.rightArrow {
+  position: fixed; /* Stay in place */
+  z-index: 11000; /* Sit on top */
+  left: 975;
+  top: 300;
+}
+
 
 @keyframes shake {
   0% { transform: translate(1px, 1px) rotate(0deg); }
@@ -49,6 +68,11 @@ td.clickable {
   cursor: pointer;
 }
 
+td.bg {
+  background-image: url("./CuteQix-BG.png");
+  background-repeat: repeat-x;
+}
+
 h3 {
   background: #4a4a4a;
   padding: 5px;
@@ -58,7 +82,7 @@ h3 {
 }
 
 p {
-  background: #333333;
+  background-image: linear-gradient(to right, #124567, #4F9EFF);
   color: #ffffff;
   margin: 5px;
   font-family: Tahoma, sans-serif;
@@ -78,14 +102,30 @@ p.sticky {
 
 p.white {
   background: #ffffff;
+  color: #000000;
 }
 
 p.gray {
-  background: gray;
+  background-image: linear-gradient(to right, #4C4C4C, gray);
+}
+
+p.bg {
+  background-image: url("./CuteQix-BG.png");
+  background-repeat: repeat-x;
+}
+
+p.small {
+  font-size: 13px;
+}
+
+p.info {
+  position: fixed; /* Stay in place */
+  z-index: 11000; /* Sit on top */
+  left: 120;
+  top: 580;
 }
 
 div.sticky {
-	background: #ffffff;
 	position: sticky;
 	top: -25;
 }
@@ -127,7 +167,7 @@ div.sticky {
   position: fixed; /* Stay in place */
   left: 0;
   top: 0;
-  background-color: #fefefe;
+  background-image: linear-gradient(to bottom right, #4F9EFF, #6BE8FF);
   margin: auto;
   padding: 20px;
   border: 1px solid #888;

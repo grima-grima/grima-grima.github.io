@@ -56,17 +56,23 @@ function LevelImg(_revealed, _maxPercentage) {
 	}
 }
 
-function Cute(_id, _name, _fromGame) {
+function Cute(_id, _name, _fromGame, _toUnlock, _info1, _info2, _info3) {
 	this.id = _id;
 	this.name = _name;
 	this.fromGame = _fromGame;
+	this.toUnlock = _toUnlock;
 	this.img = "./img/cute_head_" + this.id + ".webp";
 	this.levelImgs = [];
 	this.levelImgs[0] = new LevelImg(false, 0);
 	this.levelImgs[1] = new LevelImg(false, 0);
 	this.levelImgs[2] = new LevelImg(false, 0);
+	this.info = [];
+	this.info[0] = _info1;
+	this.info[1] = _info2;
+	this.info[2] = _info3;
 	this.getTitle = function() { return this.name + "\r\n(" + this.fromGame + ")"; }
-	this.getLevelImg = function(_level) { return this.levelImgs[_level - 1];}
+	this.getLevelImg = function(_level) { return this.levelImgs[_level - 1]; }
+	this.getInfo = function(_level) { return this.info[_level - 1]; }
 }
 
 function Cutes() {
@@ -82,35 +88,37 @@ function Cutes() {
 	}
 }
 var CUTES = new Cutes();
-CUTES.push(new Cute("001", "Miniature Shnauzer", "Dog"));
-CUTES.push(new Cute("002", "Persian", "Cat"));
-CUTES.push(new Cute("003", "Hedgehog", "Hedgehog"));
-CUTES.push(new Cute("004", "Baby Tiger", "Tiger"));
-CUTES.push(new Cute("005", "Baby Seal", "Seal"));
-CUTES.push(new Cute("006", "Baby Elephant", "Elephant"));
-CUTES.push(new Cute("007", "Baby Giraffe", "Giraffe"));
-CUTES.push(new Cute("008", "Duckling", "Duck"));
-CUTES.push(new Cute("009", "Ferret", "Ferret"));
-CUTES.push(new Cute("010", "Baby Koala", "Koala"));
-CUTES.push(new Cute("011", "Baby Sloth", "Sloth"));
-CUTES.push(new Cute("012", "Owl", "Owl"));
-CUTES.push(new Cute("013", "Baby Capybara", "Capybara"));
-CUTES.push(new Cute("014", "Suricate", "Suricate"));
-CUTES.push(new Cute("015", "Axolotl", "Axolotl"));
-CUTES.push(new Cute("016", "Squirrel", "Squirrel"));
-CUTES.push(new Cute("017", "Hummingbird", "Hummingbird"));
-CUTES.push(new Cute("018", "Fennec Fox", "Fennec Fox"));
-CUTES.push(new Cute("019", "Baby Panda", "Giant Panda"));
-CUTES.push(new Cute("020", "Baby Red Panda", "Red Panda"));
-CUTES.push(new Cute("021", "Seahorse", "Seahorse"));
-CUTES.push(new Cute("022", "Dolphin", "Dolphin"));
+CUTES.push(new Cute("001", "Miniature Shnauzer", "Dog", 0, "Miniature Schnauzers are friendly, smart, and obedient", "Miniature Schnauzers should be groomed every six weeks", "Miniature Schnauzers are known for their distinctive beards and eyebrows"));
+CUTES.push(new Cute("002", "Persian", "Cat", 0));
+CUTES.push(new Cute("003", "Hedgehog", "Hedgehog", 0));
+CUTES.push(new Cute("004", "Baby Tiger", "Tiger", 0));
+CUTES.push(new Cute("005", "Baby Seal", "Seal", 3));
+CUTES.push(new Cute("006", "Baby Elephant", "Elephant", 5));
+CUTES.push(new Cute("007", "Baby Giraffe", "Giraffe", 7));
+CUTES.push(new Cute("008", "Duckling", "Duck", 9));
+CUTES.push(new Cute("009", "Ferret", "Ferret", 11));
+CUTES.push(new Cute("010", "Baby Koala", "Koala", 13));
+CUTES.push(new Cute("011", "Baby Sloth", "Sloth", 15));
+CUTES.push(new Cute("012", "Owl", "Owl", 17));
+CUTES.push(new Cute("013", "Baby Capybara", "Capybara", 19));
+CUTES.push(new Cute("014", "Suricate", "Suricate", 21));
+CUTES.push(new Cute("015", "Axolotl", "Axolotl", 23));
+CUTES.push(new Cute("016", "Squirrel", "Squirrel", 25));
+CUTES.push(new Cute("017", "Hummingbird", "Hummingbird", 27));
+CUTES.push(new Cute("018", "Fennec Fox", "Fennec Fox", 29));
+CUTES.push(new Cute("019", "Baby Panda", "Giant Panda", 31));
+CUTES.push(new Cute("020", "Baby Red Panda", "Red Panda", 33));
+CUTES.push(new Cute("021", "Seahorse", "Seahorse", 35));
+CUTES.push(new Cute("022", "Dolphin", "Dolphin", 37));
+CUTES.push(new Cute("023", "Baby Otter", "Otter", 39));
 
 CUTES.selectedCute = 0;
 
-function Avatar(_id, _name, _fromGame) {
+function Avatar(_id, _name, _fromGame, _toUnlock) {
 	this.id = _id;
 	this.name = _name;
 	this.fromGame = _fromGame;
+	this.toUnlock = _toUnlock;
 	this.img = "./img/player_head_" + this.id + ".webp";
 	this.getTitle = function() { return this.name + "\r\n(" + this.fromGame + ")"; }
 }
@@ -129,14 +137,19 @@ function Avatars() {
 }
 var AVATARS = new Avatars();
 
-AVATARS.push(new Avatar("001", "Alan", "Veterinarian"));
-AVATARS.push(new Avatar("002", "Amara", "Medical Doctor"));
-AVATARS.push(new Avatar("003", "Michael", "Astronaut"));
-AVATARS.push(new Avatar("004", "Mila", "Teacher"));
-AVATARS.push(new Avatar("005", "Rupert", "Clown"));
-AVATARS.push(new Avatar("006", "RVT-303", "Robot"));
+AVATARS.push(new Avatar("001", "Alan", "Veterinarian", 0));
+AVATARS.push(new Avatar("002", "Amara", "Medical Doctor", 0));
+AVATARS.push(new Avatar("003", "Michael", "Astronaut", 0));
+AVATARS.push(new Avatar("004", "Mila", "Teacher", 0));
+AVATARS.push(new Avatar("005", "Rupert", "Clown", 9));
+AVATARS.push(new Avatar("006", "RVT-303", "Robot", 18));
+AVATARS.push(new Avatar("007", "Sam", "Cartoon", 27));
+AVATARS.push(new Avatar("008", "Sylvia", "Cartoon", 27));
+AVATARS.push(new Avatar("009", "Xael", "Jello", 36));
 
 AVATARS.selectedAvatar = 0;
+
+var IMAGES_REVEALED = 0;
 
 
 function Level(_cuteImg, _goal) {
@@ -214,7 +227,6 @@ function newImage(src, height, position, top, left, zIndex, alt) {
 	img.style.left = left;
 	img.style.zIndex = zIndex;
 	img.alt = alt;
-	//img.onload = function() { positionImg(this); }
 	return img;
 }
 
@@ -728,9 +740,10 @@ async function claim() {
 	var claimPercent = getClaimPercent();
 	updateClaimedPercent(claimPercent);
 	if (claimPercent >= LEVELS.getCurrentLevel().goal) {
-		CUTES.getSelectedCute().getLevelImg(LEVELS.level).revealed = true;
 		IS_PAUSED = true; 
+		CUTES.getSelectedCute().getLevelImg(LEVELS.level).revealed = true;
 		localStorage.setItem(getCuteLocalStorageKey(CUTES.getSelectedCute().id, LEVELS.level - 1) + "_rev", "Y");
+		IMAGES_REVEALED++;
 		LEVELS.nextLevel();
 		hideActors();
 		clearGrid();
@@ -881,6 +894,12 @@ function loadLevel() {
 	bgImg.id = "BgImg";
 	td.appendChild(bgImg);
 
+	if (LEVELS.cute.info && LEVELS.cute.getInfo(LEVELS.level)) {
+		document.getElementById("info_text").textContent = LEVELS.cute.getInfo(LEVELS.level);
+	} else {
+		document.getElementById("info_text").textContent = " ";
+	}
+
 	for (var rowIdx = 0; rowIdx < GRID.rows; rowIdx++) {
 		for (var colIdx = 0; colIdx < GRID.columns; colIdx++) {
 			var tile = GRID.map[rowIdx][colIdx];
@@ -911,6 +930,7 @@ function loadCutesFromLocalStorage() {
 			var revealed = localStorage.getItem(key + "_rev");
 			if (revealed == "Y") {
 				CUTES.cutes[i].levelImgs[j].revealed = true;
+				IMAGES_REVEALED++;
 			}
 
 			var maxPercentage = localStorage.getItem(key + "_max");
@@ -923,6 +943,8 @@ function loadCutesFromLocalStorage() {
 
 function onLoad() {
 	loadCutesFromLocalStorage();
+	displayAvatars();
+	displayCutes();
 	document.getElementById("AvatarModal").style.display = "block";
 }
 
@@ -954,6 +976,9 @@ function startGame() {
 	}
 	IS_PAUSED = true;
 
+	displayAvatars();
+	displayCutes();
+
 	document.getElementById("btn_pause").src = "./img/pause.png";
 	PLAYER = new Player(GRID.map[GRID.rows - 1][GRID.columns / 2]);
 	document.getElementById("AvatarModal").style.display = "block";
@@ -977,6 +1002,21 @@ function showCredits() {
 		pausePlayLeave(document.getElementById("btn_pause"));
 	}
 	creditsModal.style.display = "block";
+}
+
+function resetProgress() {
+	if (confirm("Do you want to reset all your progress? This operation is not reversible.")) {
+		for (var i = 0; i < CUTES.cutes.length; i++) {
+			for (var j = 0; j < CUTES.cutes[i].levelImgs.length; j++) {
+				var key = getCuteLocalStorageKey(CUTES.cutes[i].id, j);
+				localStorage.removeItem(key + "_max");
+				localStorage.removeItem(key + "_rev");
+				CUTES.cutes[i].levelImgs[j].revealed = false;
+				CUTES.cutes[i].levelImgs[j].setMaxPercentage(0);
+			}
+		}
+		IMAGES_REVEALED = 0;
+	}
 }
 
 window.addEventListener("keydown", function (e) {
@@ -1172,7 +1212,7 @@ window.addEventListener("keyup", function (e) {
 	<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
 </tr>
 <tr>
-	<td class="clickable round" align="center" bgcolor="white" onclick="openURL('https://www.patreon.com/grimagrima')"><a style="font-family:'Calibri'">https://www.patreon.com/grimagrima</a></td>
+	<td class="round" align="center" bgcolor="white" style="font-family:'Calibri'; font-size: 15"><span id="info_text"></span></td>
 </tr>
 </tbody>
 </table>
@@ -1181,18 +1221,28 @@ window.addEventListener("keyup", function (e) {
 <div id="AvatarModal" class="modal">
   <!-- Modal content -->
   <div class="modal-content">
-	<div class="sticky">
-		<p align="center" class="round white"><img class="round" width="202" id="CuteQix-Logo" src="./CuteQix-Logo.png" title="CuteQix"/></p>
-		<p align="center" class="round">Select your Avatar:</p>
-	</div>
-	<br>
-	<table id="t_AvatarList" align="center">
+	<table>
 		<tr>
-			<td></td>
+			<td class="round bg" align="center">
+				<img class="round" width="500" id="CuteQix-Logo" src="./CuteQix-Logo2.png" title="CuteQix"/>
+			</td>
 		</tr>
-		<tr><td><img height='30px' src='./img/empty_tile.png'/></td></tr>
+		<tr>
+			<td>
+				<p align="center" class="round">Select your Avatar:</p>
+			</td>
+		</tr>
+		<tr>
+			<td align="center">
+				<table id="t_AvatarList" align="center">
+					<tr>
+						<td></td>
+					</tr>
+					<tr><td><img height='30px' src='./img/empty_tile.png'/></td></tr>
+				</table>
+			</td>
+		</tr>
 	</table>
-	<br>
   </div>
 </div>
 
@@ -1201,10 +1251,9 @@ window.addEventListener("keyup", function (e) {
   <!-- Modal content -->
   <div class="modal-content">
 	<div class="sticky">
-		<p align="center" class="round white"><img class="round" width="202" id="CuteQix-Logo" src="./CuteQix-Logo.png" title="CuteQix"/></p>
+		<p align="center" class="round bg"><img class="round" width="500" id="CuteQix-Logo" src="./CuteQix-Logo2.png" title="CuteQix"/></p>
 		<p align="center" class="round">Select a Level:</p>
 	</div>
-	<br>
 	<table id="t_CuteList" align="center">
 		<tr>
 			<td></td>
@@ -1221,11 +1270,10 @@ window.addEventListener("keyup", function (e) {
   <div class="modal-content">
 	<table align="center">
 		<tr>
-			<td><img class="clickable" onmouseover="this.src='./img/left_hover.png'" onmouseleave="this.src='./img/left.png'" id="imgLeft" src="./img/left.png"/></td>
-			<td><img width="5px" src="./img/empty_tile.png"/></td>
-			<td><img id="levelImgModal" align="center" height="600" src="./img/cute_001-01.webp"/></td>
-			<td><img width="5px" src="./img/empty_tile.png"/></td>
-			<td><img class="clickable" onmouseover="this.src='./img/right_hover.png'" onmouseleave="this.src='./img/right.png'" id="imgRight" src="./img/right.png"/></td>
+			<td><img class="leftArrow clickable" onmouseover="this.src='./img/left_hover.png'" onmouseleave="this.src='./img/left.png'" id="imgLeft" src="./img/left.png"/></td>
+			<td><img class="round" id="levelImgModal" align="center" height="600" src="./img/cute_001-01.webp"/></td>
+			<td><img class="rightArrow clickable" onmouseover="this.src='./img/right_hover.png'" onmouseleave="this.src='./img/right.png'" id="imgRight" src="./img/right.png"/></td>
+			<td><p id="pInfoText" style="font-family:'Calibri'; font-size:15" class="round white info"></p></td>
 			<td class="tops"><span class="close" title="Close">&times;</span></td>
 		</tr>
 	</table>
@@ -1237,7 +1285,7 @@ window.addEventListener("keyup", function (e) {
   <!-- Modal content -->
   <div class="modal-content">
 	<div class="sticky">
-		<p align="center" class="round white"><img class="round" width="202" id="CuteQix-Logo" src="./CuteQix-Logo.png" title="CuteQix"/></p>
+		<p align="center" class="round bg"><img class="round" width="500" id="CuteQix-Logo" src="./CuteQix-Logo2.png" title="CuteQix"/></p>
 		<p align="center" class="round">Credits: (v0.1)</p>
 		<span class="closeCredits" title="Close">&times;</span>
 	</div>
@@ -1269,6 +1317,12 @@ window.addEventListener("keyup", function (e) {
 					</tr>
 					<tr>
 						<td align="right">Jan-2024</td>
+					</tr>
+					<tr>
+						<td><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></td>
+					</tr>
+					<tr>
+						<td align="right" style="font-size:11"><span onclick="resetProgress()" style="font-family:'Calibri'" class="clickable"><u>Reset all your progress</u></span></td>
 					</tr>
 				</table>
 			</td>
@@ -1306,31 +1360,45 @@ spanCredits.onclick = function() {
 
 function avatarImage(_i) {
 	var img = new Image();
-	img.src = AVATARS.avatars[_i].img;
-	img.title = AVATARS.avatars[_i].getTitle();
+	if (IMAGES_REVEALED >= AVATARS.avatars[_i].toUnlock) {
+		img.src = AVATARS.avatars[_i].img;
+		img.title = AVATARS.avatars[_i].getTitle();
+		img.classList.add("clickable");
+		img.classList.add("round");
+		img.onclick = function() { setAvatar(_i); }
+	} else {
+		img.src = "./img/question_mark.png";
+		img.title = "Play more levels to unlock this Avatar";
+		img.classList.remove("clickable");
+		img.onclick = null;
+	}
 	img.height = 140;
-	img.classList.add("round");
-	img.classList.add("clickable");
-	img.onclick = function() { setAvatar(_i); }
 	return img;
 }
 
 function cuteImage(_i) {
 	var img = new Image();
-	img.src = CUTES.cutes[_i].img;
-	img.title = CUTES.cutes[_i].getTitle();
+	if (IMAGES_REVEALED >= CUTES.cutes[_i].toUnlock) {
+		img.src = CUTES.cutes[_i].img;
+		img.title = CUTES.cutes[_i].getTitle();
+		img.classList.add("clickable");
+		img.classList.add("round");
+		img.onclick = function() { setCute(_i); }
+	} else {
+		img.src = "./img/question_mark.png";
+		img.title = "Play more levels to unlock this Level";
+		img.classList.remove("clickable");
+		img.onclick = null;
+	}
 	img.height = 140;
-	img.classList.add("round");
-	img.classList.add("clickable");
-	img.onclick = function() { setCute(_i); }
 	return img;
 }
 
 function newEmptyImg() {
 	var img = new Image();
 	img.src = "./img/empty_tile.png";
-	img.height = "30";
-	img.width = "30";
+	img.height = "20";
+	img.width = "20";
 	return img;
 }
 
@@ -1347,7 +1415,7 @@ function displayAvatars() {
 	var cell4 = null;
 
 	for (var i = 0; i < AVATARS.avatars.length; i++) {
-		if (((i + 1) % 3) == 1) {
+		if (((i + 1) % 4) == 1) {
 			row1 = tAvatarList.insertRow(rowCount++);
 		}
 		cell1 = row1.insertCell();
@@ -1355,27 +1423,24 @@ function displayAvatars() {
 
 		cell2 = row1.insertCell();
 		cell2.classList.add("round");
-		cell2.style.backgroundColor = "gray";
+		cell2.style.backgroundColor = "white";
 		cell2.style.padding = "5px";
 		cell2.align = "center";
-		cell2.innerHTML = "<p>" + AVATARS.avatars[i].name + "<br/>(" + AVATARS.avatars[i].fromGame + ")</p>";
+		if (IMAGES_REVEALED >= AVATARS.avatars[i].toUnlock) {
+			cell2.innerHTML = "<p class='round'>" + AVATARS.avatars[i].name + "<br/>(" + AVATARS.avatars[i].fromGame + ")</p>";
+		} else {
+			cell2.innerHTML = "<p class='round small'>Reveal " + (AVATARS.avatars[i].toUnlock - IMAGES_REVEALED) + " more images to unlock this avatar</p>";
+		}
 
-		cell3 = row1.insertCell();
-		cell3.appendChild(newEmptyImg());
-
-		if (((i + 1) % 3) == 0) {
+		if (((i + 1) % 4) == 0) {
 			row2 = tAvatarList.insertRow(rowCount++);
 			cell4 = row2.insertCell();
 			cell4.appendChild(newEmptyImg());
+		} else {
+			cell3 = row1.insertCell();
+			cell3.appendChild(newEmptyImg());
 		}
 	}
-}
-displayAvatars();
-
-function setFullImage(_cute, _level) {
-	var img = document.getElementById("levelImgModal");
-	img.src = "./img/cute_" + CUTES.cutes[_cute].id + "-0" + _level + ".webp";
-	navigationImageLeftRight(_cute, _level);
 }
 
 function navigationImageLeftRight(_cute, _level) {
@@ -1401,6 +1466,24 @@ function navigationImageLeftRight(_cute, _level) {
 	}
 }
 
+function setInfoText(_cute, _level) {
+	var p = document.getElementById("pInfoText");
+
+	if (CUTES.cutes[_cute].info && CUTES.cutes[_cute].getInfo(_level)) {
+		document.getElementById("pInfoText").textContent = " " + CUTES.cutes[_cute].getInfo(_level) + " ";
+	} else {
+		document.getElementById("pInfoText").textContent = "";
+	}
+
+}
+
+function setFullImage(_cute, _level) {
+	var img = document.getElementById("levelImgModal");
+	img.src = "./img/cute_" + CUTES.cutes[_cute].id + "-0" + _level + ".webp";
+	navigationImageLeftRight(_cute, _level);
+	setInfoText(_cute, _level);
+}
+
 function showUncoveredImg(_cute, _level) {
 	setFullImage(_cute, _level);
 	imgModal.style.display = "block";
@@ -1408,15 +1491,18 @@ function showUncoveredImg(_cute, _level) {
 
 function getCheckImg(_cute, _level) {
 	var img = new Image();
+	img.title = "Level " + _level + " image max percentage: " + CUTES.cutes[_cute].getLevelImg(_level).maxPercentage + "%";
 	if (CUTES.cutes[_cute].getLevelImg(_level).isRevealed()) {
 		img.src = "./img/check_true.png";
 		img.classList.add("clickable");
+		if (CUTES.cutes[_cute].getInfo(_level)) {
+			img.title += "\r\n" + CUTES.cutes[_cute].getInfo(_level);
+		}
 		img.onclick = function() { showUncoveredImg(_cute, _level); }
 	} else {
 		img.src = "./img/check_false.png";
 		img.classList.remove("clickable");
 	}
-	img.title = "Level " + _level + " image max percentage: " + CUTES.cutes[_cute].getLevelImg(_level).maxPercentage + "%";
 	return img;
 }
 
@@ -1426,16 +1512,22 @@ function getCuteNameTable(_i) {
 	var r0 = t.insertRow(0);
 	var cellName = r0.insertCell();
 	cellName.align = "center";
-	cellName.colSpan = 3;
-	cellName.innerHTML = "<p>" + CUTES.cutes[_i].name + "<br/>(" + CUTES.cutes[_i].fromGame + ")</p>";
 
-	var r1 = t.insertRow(1);
-	for (var i = 1; i <= 3; i++) {
-		var cell = r1.insertCell();
-		cell.align = "center";
-		cell.style.padding = "5px";
-		cell.appendChild(getCheckImg(_i, i));
+	if (IMAGES_REVEALED >= CUTES.cutes[_i].toUnlock) {
+		cellName.colSpan = 3;
+		cellName.innerHTML = "<p class='round'>" + CUTES.cutes[_i].name + "<br/>(" + CUTES.cutes[_i].fromGame + ")</p>";
+
+		var r1 = t.insertRow(1);
+		for (var i = 1; i <= 3; i++) {
+			var cell = r1.insertCell();
+			cell.align = "center";
+			cell.style.padding = "5px";
+			cell.appendChild(getCheckImg(_i, i));
+		}
+	} else {
+		cellName.innerHTML = "<p class='round small'>Reveal " + (CUTES.cutes[_i].toUnlock - IMAGES_REVEALED) + " more images to unlock this level</p>";
 	}
+
 
 	return t;
 }
@@ -1453,7 +1545,7 @@ function displayCutes() {
 	var cell4 = null;
 
 	for (var i = 0; i < CUTES.cutes.length; i++) {
-		if (((i + 1) % 3) == 1) {
+		if (((i + 1) % 4) == 1) {
 			row1 = tCuteList.insertRow(rowCount++);
 		}
 		cell1 = row1.insertCell();
@@ -1461,22 +1553,21 @@ function displayCutes() {
 
 		cell2 = row1.insertCell();
 		cell2.classList.add("round");
-		cell2.style.backgroundColor = "gray";
+		cell2.style.backgroundColor = "white";
 		cell2.style.padding = "5px";
 		cell2.align = "center";
 		cell2.appendChild(getCuteNameTable(i));
 
-		cell3 = row1.insertCell();
-		cell3.appendChild(newEmptyImg());
-
-		if (((i + 1) % 3) == 0) {
+		if (((i + 1) % 4) == 0) {
 			row2 = tCuteList.insertRow(rowCount++);
 			cell4 = row2.insertCell();
 			cell4.appendChild(newEmptyImg());
+		} else {
+			cell3 = row1.insertCell();
+			cell3.appendChild(newEmptyImg());
 		}
 	}
 }
-displayCutes();
 
 function setAvatar(_seq) {
 	AVATARS.selectedAvatar = _seq;
