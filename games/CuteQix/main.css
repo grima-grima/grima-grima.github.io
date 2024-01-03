@@ -20,14 +20,14 @@ img.round {
 img.leftArrow {
   position: fixed; /* Stay in place */
   z-index: 11000; /* Sit on top */
-  left: 120;
+  left: 140;
   top: 300;
 }
 
 img.rightArrow {
   position: fixed; /* Stay in place */
   z-index: 11000; /* Sit on top */
-  left: 975;
+  left: 995;
   top: 300;
 }
 
@@ -121,7 +121,7 @@ p.small {
 p.info {
   position: fixed; /* Stay in place */
   z-index: 11000; /* Sit on top */
-  left: 120;
+  left: 140;
   top: 580;
 }
 
@@ -171,8 +171,8 @@ div.sticky {
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 65%;
-  height: 80%;
+  width: 1150;
+  height: 620;
   overflow: auto; /* Enable scroll if needed */
 }
 

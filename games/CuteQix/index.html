@@ -89,7 +89,7 @@ function Cutes() {
 }
 var CUTES = new Cutes();
 CUTES.push(new Cute("001", "Miniature Shnauzer", "Dog", 0, "Miniature Schnauzers are friendly, smart, and obedient", "Miniature Schnauzers should be groomed every six weeks", "Miniature Schnauzers are known for their distinctive beards and eyebrows"));
-CUTES.push(new Cute("002", "Persian", "Cat", 0, "Persian cats are very friendly and affectionate, and they love to be around people", "Persians are not a very high-energy breed and are known for being lazy", "Persian cats have a unique appearance with their flat faces and thick, long, silky coats"));
+CUTES.push(new Cute("002", "Persian", "Cat", 0, "Persian Cats are very friendly and affectionate, and they love to be around people", "Persian Cats are not a very high-energy breed and are known for being lazy", "Persian Cats have a unique appearance with their flat faces and thick, long, silky coats"));
 CUTES.push(new Cute("003", "Hedgehog", "Hedgehog", 0, "Hedgehogs have poor eyesight but good hearing and a well-developed sense of smell", "Hedgehogs are good runners, proficient climbers, and can even swim", "Hedgehogs roll into a ball to protect themselves from predators"));
 CUTES.push(new Cute("004", "Baby Tiger", "Tiger", 0, "Tigers are born with no teeth, although fully grown tigers have 30 teeth and very strong jaws", "A group of tigers is called a streak", "Tiger cubs begin eating meat at anywhere from 6 to 8 weeks old"));
 CUTES.push(new Cute("005", "Baby Seal", "Seal", 3, "Baby seals can grow up to be the size of a car", "Baby Seals have a layer of fat called blubber that protects them from the cold", "When baby seals are born, they can barely swim"));
@@ -146,6 +146,9 @@ AVATARS.push(new Avatar("006", "RVT-303", "Robot", 18));
 AVATARS.push(new Avatar("007", "Sam", "Cartoon", 27));
 AVATARS.push(new Avatar("008", "Sylvia", "Cartoon", 27));
 AVATARS.push(new Avatar("009", "Xael", "Jello", 36));
+AVATARS.push(new Avatar("010", "Robin", "Ghost", 45));
+AVATARS.push(new Avatar("011", "Trics", "Triceratops", 54));
+AVATARS.push(new Avatar("012", "Ixvy", "Alien", 63));
 
 AVATARS.selectedAvatar = 0;
 
@@ -689,7 +692,10 @@ function updateClaimedPercent(_claimed) {
 	document.getElementById("myBar").style.width = _claimed + "%";
 	document.getElementById("myBar").innerHTML = _claimed + "%";
 	CUTES.getSelectedCute().getLevelImg(LEVELS.level).setMaxPercentage(_claimed);
-	localStorage.setItem(getCuteLocalStorageKey(CUTES.getSelectedCute().id, LEVELS.level - 1) + "_max", _claimed);
+	var lsMax = localStorage.getItem(getCuteLocalStorageKey(CUTES.getSelectedCute().id, LEVELS.level - 1) + "_max");
+	if (lsMax < _claimed) {
+		localStorage.setItem(getCuteLocalStorageKey(CUTES.getSelectedCute().id, LEVELS.level - 1) + "_max", _claimed);
+	}
 }
 
 function updateGoal(_goal) {
@@ -859,10 +865,6 @@ function openURL(_url) {
 	window.open(_url, "_blank").focus();
 }
 
-function openPatreon() {
-	openURL(LEVELS.cute.patreon);
-}
-
 function loadLevel() {
 	// reseting elements
 	GRID = new Grid(0, 0, GRID_ROWS, GRID_COLS, CEL_HEIGHT);
@@ -939,6 +941,7 @@ function loadCutesFromLocalStorage() {
 			}
 		}
 	}
+	//IMAGES_REVEALED = 99;
 }
 
 function onLoad() {
@@ -1063,9 +1066,6 @@ window.addEventListener("keyup", function (e) {
 						</tr>
 						<tr>
 							<td align="left" style="font-family:'Calibri'; font-size:15px;"><b id="bCuteName"></b></td>
-						</tr>
-						<tr>
-							<td class="clickable" align="left" onclick="openPatreon()" style="font-family:'Calibri'; font-size:10px;"><u id="uPatreon"></u></td>
 						</tr>
 						<tr>
 							<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
@@ -1221,27 +1221,15 @@ window.addEventListener("keyup", function (e) {
 <div id="AvatarModal" class="modal">
   <!-- Modal content -->
   <div class="modal-content">
-	<table>
+	<div class="sticky">
+		<p align="center" class="round bg"><img class="round" width="500" id="CuteQix-Logo" src="./CuteQix-Logo2.png" title="CuteQix"/></p>
+		<p align="center" class="round">Select your Avatar:</p>
+	</div>
+	<table id="t_AvatarList" align="center">
 		<tr>
-			<td class="round bg" align="center">
-				<img class="round" width="500" id="CuteQix-Logo" src="./CuteQix-Logo2.png" title="CuteQix"/>
-			</td>
+			<td></td>
 		</tr>
-		<tr>
-			<td>
-				<p align="center" class="round">Select your Avatar:</p>
-			</td>
-		</tr>
-		<tr>
-			<td align="center">
-				<table id="t_AvatarList" align="center">
-					<tr>
-						<td></td>
-					</tr>
-					<tr><td><img height='30px' src='./img/empty_tile.png'/></td></tr>
-				</table>
-			</td>
-		</tr>
+		<tr><td><img height='30px' src='./img/empty_tile.png'/></td></tr>
 	</table>
   </div>
 </div>
@@ -1286,7 +1274,7 @@ window.addEventListener("keyup", function (e) {
   <div class="modal-content">
 	<div class="sticky">
 		<p align="center" class="round bg"><img class="round" width="500" id="CuteQix-Logo" src="./CuteQix-Logo2.png" title="CuteQix"/></p>
-		<p align="center" class="round">Credits: (v0.1)</p>
+		<p align="center" class="round">Credits: (v0.2)</p>
 		<span class="closeCredits" title="Close">&times;</span>
 	</div>
 	<br>
@@ -1307,10 +1295,7 @@ window.addEventListener("keyup", function (e) {
 						<td align="center"><p class="gray round"><b>Imperfect Lines Games</b></p></td>
 					</tr>
 					<tr>
-						<td align="center" class="clickable" onclick="openURL('https://www.patreon.com/grimagrima')"><img class="round" src="./ImperfectLinesGames-Logo.png"/></td>
-					</tr>
-					<tr>
-						<td align="center" class="clickable" onclick="openURL('https://www.patreon.com/grimagrima')">https://www.patreon.com/grimagrima</td>
+						<td align="center"><img class="round" src="./ImperfectLinesGames-Logo.png"/></td>
 					</tr>
 					<tr>
 						<td><p align="center" class="round">Inspired by the game Qix</p></td>
@@ -1429,7 +1414,11 @@ function displayAvatars() {
 		if (IMAGES_REVEALED >= AVATARS.avatars[i].toUnlock) {
 			cell2.innerHTML = "<p class='round'>" + AVATARS.avatars[i].name + "<br/>(" + AVATARS.avatars[i].fromGame + ")</p>";
 		} else {
-			cell2.innerHTML = "<p class='round small'>Reveal " + (AVATARS.avatars[i].toUnlock - IMAGES_REVEALED) + " more images to unlock this avatar</p>";
+			var _s = "";
+			if ((AVATARS.avatars[i].toUnlock - IMAGES_REVEALED) > 1) {
+				_s = "s";
+			}
+			cell2.innerHTML = "<p class='round small'>Reveal " + (AVATARS.avatars[i].toUnlock - IMAGES_REVEALED) + " more image" + _s + " to unlock this avatar</p>";
 		}
 
 		if (((i + 1) % 4) == 0) {
@@ -1525,7 +1514,11 @@ function getCuteNameTable(_i) {
 			cell.appendChild(getCheckImg(_i, i));
 		}
 	} else {
-		cellName.innerHTML = "<p class='round small'>Reveal " + (CUTES.cutes[_i].toUnlock - IMAGES_REVEALED) + " more images to unlock this level</p>";
+		var _s = "";
+		if ((CUTES.cutes[_i].toUnlock - IMAGES_REVEALED) > 1) {
+			_s = "s";
+		}
+		cellName.innerHTML = "<p class='round small'>Reveal " + (CUTES.cutes[_i].toUnlock - IMAGES_REVEALED) + " more image" + _s + " to unlock this level</p>";
 	}
 
 
