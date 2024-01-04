@@ -111,6 +111,9 @@ CUTES.push(new Cute("020", "Baby Red Panda", "Red Panda", 33, "Red Pandas are no
 CUTES.push(new Cute("021", "Seahorse", "Seahorse", 35, "Seahorses have big appetites and are constantly eating plankton, plants, tiny fish, and brine shrimp", "Seahorses are solitary animals and prefer to swim in pairs with their tails linked together", "Seahorses hold a world-record for being the slowest swimmers in the ocean"));
 CUTES.push(new Cute("022", "Dolphin", "Dolphin", 37, "Dolphins are known to be playful and curious animals", "Bottlenose Dolphins sleep with one half of their brain at a time, and keep one eye open", "Dolphins can swim at speeds of over 30 mph for brief periods"));
 CUTES.push(new Cute("023", "Baby Otter", "Otter", 39, "Baby Otters are blind and incredibly tiny when they are born", "Baby Otters have thick fur that keeps them warm in cold water", "Otter families work together to raise babies"));
+CUTES.push(new Cute("024", "Pygmy Marmoset", "Monkey", 41, "Pygmy Marmosets are the smallest true monkey", "The Pygmy Marmosets reside in the rainforests of South America", "The Pygmy Marmosets have the incredible ability to leap up to 15 feet between trees"));
+CUTES.push(new Cute("025", "Flamingo", "Flamingo", 43, "Flamingos are not born pink. It takes about three years for their feathers to turn pink and red", "A group of Flamingos is called a flamboyance", "Flamingos can live up to 60 years in the wild"));
+CUTES.push(new Cute("026", "Golden Lion Tamarin", "Monkey", 45, "They have a distinctive golden-orange fur and a long, mane-like hair around their face", "They are omnivorous and eat fruit, insects, and small lizards", "They move their nest frequently to avoid predators and parasites"));
 
 CUTES.selectedCute = 0;
 
@@ -145,10 +148,10 @@ AVATARS.push(new Avatar("005", "Rupert", "Clown", 9));
 AVATARS.push(new Avatar("006", "RVT-303", "Robot", 18));
 AVATARS.push(new Avatar("007", "Sam", "Cartoon", 27));
 AVATARS.push(new Avatar("008", "Sylvia", "Cartoon", 27));
-AVATARS.push(new Avatar("009", "Xael", "Jello", 36));
-AVATARS.push(new Avatar("010", "Robin", "Ghost", 45));
-AVATARS.push(new Avatar("011", "Trics", "Triceratops", 54));
-AVATARS.push(new Avatar("012", "Ixvy", "Alien", 63));
+AVATARS.push(new Avatar("009", "Xael", "Jello", 33));
+AVATARS.push(new Avatar("010", "Robin", "Ghost", 39));
+AVATARS.push(new Avatar("011", "Trics", "Triceratops", 45));
+AVATARS.push(new Avatar("012", "Ixvy", "Alien", 51));
 
 AVATARS.selectedAvatar = 0;
 
@@ -941,7 +944,7 @@ function loadCutesFromLocalStorage() {
 			}
 		}
 	}
-	//IMAGES_REVEALED = 99;
+	IMAGES_REVEALED = 99;
 }
 
 function onLoad() {
