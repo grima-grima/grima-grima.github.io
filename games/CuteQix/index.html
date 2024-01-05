@@ -263,6 +263,7 @@ function gameOver() {
 	var td = document.getElementById("td_game");
 	td.replaceChildren();
 	td.appendChild(GAME_OVER_IMG);
+	document.getElementById("info_text").textContent = "Game Over! Click the Restart button to start a new game.";
 }
 
 var PAUSED_IMG = newImage("./img/paused2.png", 400, "absolute", (((GRID_ROWS * CEL_HEIGHT) / 2) - (400 / 2) - 10), (((GRID_COLS * CEL_HEIGHT) / 2) - (450 / 2)), PAUSE_ZINDEX, "Game Paused");
@@ -964,7 +965,7 @@ function loadCutesFromLocalStorage() {
 			}
 		}
 	}
-	IMAGES_REVEALED = 99;
+	//IMAGES_REVEALED = 99;
 }
 
 function onLoad() {
@@ -1012,13 +1013,11 @@ function startGame() {
 
 function moveKeysLeave() {
 	document.getElementById("movement_keys_img").src = "./img/movement_keys_0.png";
-	document.getElementById("tr_pre_movement_text").style = "display:none";
 	document.getElementById("tr_movement_text").style = "display:none";
 }
 
 function moveKeysOver() {
 	document.getElementById("movement_keys_img").src = "./img/movement_keys_1.png";
-	document.getElementById("tr_pre_movement_text").style = "display:";
 	document.getElementById("tr_movement_text").style = "display:";
 }
 
@@ -1056,6 +1055,10 @@ window.addEventListener("keyup", function (e) {
 </script>
 
 <body bgcolor="BLACK" onload="onLoad()" id="html_body_id">
+<div id="bgDiv" class="mainBG">
+	<img height="620px" width="1150px" src="./img/empty_tile.png"/>
+</div>
+
 <table id="main_table">
 <tbody>
 <tr style="position: relative;">
@@ -1235,7 +1238,11 @@ window.addEventListener("keyup", function (e) {
 	<td><img align="left" height="5px" src="./img/empty_tile.png"/></td>
 </tr>
 <tr>
-	<td class="round" align="center" bgcolor="white" style="font-family:'Calibri'; font-size: 15"><span id="info_text"></span></td>
+	<td>
+		<div class="round" align="center" bgcolor="white">
+			<span style="z-index: 100; font-family:'Calibri'; font-size: 15" id="info_text"></span>
+		</div>
+	</td>
 </tr>
 </tbody>
 </table>

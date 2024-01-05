@@ -11,10 +11,7 @@ img.clickable {
 }
 
 img.round {
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
-	border-bottom-left-radius: 10px;
-	border-bottom-right-radius: 10px;
+	border-radius: 10px;
 }
 
 img.leftArrow {
@@ -58,10 +55,7 @@ td.tops {
 }
 
 td.round {
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
-	border-bottom-left-radius: 10px;
-	border-bottom-right-radius: 10px;
+	border-radius: 10px;
 }
 
 td.clickable {
@@ -81,10 +75,7 @@ p {
 }
 
 p.round {
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
+	border-radius: 5px;
 }
 
 p.sticky {
@@ -122,6 +113,30 @@ div.sticky {
 	top: -25;
 }
 
+div.round {
+	border-radius: 10px;
+	z-index: 100;
+	position: fixed; /* Stay in place */
+	background-color: white;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+/* Modal Content */
+.mainBG {
+  border-radius: 10px;
+  position: fixed; /* Stay in place */
+  z-index: 0;
+  left: 0;
+  top: 0;
+  background-image: linear-gradient(to bottom right, #4F9EFF, #6BE8FF);
+  margin: auto;
+  padding: 0px;
+  border: 1px solid #888;
+  width: 1120;
+  height: 650;
+}
+
 /* #################################################### */
 /* ###################### Modal ####################### */
 /* #################################################### */
@@ -156,6 +171,7 @@ div.sticky {
 
 /* Modal Content */
 .modal-content {
+  border-radius: 10px;
   position: fixed; /* Stay in place */
   left: 0;
   top: 0;
@@ -170,7 +186,7 @@ div.sticky {
 
 /* The Close Button */
 .close, .closeCredits {
-  color: #aaaaaa;
+  color: #ffffff;
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -195,7 +211,7 @@ div.sticky {
   border-bottom-right-radius: 5px;
   width: 0%;
   height: 15px;
-  background-color: blue;
+  background-color: #124567;
   text-align: right;
   line-height: 15px;
   color: yellow;
@@ -210,10 +226,33 @@ div.sticky {
   top: 0;
   width: 0%;
   height: 15px;
-  background-color: green;
+  background-color: #4F9EFF;
   text-align: center;
   line-height: 15px;
   color: white;
   position: absolute;
   z-index: 300;
+}
+
+/* Scrollbar */
+/* width */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background: #f1f1f1;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: #4F9EFF; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #124567;
 }
