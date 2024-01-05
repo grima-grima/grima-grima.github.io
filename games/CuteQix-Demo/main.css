@@ -1,0 +1,258 @@
+span.clickable {
+  cursor: pointer;
+}
+
+img.disabled {
+  opacity: 0.5;
+}
+
+img.clickable {
+  cursor: pointer;
+}
+
+img.round {
+	border-radius: 10px;
+}
+
+img.leftArrow {
+  position: fixed; /* Stay in place */
+  z-index: 11000; /* Sit on top */
+  left: 140;
+  top: 300;
+}
+
+img.rightArrow {
+  position: fixed; /* Stay in place */
+  z-index: 11000; /* Sit on top */
+  left: 995;
+  top: 300;
+}
+
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -1px) rotate(0deg); }
+  20% { transform: translate(1px, 1px) rotate(0deg); }
+  30% { transform: translate(-1px, -1px) rotate(0deg); }
+  40% { transform: translate(1px, 1px) rotate(0deg); }
+  50% { transform: translate(-1px, -1px) rotate(0deg); }
+  60% { transform: translate(1px, 1px) rotate(0deg); }
+  70% { transform: translate(-1px, -1px) rotate(0deg); }
+  80% { transform: translate(1px, 1px) rotate(0deg); }
+  90% { transform: translate(-1px, -1px) rotate(0deg); }
+  100% { transform: translate(1px, 1px) rotate(0deg); }
+}
+
+table, th, td {
+  border: 0px solid black;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+}
+
+td.tops {
+	vertical-align: top;
+}
+
+td.round {
+	border-radius: 10px;
+}
+
+td.clickable {
+  cursor: pointer;
+}
+
+td.bg {
+  background-image: url("./CuteQix-BG.png");
+  background-repeat: repeat-x;
+}
+
+p {
+  background-image: linear-gradient(to right, #124567, #4F9EFF);
+  color: #ffffff;
+  margin: 5px;
+  font-family: Tahoma, sans-serif;
+}
+
+p.round {
+	border-radius: 5px;
+}
+
+p.sticky {
+	position: sticky;
+	top: 0;
+}
+
+p.white {
+  background: #ffffff;
+  color: #000000;
+}
+
+p.gray {
+  background-image: linear-gradient(to right, #4C4C4C, gray);
+}
+
+p.bg {
+  background-image: url("./CuteQix-BG.png");
+  background-repeat: repeat-x;
+}
+
+p.small {
+  font-size: 13px;
+}
+
+p.info {
+  position: fixed; /* Stay in place */
+  z-index: 11000; /* Sit on top */
+  left: 140;
+  top: 580;
+}
+
+div.sticky {
+	position: sticky;
+	top: -25;
+}
+
+div.round {
+	border-radius: 10px;
+	z-index: 100;
+	position: fixed; /* Stay in place */
+	background-color: white;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+/* Modal Content */
+.mainBG {
+  border-radius: 10px;
+  position: fixed; /* Stay in place */
+  z-index: 0;
+  left: 0;
+  top: 0;
+  background-image: linear-gradient(to bottom right, #4F9EFF, #6BE8FF);
+  margin: auto;
+  padding: 0px;
+  border: 1px solid #888;
+  width: 1120;
+  height: 650;
+}
+
+/* #################################################### */
+/* ###################### Modal ####################### */
+/* #################################################### */
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 9999; /* Sit on top */
+  padding-top: 1px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.65); /* Black w/ opacity */
+}
+
+.modal2 {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 10000; /* Sit on top */
+  padding-top: 1px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.65); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  border-radius: 10px;
+  position: fixed; /* Stay in place */
+  left: 0;
+  top: 0;
+  background-image: linear-gradient(to bottom right, #4F9EFF, #6BE8FF);
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 1150;
+  height: 620;
+  overflow: auto; /* Enable scroll if needed */
+}
+
+/* The Close Button */
+.close, .closeCredits {
+  color: #ffffff;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover, .close:focus, .closeCredits:hover, .closeCredits.focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#myProgress {
+	width: 100%;
+	height: 15px;
+	background-color: grey;
+	position: relative;
+	z-index: 100;
+}
+
+#myTarget {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  width: 0%;
+  height: 15px;
+  background-color: #124567;
+  text-align: right;
+  line-height: 15px;
+  color: yellow;
+  position: relative;
+  z-index: 200;
+}
+
+#myBar {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  left: 0;
+  top: 0;
+  width: 0%;
+  height: 15px;
+  background-color: #4F9EFF;
+  text-align: center;
+  line-height: 15px;
+  color: white;
+  position: absolute;
+  z-index: 300;
+}
+
+/* Scrollbar */
+/* width */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background: #f1f1f1;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: #4F9EFF; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #124567;
+}
